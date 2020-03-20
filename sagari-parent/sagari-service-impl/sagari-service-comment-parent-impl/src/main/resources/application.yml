@@ -1,0 +1,32 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+logging:
+  level:
+    com:
+      sagari:
+        service:
+          mapper: DEBUG
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 8500
+spring:
+  application:
+    name: sagari-comment-parent-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 123123!!0a
+    url: jdbc:mysql://rm-uf68xva1989q98g721o.mysql.rds.aliyuncs.com:3306/sagari?useUnicode=true&characterEncoding=UTF-8
+    username: sagari_apollo
+swagger:
+  base-package: com.sagari.service
+  contact:
+    email: 442982442@qq.com
+    name: 魏梦鑫
+  description: 父评论服务接口，提供生成、获取、删除父评论等功能
+  terms-of-service-url: www.sagari.cn
+  title: 父评论服务接口
+  version: 1.0

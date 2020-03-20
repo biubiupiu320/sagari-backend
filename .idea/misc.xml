@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/sagari-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-basic/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-basic/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-basic/sagari-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-sign-up/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-common/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-sign-up-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-vcode/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-vcode-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-article/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-article/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-comment-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-parent-impl/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

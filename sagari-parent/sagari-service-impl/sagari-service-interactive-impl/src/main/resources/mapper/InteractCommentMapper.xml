@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.InteractCommentMapper">
+    <insert id="insert" parameterType="com.sagari.service.entity.Interactive">
+        insert into interactive_comment values(null,#{userId},#{targetId},#{type},#{good},#{createTime},#{updateTime})
+    </insert>
+
+    <delete id="delete">
+        delete from interactive_comment where target_id=#{targetId} and user_id=#{userId} and type=#{flag}
+    </delete>
+
+    <select id="isGood" resultType="int">
+        select count(id) from interactive_comment
+        where target_id=#{targetId} and user_id=#{userId} and good=true and type=#{flag}
+    </select>
+
+    <resultMap id="goodList" type="java.util.HashMap">
+        <id property="key" column="target_id"/>
+        <result property="value" column="good"/>
+    </resultMap>
+    
+    <select id="isGoodList" resultMap="goodList">
+        select target_id,good from interactive_comment where user_id=#{userId} and type=#{flag} and
+        target_id in <foreach item='item' collection='list' open='(' separator=',' close=')'>#{item}</foreach>
+    </select>
+</mapper>
