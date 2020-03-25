@@ -7,6 +7,7 @@ import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ArticleInputDTO;
 import com.sagari.service.ArticleService;
 import com.sagari.service.entity.Article;
+import com.sagari.service.entity.ArticleVo;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.ArticleMapper;
 import org.springframework.beans.BeanUtils;
@@ -56,6 +57,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         article.setCollectCount(0);
         article.setIsDel(false);
         if (articleMapper.publishArticle(article) > 0) {
+            userServiceFeign.incrementArticleCount(article.getAuthor());
             return setResultSuccess("文章发布成功");
         }
         return setResultError("文章发布失败");
@@ -66,11 +68,11 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (articleId == null || articleId <= 0) {
             return setResultError("无效的请求");
         }
-        Article article = articleMapper.selectArticle(articleId);
-        if (article == null) {
+        ArticleVo articleVo = articleMapper.selectArticle(articleId);
+        if (articleVo == null) {
             return setResultError("文章不存在或已删除");
         }
-        return setResultSuccess((JSONObject) JSON.toJSON(article));
+        return setResultSuccess((JSONObject) JSON.toJSON(articleVo));
     }
 
     @Override
@@ -145,5 +147,30 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Override
     public Integer getAuthor(Integer articleId) {
         return articleMapper.getAuthor(articleId);
+    }
+
+    @Override
+    public Boolean incrementComment(Integer articleId) {
+        return articleMapper.incrementComment(articleId) > 0;
+    }
+
+    @Override
+    public Boolean decreaseComment(Integer articleId) {
+        return articleMapper.decreaseComment(articleId) > 0;
+    }
+
+    @Override
+    public Boolean incrementView(Integer articleId) {
+        return articleMapper.incrementView(articleId) > 0;
+    }
+
+    @Override
+    public Boolean incrementCollect(Integer articleId) {
+        return articleMapper.incrementCollect(articleId) > 0;
+    }
+
+    @Override
+    public Boolean decreaseCollect(Integer articleId) {
+        return articleMapper.decreaseCollect(articleId) > 0;
     }
 }

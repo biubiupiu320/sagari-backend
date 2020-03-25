@@ -45,6 +45,6 @@ public class UserSignUpInputDTO {
 
     @ApiModelProperty(value = "用户头像链接")
     @NotBlank(message = "用户头像链接不能为空")
-    @Pattern(regexp = "^((https|http|ftp|rtsp|mms)?:\\/\\/)[^\\s]+", message = "无效的用户头像")
+    @Pattern(regexp = "^((https|http)?:\\/\\/)[^\\s]+", message = "无效的用户头像")
     private String avatar;
 }

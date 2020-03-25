@@ -1,6 +1,7 @@
 package com.sagari.service.mapper;
 
 import com.sagari.service.entity.Article;
+import com.sagari.service.entity.ArticleVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -10,12 +11,11 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface ArticleMapper {
 
-    @Insert("insert into article values(null,#{title},#{content},#{creator},#{commentCount},#{viewCount}," +
-            "#{goodCount},#{badCount},#{collectCount},#{tags},#{createTime},#{updateTime},#{isDel})")
+    @Insert("insert into article values(null,#{title},#{content},#{author},#{commentCount},#{viewCount}," +
+            "#{goodCount},#{collectCount},#{tags},#{createTime},#{updateTime},#{isDel})")
     int publishArticle(Article article);
 
-    @Select("select * from article where id=#{id} and is_del=false")
-    Article selectArticle(Integer id);
+    ArticleVo selectArticle(Integer id);
 
     @Update("update article set title=#{title},content=#{content},tags=#{tags},update_time=#{updateTime} " +
             "where id=#{id} and creator=#{creator} and is_del=false")
@@ -38,4 +38,19 @@ public interface ArticleMapper {
 
     @Select("select author from article where id=#{articleId} and is_del=false")
     Integer getAuthor(Integer articleId);
+
+    @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
+    int incrementComment(Integer articleId);
+
+    @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
+    int decreaseComment(Integer articleId);
+
+    @Update("update article set view_count=view_count+1 where id=#{articleId}")
+    int incrementView(Integer articleId);
+
+    @Update("update article set collect_count=collect_count+1 where id=#{articleId}")
+    int incrementCollect(Integer articleId);
+
+    @Update("update article set collect_count=collect_count+1 where id=#{articleId}")
+    int decreaseCollect(Integer articleId);
 }

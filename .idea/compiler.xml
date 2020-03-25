@@ -10,21 +10,23 @@
         <module name="sagari-api-article" />
         <module name="sagari-service-interactive-impl" />
         <module name="sagari-dto-article" />
+        <module name="sagari-api-file" />
         <module name="sagari-service-user-impl" />
+        <module name="xxl-sso-server" />
         <module name="sagari-api-comment" />
-        <module name="sagari-api-comment-parent" />
         <module name="sagari-service-vcode-impl" />
-        <module name="sagari-service-comment-parent-impl" />
         <module name="sagari-api-user" />
         <module name="sagari-common" />
         <module name="sagari-api-good-bad" />
         <module name="sagari-api-vcode" />
         <module name="eureka-server" />
         <module name="sagari-dto-comment" />
+        <module name="sagari-service-file-impl" />
         <module name="sagari-gateway" />
         <module name="sagari-dto-user" />
         <module name="sagari-api-interactive" />
         <module name="sagari-service-article-impl" />
+        <module name="sagari-service-comment-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
@@ -32,6 +34,7 @@
       <module name="sagari-api-article" target="1.8" />
       <module name="sagari-api-comment" target="1.8" />
       <module name="sagari-api-comment-parent" target="1.8" />
+      <module name="sagari-api-file" target="1.8" />
       <module name="sagari-api-good-bad" target="1.8" />
       <module name="sagari-api-interactive" target="1.8" />
       <module name="sagari-api-user" target="1.8" />
@@ -46,12 +49,16 @@
       <module name="sagari-parent" target="1.8" />
       <module name="sagari-service-api" target="1.8" />
       <module name="sagari-service-article-impl" target="1.8" />
+      <module name="sagari-service-comment-impl" target="1.8" />
       <module name="sagari-service-comment-parent-impl" target="1.8" />
+      <module name="sagari-service-file-impl" target="1.8" />
       <module name="sagari-service-impl" target="1.8" />
       <module name="sagari-service-interactive-impl" target="1.8" />
+      <module name="sagari-service-upload-impl" target="1.8" />
       <module name="sagari-service-user-impl" target="1.8" />
       <module name="sagari-service-vcode-impl" target="1.8" />
       <module name="untitled" target="1.8" />
+      <module name="xxl-sso-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -60,6 +67,7 @@
       <module name="sagari-api-article" options="-parameters" />
       <module name="sagari-api-comment" options="-parameters" />
       <module name="sagari-api-comment-parent" options="-parameters" />
+      <module name="sagari-api-file" options="-parameters" />
       <module name="sagari-api-good-bad" options="-parameters" />
       <module name="sagari-api-interactive" options="-parameters" />
       <module name="sagari-api-user" options="-parameters" />
@@ -74,12 +82,16 @@
       <module name="sagari-parent" options="-parameters" />
       <module name="sagari-service-api" options="-parameters" />
       <module name="sagari-service-article-impl" options="-parameters" />
+      <module name="sagari-service-comment-impl" options="-parameters" />
       <module name="sagari-service-comment-parent-impl" options="-parameters" />
+      <module name="sagari-service-file-impl" options="-parameters" />
       <module name="sagari-service-impl" options="-parameters" />
       <module name="sagari-service-interactive-impl" options="-parameters" />
+      <module name="sagari-service-upload-impl" options="-parameters" />
       <module name="sagari-service-user-impl" options="-parameters" />
       <module name="sagari-service-vcode-impl" options="-parameters" />
       <module name="untitled" options="-parameters" />
+      <module name="xxl-sso-server" options="-parameters" />
     </option>
   </component>
 </project>

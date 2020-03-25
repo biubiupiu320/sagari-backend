@@ -15,6 +15,7 @@ import com.sagari.service.feign.VCodeServiceFeign;
 import com.sagari.service.mapper.SignInHistoryMapper;
 import com.sagari.service.mapper.UserMapper;
 import com.sagari.service.util.ClientInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author biubiupiu~
@@ -39,6 +41,8 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     private ClientInfo clientInfo;
     @Autowired
     private VCodeServiceFeign codeServiceFeign;
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public BaseResponse<JSONObject> signUp(@RequestBody @Valid UserSignUpInputDTO signUpDTO,
@@ -48,9 +52,8 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
             return setResultError(errorMsg);
         }
         String phone = signUpDTO.getPhone();
-        String type = "1";
         String vCode = signUpDTO.getVerifyCode();
-        BaseResponse<JSONObject> isCorrect = codeServiceFeign.verifyCode(phone, type, vCode);
+        BaseResponse<JSONObject> isCorrect = codeServiceFeign.verifyCode(phone, 1, vCode);
         if (!isCorrect.getCode().equals(200)) {
             return isCorrect;
         }
@@ -71,14 +74,13 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     }
 
     @Override
-    public BaseResponse<JSONObject> signIn(@RequestBody @Valid UserSignInInputDTO signInDTO,
-                                           BindingResult bindingResult, HttpServletRequest request) {
-
-        if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
-            return setResultError(errorMsg);
+    public BaseResponse<JSONObject> signIn(String account, String password) {
+        if (StringUtils.isBlank(account)) {
+            return setResultError("用户名不能为空");
         }
-        String account = signInDTO.getAccount();
+        if (StringUtils.isBlank(password)) {
+            return setResultError("密码不能为空");
+        }
         User user;
         SignIn signIn = new SignIn();
         signIn.setTime(System.currentTimeMillis());
@@ -93,7 +95,7 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
             user = userMapper.signInByUsername(account);
             signIn.setType("用户名登录");
         }
-        if (MD5Util.verify(signInDTO.getPassword(), user.getPassword())) {
+        if (MD5Util.verify(password, user.getPassword())) {
             signIn.setUserId(user.getId());
             historyMapper.insertRecord(signIn);
             return setResultSuccess((JSONObject) JSON.toJSON(user));
@@ -107,5 +109,45 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
             return false;
         }
         return userMapper.isExist(userId) > 0;
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getSimpleUser(Integer id) {
+        User user = userMapper.getSimpleUser(id);
+        if (user != null) {
+            return setResultSuccess((JSONObject) JSON.toJSON(user));
+        }
+        return setResultError("未获取到用户信息");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getSimpleUserByList(@RequestBody List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return setResultSuccess();
+        }
+        List<User> userList = userMapper.getSimpleUserByList(ids);
+        JSONObject result = new JSONObject();
+        result.put("users", JSON.parseArray(JSON.toJSONString(userList)));
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public Boolean isExistByPhone(String phone) {
+        return userMapper.isExistByPhone(phone) > 0;
+    }
+
+    @Override
+    public Boolean isExistByUsername(String username) {
+        return userMapper.isExistByUsername(username) > 0;
+    }
+
+    @Override
+    public Boolean isExistByEmail(String email) {
+        return userMapper.isExistByEmail(email) > 0;
+    }
+
+    @Override
+    public Boolean incrementArticleCount(Integer id) {
+        return userMapper.incrementArticleCount(id) > 0;
     }
 }

@@ -19,6 +19,7 @@
         <module>sagari-api-article</module>
         <module>sagari-api-interactive</module>
         <module>sagari-api-comment-parent</module>
+        <module>sagari-api-file</module>
     </modules>
 
     <properties>

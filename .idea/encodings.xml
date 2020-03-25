@@ -3,17 +3,20 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-basic/eureka-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-basic/sagari-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-basic/xxl-sso-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-article/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-article/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-comment-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-comment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-file/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-vcode/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-parent-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-file-impl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-vcode-impl/src/main/java" charset="UTF-8" />

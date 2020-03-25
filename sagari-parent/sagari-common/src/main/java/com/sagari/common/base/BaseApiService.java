@@ -1,10 +1,8 @@
 package com.sagari.common.base;
 
-import org.springframework.stereotype.Component;
-
 import com.sagari.common.constants.Constants;
-
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 /**
  * @author biubiupiu~
@@ -50,6 +48,15 @@ public class BaseApiService<T> {
 	 */
 	public BaseResponse<T> setResultSuccess(String msg) {
 		return setResult(Constants.HTTP_RES_CODE_200, msg, null);
+	}
+
+	/**
+	 * @param msg
+	 * @param data
+	 * @return
+	 */
+	public BaseResponse<T> setResultSuccess(String msg, T data) {
+		return setResult(Constants.HTTP_RES_CODE_200, msg, data);
 	}
 
 	/**

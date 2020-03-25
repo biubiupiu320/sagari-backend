@@ -19,6 +19,7 @@
         <module>sagari-service-article-impl</module>
         <module>sagari-service-interactive-impl</module>
         <module>sagari-service-comment-parent-impl</module>
+        <module>sagari-service-upload-impl</module>
     </modules>
 
     <properties>

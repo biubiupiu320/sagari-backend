@@ -54,4 +54,24 @@ public interface ArticleService {
     @ApiOperation(value = "获取文章作者ID")
     @GetMapping(value = "/getAuthor")
     public Integer getAuthor(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "文章评论数量+1接口")
+    @GetMapping(value = "/incrementComment")
+    public Boolean incrementComment(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "文章点赞数量-1接口")
+    @GetMapping(value = "/decreaseComment")
+    public Boolean decreaseComment(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "文章阅读数量+1接口")
+    @GetMapping(value = "/incrementView")
+    public Boolean incrementView(@RequestParam("article") Integer articleId);
+
+    @ApiOperation(value = "文章收藏数量+1接口")
+    @GetMapping(value = "/incrementCollect")
+    public Boolean incrementCollect(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "文章收藏数量-1接口")
+    @GetMapping(value = "/decreaseCollect")
+    public Boolean decreaseCollect(@RequestParam("articleId") Integer articleId);
 }

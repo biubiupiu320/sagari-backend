@@ -16,12 +16,12 @@ public interface VCodeService {
     @ApiOperation(value = "获取验证码")
     @GetMapping("/getCode")
     BaseResponse<JSONObject> getCode(@RequestParam(name = "phone") String phone,
-                                     @RequestParam(name = "type") String type,
+                                     @RequestParam(name = "type") Integer type,
                                      @RequestParam(name = "random") String random);
 
     @ApiOperation(value = "校验验证码")
     @GetMapping("/verifyCode")
     BaseResponse<JSONObject> verifyCode(@RequestParam(name = "phone") String phone,
-                                        @RequestParam(name = "type") String type,
+                                        @RequestParam(name = "type") Integer type,
                                         @RequestParam(name = "vcode") String vcode);
 }
