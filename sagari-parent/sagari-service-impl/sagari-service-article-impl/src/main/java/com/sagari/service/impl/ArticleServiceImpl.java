@@ -1,24 +1,29 @@
 package com.sagari.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ArticleInputDTO;
 import com.sagari.service.ArticleService;
 import com.sagari.service.entity.Article;
-import com.sagari.service.entity.ArticleVo;
+import com.sagari.service.entity.ArticleVO;
+import com.sagari.service.feign.CollectServiceFeign;
+import com.sagari.service.feign.InteractiveServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.ArticleMapper;
+import com.xxl.sso.core.login.SsoTokenLoginHelper;
+import com.xxl.sso.core.user.XxlSsoUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +35,13 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Autowired
     private UserServiceFeign userServiceFeign;
     @Autowired
+    private InteractiveServiceFeign interactiveServiceFeign;
+    @Autowired
+    private CollectServiceFeign collectServiceFeign;
+    @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public BaseResponse<JSONObject> publishArticle(@RequestBody @Valid ArticleInputDTO articleInputDTO,
@@ -55,7 +66,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         article.setViewCount(0);
         article.setGoodCount(0);
         article.setCollectCount(0);
-        article.setIsDel(false);
+        article.setDel(false);
         if (articleMapper.publishArticle(article) > 0) {
             userServiceFeign.incrementArticleCount(article.getAuthor());
             return setResultSuccess("文章发布成功");
@@ -68,11 +79,59 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (articleId == null || articleId <= 0) {
             return setResultError("无效的请求");
         }
-        ArticleVo articleVo = articleMapper.selectArticle(articleId);
-        if (articleVo == null) {
+        ArticleVO articleVO = articleMapper.selectArticle(articleId);
+        if (articleVO == null) {
             return setResultError("文章不存在或已删除");
         }
-        return setResultSuccess((JSONObject) JSON.toJSON(articleVo));
+        JSONObject result = (JSONObject) JSON.toJSON(articleVO);
+        JSONObject user = userServiceFeign.getSimpleUser(articleVO.getAuthor()).getData();
+        result.put("user", user);
+        //1.查看该用户有没有点赞
+        if (interactiveServiceFeign.isGood(articleVO.getId(), articleVO.getAuthor(), 1)) {
+            result.put("good", true);
+        } else {
+            result.put("good", false);
+        }
+        //2.查看该用户有没有收藏
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        Integer userId = null;
+        if (xxlUser != null) {
+            userId = Integer.valueOf(xxlUser.getUserid());
+        }
+        if (collectServiceFeign.isCollect(articleVO.getId(), userId)) {
+            result.put("collect", true);
+        } else {
+            result.put("collect", false);
+        }
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> selectArticleList(List<Integer> articleIds) {
+        if (articleIds == null || articleIds.isEmpty()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("articles", null);
+            return setResultSuccess(jsonObject);
+        }
+        List<Article> articles = articleMapper.selectArticleList(articleIds);
+        Set<Integer> authorIdSet = articles.stream().map(Article::getAuthor).collect(Collectors.toSet());
+        List<Integer> authorIds = new ArrayList<>(authorIdSet);
+        JSONObject userJSON = userServiceFeign.getSimpleUserByList(authorIds).getData();
+        JSONArray users = userJSON.getJSONArray("users");
+        Map<Integer, JSONObject> userMap = new HashMap<>(16);
+        for (int i = 0; i < users.size(); i++) {
+            JSONObject user = users.getJSONObject(i);
+            userMap.put(user.getInteger("id"), user);
+        }
+        JSONArray articleArray = (JSONArray) JSON.toJSON(articles);
+        for (int i = 0; i < articleArray.size(); i++) {
+            JSONObject article = articleArray.getJSONObject(i);
+            article.put("user", userMap.get(article.getInteger("author")));
+        }
+        JSONObject result = new JSONObject();
+        result.put("articles", articleArray);
+        return setResultSuccess(result);
     }
 
     @Override
@@ -172,5 +231,15 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Override
     public Boolean decreaseCollect(Integer articleId) {
         return articleMapper.decreaseCollect(articleId) > 0;
+    }
+
+    @Override
+    public Boolean incrementCollectN(List<Integer> ids) {
+        return articleMapper.incrementCollectN(ids) > 0;
+    }
+
+    @Override
+    public Boolean decreaseCollectN(List<Integer> ids) {
+        return articleMapper.decreaseCollectN(ids) > 0;
     }
 }

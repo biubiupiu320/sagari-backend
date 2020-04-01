@@ -7,18 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="sagari-api-article" />
+        <module name="xxl-sso-server" />
         <module name="sagari-service-interactive-impl" />
         <module name="sagari-dto-article" />
         <module name="sagari-api-file" />
-        <module name="sagari-service-user-impl" />
-        <module name="xxl-sso-server" />
+        <module name="sagari-api-article" />
+        <module name="sagari-dto-collect" />
+        <module name="sagari-api-collect" />
         <module name="sagari-api-comment" />
         <module name="sagari-service-vcode-impl" />
         <module name="sagari-api-user" />
         <module name="sagari-common" />
         <module name="sagari-api-good-bad" />
         <module name="sagari-api-vcode" />
+        <module name="sagari-service-user-impl" />
         <module name="eureka-server" />
         <module name="sagari-dto-comment" />
         <module name="sagari-service-file-impl" />
@@ -26,12 +28,14 @@
         <module name="sagari-dto-user" />
         <module name="sagari-api-interactive" />
         <module name="sagari-service-article-impl" />
+        <module name="sagari-service-collect-impl" />
         <module name="sagari-service-comment-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="eureka-server" target="1.8" />
       <module name="sagari-api-article" target="1.8" />
+      <module name="sagari-api-collect" target="1.8" />
       <module name="sagari-api-comment" target="1.8" />
       <module name="sagari-api-comment-parent" target="1.8" />
       <module name="sagari-api-file" target="1.8" />
@@ -43,12 +47,14 @@
       <module name="sagari-common" target="1.8" />
       <module name="sagari-dto" target="1.8" />
       <module name="sagari-dto-article" target="1.8" />
+      <module name="sagari-dto-collect" target="1.8" />
       <module name="sagari-dto-comment" target="1.8" />
       <module name="sagari-dto-user" target="1.8" />
       <module name="sagari-gateway" target="1.8" />
       <module name="sagari-parent" target="1.8" />
       <module name="sagari-service-api" target="1.8" />
       <module name="sagari-service-article-impl" target="1.8" />
+      <module name="sagari-service-collect-impl" target="1.8" />
       <module name="sagari-service-comment-impl" target="1.8" />
       <module name="sagari-service-comment-parent-impl" target="1.8" />
       <module name="sagari-service-file-impl" target="1.8" />
@@ -65,6 +71,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="eureka-server" options="-parameters" />
       <module name="sagari-api-article" options="-parameters" />
+      <module name="sagari-api-collect" options="-parameters" />
       <module name="sagari-api-comment" options="-parameters" />
       <module name="sagari-api-comment-parent" options="-parameters" />
       <module name="sagari-api-file" options="-parameters" />
@@ -76,12 +83,14 @@
       <module name="sagari-common" options="-parameters" />
       <module name="sagari-dto" options="" />
       <module name="sagari-dto-article" options="-parameters" />
+      <module name="sagari-dto-collect" options="-parameters" />
       <module name="sagari-dto-comment" options="-parameters" />
       <module name="sagari-dto-user" options="-parameters" />
       <module name="sagari-gateway" options="-parameters" />
       <module name="sagari-parent" options="-parameters" />
       <module name="sagari-service-api" options="-parameters" />
       <module name="sagari-service-article-impl" options="-parameters" />
+      <module name="sagari-service-collect-impl" options="-parameters" />
       <module name="sagari-service-comment-impl" options="-parameters" />
       <module name="sagari-service-comment-parent-impl" options="-parameters" />
       <module name="sagari-service-file-impl" options="-parameters" />

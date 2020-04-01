@@ -31,7 +31,7 @@ public interface CommentService {
     @ApiOperation(value = "获取评论接口")
     @GetMapping("/comment/{articleId}")
     public BaseResponse<JSONObject> getComment(@PathVariable("articleId") Integer articleId,
-                                               @RequestParam("userId") Integer userId,
+                                               @RequestParam(value = "userId", required = false) Integer userId,
                                                @RequestParam("page") Integer page,
                                                @RequestParam("size") Integer size);
 
@@ -50,6 +50,13 @@ public interface CommentService {
     @ApiOperation(value = "只获取子评论接口")
     @GetMapping("/getChildComment")
     public BaseResponse<JSONObject> getChildComment(@RequestParam("parentId") Integer parentId,
+                                                    @RequestParam(value = "userId", required = false) Integer userId,
                                                     @RequestParam("offset") Integer offset,
                                                     @RequestParam("limit") Integer limit);
+
+    @GetMapping("/incrementGood")
+    public Boolean incrementGood(@RequestParam("id") Integer id, @RequestParam("type") Boolean type);
+
+    @GetMapping("/decreaseGood")
+    public Boolean decreaseGood(@RequestParam("id") Integer id, @RequestParam("type") Boolean type);
 }

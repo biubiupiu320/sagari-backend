@@ -18,8 +18,9 @@
         <module>sagari-api-vcode</module>
         <module>sagari-api-article</module>
         <module>sagari-api-interactive</module>
-        <module>sagari-api-comment-parent</module>
+        <module>sagari-api-comment</module>
         <module>sagari-api-file</module>
+        <module>sagari-api-collect</module>
     </modules>
 
     <properties>

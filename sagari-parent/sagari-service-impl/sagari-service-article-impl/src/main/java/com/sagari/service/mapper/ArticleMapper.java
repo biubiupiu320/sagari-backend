@@ -1,10 +1,13 @@
 package com.sagari.service.mapper;
 
 import com.sagari.service.entity.Article;
-import com.sagari.service.entity.ArticleVo;
+import com.sagari.service.entity.ArticleVO;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * @author biubiupiu~
@@ -15,7 +18,7 @@ public interface ArticleMapper {
             "#{goodCount},#{collectCount},#{tags},#{createTime},#{updateTime},#{isDel})")
     int publishArticle(Article article);
 
-    ArticleVo selectArticle(Integer id);
+    ArticleVO selectArticle(Integer id);
 
     @Update("update article set title=#{title},content=#{content},tags=#{tags},update_time=#{updateTime} " +
             "where id=#{id} and creator=#{creator} and is_del=false")
@@ -42,7 +45,7 @@ public interface ArticleMapper {
     @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
     int incrementComment(Integer articleId);
 
-    @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
+    @Update("update article set comment_count=comment_count-1 where id=#{articleId}")
     int decreaseComment(Integer articleId);
 
     @Update("update article set view_count=view_count+1 where id=#{articleId}")
@@ -53,4 +56,10 @@ public interface ArticleMapper {
 
     @Update("update article set collect_count=collect_count+1 where id=#{articleId}")
     int decreaseCollect(Integer articleId);
+
+    int incrementCollectN(@Param("ids") List<Integer> ids);
+
+    int decreaseCollectN(@Param("ids") List<Integer> ids);
+
+    List<Article> selectArticleList(@Param("articleIds") List<Integer> articleIds);
 }

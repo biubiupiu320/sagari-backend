@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.CollectMapper">
+
+    <insert id="collectArticle" parameterType="com.sagari.service.entity.Collect">
+        INSERT INTO collect
+        VALUES(null,#{userId},#{articleId},#{favoritesId},#{createTime},#{updateTime},#{isDel})
+    </insert>
+
+    <update id="cancelCollectArticle" parameterType="java.util.List">
+        UPDATE collect
+        SET is_del=TRUE
+        WHERE favorites_id=#{favoritesId} AND is_del=FALSE AND article_id IN
+        <foreach collection="articleIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="moveToFavorites" parameterType="java.util.List">
+        UPDATE collect
+        SET favorites_id=#{target}
+        WHERE favorites_id=#{source} AND is_del=FALSE AND article_id IN
+        <foreach collection="articleIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="getCollect" resultType="com.sagari.service.entity.Collect">
+        SELECT id,user_id,article_id
+        FROM collect
+        WHERE favorites_id=#{favoritesId} AND is_del=FALSE
+    </select>
+
+    <select id="isCollect" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM collect
+        WHERE article_id=#{articleId} AND user_id=#{userId} AND is_del=FALSE
+    </select>
+
+</mapper>

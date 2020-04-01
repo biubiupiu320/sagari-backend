@@ -6,6 +6,7 @@ import com.sagari.common.base.BaseResponse;
 import com.sagari.service.InteractiveService;
 import com.sagari.service.entity.Interactive;
 import com.sagari.service.feign.ArticleServiceFeign;
+import com.sagari.service.feign.CommentServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.InteractArticleMapper;
 import com.sagari.service.mapper.InteractCommentMapper;
@@ -30,6 +31,8 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
     @Autowired
     private ArticleServiceFeign articleServiceFeign;
     @Autowired
+    private CommentServiceFeign commentServiceFeign;
+    @Autowired
     private InteractArticleMapper interactArticleMapper;
     @Autowired
     private InteractCommentMapper interactCommentMapper;
@@ -53,12 +56,10 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
         if (!userServiceFeign.isExist(userId)) {
             return setResultError("用户不存在");
         }
-        if (!articleServiceFeign.isExist(targetId)) {
-            return setResultError("文章不存在");
-        }
         if (type == 1) {
             if (interactArticleMapper.isGood(targetId, userId) > 0) {
                 if (interactArticleMapper.delete(targetId, userId) > 0) {
+                    articleServiceFeign.decreaseGood(targetId);
                     return setResultSuccess("取消点赞成功");
                 }
                 return setResultError("取消点赞失败");
@@ -70,6 +71,7 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
                 interactive.setUpdateTime(interactive.getCreateTime());
                 interactive.setGood(true);
                 if (interactArticleMapper.insert(interactive) > 0) {
+                    articleServiceFeign.incrementGood(targetId);
                     return setResultSuccess("点赞成功");
                 }
                 return setResultError("点赞失败");
@@ -78,6 +80,7 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
             Boolean flag = type == 2;
             if (interactCommentMapper.isGood(targetId, userId, flag) > 0) {
                 if (interactCommentMapper.delete(targetId, userId, flag) > 0) {
+                    commentServiceFeign.decreaseGood(targetId, flag);
                     return setResultSuccess("取消点赞成功");
                 }
                 return setResultError("取消点赞失败");
@@ -90,6 +93,7 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
                 interactive.setGood(true);
                 interactive.setType(flag);
                 if (interactCommentMapper.insert(interactive) > 0) {
+                    commentServiceFeign.incrementGood(targetId, flag);
                     return setResultSuccess("点赞成功");
                 }
                 return setResultError("点赞失败");
@@ -118,31 +122,5 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
         } else {
             return false;
         }
-    }
-
-    @Override
-    public Map<Integer, Boolean> isGood(@RequestBody List<Integer> list,
-                                        Integer userId,
-                                        Integer type) {
-        if (list == null || list.size() == 0 || userId == null || userId <= 0) {
-            return new HashMap<>(16);
-        }
-        List<Map<String, Object>> mapList;
-        if (type == 2) {
-            mapList = interactCommentMapper.isGoodList(list, userId, true);
-        } else if (type == 3) {
-            mapList = interactCommentMapper.isGoodList(list, userId, false);
-        } else {
-            return new HashMap<>(16);
-        }
-        System.out.println(mapList);
-        Map<Integer, Boolean> map = new HashMap<>(16);
-        if (mapList.isEmpty()) {
-            return map;
-        }
-        for (Map<String, Object> item : mapList) {
-            map.put((Integer) item.get("key"), (Boolean) item.get("value"));
-        }
-        return map;
     }
 }

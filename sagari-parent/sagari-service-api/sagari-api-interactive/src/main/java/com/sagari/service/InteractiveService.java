@@ -29,10 +29,4 @@ public interface InteractiveService {
     public Boolean isGood(@RequestParam(name = "targetId") Integer targetId,
                           @RequestParam(name = "userId") Integer userId,
                           @RequestParam(name = "type") Integer type);
-
-    @ApiOperation(value = "根据用户ID，获取是否点赞的集合")
-    @PostMapping("/getInteractive")
-    public Map<Integer, Boolean> isGood(@RequestBody List<Integer> list,
-                                        @RequestParam(name = "userId") Integer userId,
-                                        @RequestParam(name = "type") Integer type);
 }

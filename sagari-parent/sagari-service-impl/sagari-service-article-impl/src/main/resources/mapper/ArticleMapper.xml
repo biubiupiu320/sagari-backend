@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sagari.service.mapper.ArticleMapper">
 
-    <resultMap id="articleVo" type="com.sagari.service.entity.ArticleVo">
+    <!--<resultMap id="articleVo" type="com.sagari.service.entity.ArticleVo">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
@@ -34,6 +34,39 @@
         WHERE a.id=#{id}
         AND
         is_del=FALSE
+    </select>-->
+
+    <select id="selectArticle" resultType="com.sagari.service.entity.ArticleVO">
+        SELECT id,title,content,author,comment_count,view_count,good_count,collect_count,tags,create_time,update_time
+        FROM article
+        WHERE id=#{id} AND is_del=FALSE
     </select>
+
+    <select id="selectArticleList" resultType="com.sagari.service.entity.Article">
+        SELECT id,title,LEFT(content,100) AS content,author,comment_count,view_count,good_count
+        FROM article
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="articleIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="incrementCollectN" parameterType="java.util.List">
+        UPDATE article
+        SET collect_count=collect_count+1
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="decreaseCollectN" parameterType="java.util.List">
+        UPDATE article
+        SET collect_count=collect_count-1
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 
 </mapper>

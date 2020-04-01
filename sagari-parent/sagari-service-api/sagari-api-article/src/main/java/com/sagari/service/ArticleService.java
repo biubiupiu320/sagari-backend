@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author biubiupiu~
  */
@@ -24,6 +26,10 @@ public interface ArticleService {
     @ApiOperation(value = "获取文章接口")
     @GetMapping(value = "/article/{articleId}")
     public BaseResponse<JSONObject> selectArticle(@PathVariable("articleId") Integer articleId);
+
+    @ApiOperation(value = "获取文章接口，批量获取文章简易信息")
+    @PostMapping(value = "/article")
+    public BaseResponse<JSONObject> selectArticleList(@RequestBody List<Integer> articleIds);
 
     @ApiOperation(value = "修改文章接口")
     @PostMapping(value = "/article/{articleId}")
@@ -74,4 +80,12 @@ public interface ArticleService {
     @ApiOperation(value = "文章收藏数量-1接口")
     @GetMapping(value = "/decreaseCollect")
     public Boolean decreaseCollect(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "多篇文章收藏数量+1接口")
+    @PostMapping(value = "/incrementCollectN")
+    public Boolean incrementCollectN(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "多篇文章收藏数量-1接口")
+    @PostMapping(value = "/decreaseCollectN")
+    public Boolean decreaseCollectN(@RequestBody List<Integer> ids);
 }

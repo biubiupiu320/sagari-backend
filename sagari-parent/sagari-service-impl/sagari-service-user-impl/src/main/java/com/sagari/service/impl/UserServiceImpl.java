@@ -127,7 +127,7 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
         }
         List<User> userList = userMapper.getSimpleUserByList(ids);
         JSONObject result = new JSONObject();
-        result.put("users", JSON.parseArray(JSON.toJSONString(userList)));
+        result.put("users", JSON.toJSON(userList));
         return setResultSuccess(result);
     }
 

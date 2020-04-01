@@ -103,7 +103,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
             return setResultError("文章不存在或已删除");
         }
         PageHelper.startPage(page, size);
-        List<ParentCommentVo> list = parentCommentMapper.selectParentComment(articleId);
+        List<ParentCommentVo> list = parentCommentMapper.selectParentComment(articleId, userId);
         PageInfo<ParentCommentVo> parentCommentVo = new PageInfo<>(list);
         JSONObject comments = (JSONObject) JSON.toJSON(parentCommentVo);
         JSONArray result = comments.getJSONArray("list");
@@ -111,7 +111,8 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
 
         for (int i = 0; i < result.size(); i++) {
             JSONObject object = result.getJSONObject(i);
-            JSONObject childObject = selectChildComment(object.getInteger("id"), 0, 2).getData();
+            Integer parentId = object.getInteger("id");
+            JSONObject childObject = selectChildComment(parentId, userId, 0, 2).getData();
             Integer childOffset = childObject.getInteger("offset");
             Integer childTotal = childObject.getInteger("total");
             JSONArray childs = childObject.getJSONArray("child");
@@ -119,8 +120,8 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
             object.put("childOffset", childOffset);
             object.put("childTotal", childTotal);
             for (int j = 0; j < childs.size(); j++) {
-                userIdSet.add(childs.getJSONObject(i).getInteger("fromId"));
-                userIdSet.add(childs.getJSONObject(i).getInteger("toId"));
+                userIdSet.add(childs.getJSONObject(j).getInteger("fromId"));
+                userIdSet.add(childs.getJSONObject(j).getInteger("toId"));
             }
         }
 
@@ -187,8 +188,8 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         }
         if (childCommentMapper.checkPermissions(id, userId) > 0) {
             if (childCommentMapper.deleteComment(id) > 0) {
+                parentCommentMapper.decreaseComment(parentId);
                 articleServiceFeign.decreaseComment(articleId);
-                parentCommentMapper.deleteComment(parentId);
                 return setResultSuccess("删除评论成功");
             }
             return setResultError("删除评论失败，评论不存在或已删除");
@@ -198,8 +199,8 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     }
 
     @Override
-    public BaseResponse<JSONObject> getChildComment(Integer parentId, Integer offset, Integer limit) {
-        JSONObject jsonObject = selectChildComment(parentId, offset, limit).getData();
+    public BaseResponse<JSONObject> getChildComment(Integer parentId, Integer userId, Integer offset, Integer limit) {
+        JSONObject jsonObject = selectChildComment(parentId, userId, offset, limit).getData();
         JSONArray childArray = jsonObject.getJSONArray("child");
         Set<Integer> userIdSet = new HashSet<>();
         for (int i = 0; i < childArray.size(); i++) {
@@ -226,7 +227,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         return setResultSuccess(jsonObject);
     }
 
-    public BaseResponse<JSONObject> selectChildComment(Integer parentId, Integer offset, Integer limit) {
+    public BaseResponse<JSONObject> selectChildComment(Integer parentId, Integer userId, Integer offset, Integer limit) {
         if (offset < 0) {
             offset = 0;
         }
@@ -234,7 +235,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
             limit = 2;
         }
         PageHelper.offsetPage(offset, limit);
-        List<ChildCommentVo> childCommentVos = childCommentMapper.selectChildComment(parentId);
+        List<ChildCommentVo> childCommentVos = childCommentMapper.selectChildComment(parentId, userId);
         Page<ChildCommentVo> pages = (Page<ChildCommentVo>)childCommentVos;
         JSONArray array = JSONObject.parseArray(JSONObject.toJSONString(childCommentVos));
         JSONObject result = new JSONObject();
@@ -242,5 +243,23 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         result.put("offset", pages.getEndRow());
         result.put("total", pages.getTotal());
         return setResultSuccess(result);
+    }
+
+    @Override
+    public Boolean incrementGood(Integer id, Boolean type) {
+        if (type) {
+            return parentCommentMapper.incrementGood(id) > 0;
+        } else {
+            return childCommentMapper.incrementGood(id) > 0;
+        }
+    }
+
+    @Override
+    public Boolean decreaseGood(Integer id, Boolean type) {
+        if (type) {
+            return parentCommentMapper.decreaseGood(id) > 0;
+        } else {
+            return childCommentMapper.decreaseGood(id) > 0;
+        }
     }
 }
