@@ -30,11 +30,12 @@
         <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-collect/pom.xml" />
         <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-collect/pom.xml" />
         <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-collect-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/pom.xml" />
       </list>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-collect-impl/src/main/resources/application.yml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

@@ -2,8 +2,10 @@ package com.sagari.service.mapper;
 
 import com.sagari.service.entity.User;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -44,4 +46,36 @@ public interface UserMapper {
 
     @Update("update `user` set article_count=article_count+1 where id=#{id}")
     int incrementArticleCount(Integer id);
+
+    @Update("UPDATE `user` SET follow_count=follow_count+1 WHERE id=#{id}")
+    int incrementFollowCount(Integer id);
+
+    @Update("UPDATE `user` SET follow_count=follow_count-1 WHERE id=#{id}")
+    int decreaseFollowCount(Integer id);
+
+    @Update("UPDATE `user` SET follow_count=follow_count+#{count} WHERE id=#{id}")
+    int incrementFollowCountN(Integer id, Integer count);
+
+    @Update("UPDATE `user` SET follow_count=follow_count-#{count} WHERE id=#{id}")
+    int decreaseFollowCountN(Integer id, Integer count);
+
+    int incrementFollowCountBatch(@Param("ids") List<Integer> ids);
+
+    int decreaseFollowCountBatch(@Param("ids") List<Integer> ids);
+
+    @Update("UPDATE `user` SET fans_count=fans_count+1 WHERE id=#{id}")
+    int incrementFansCount(Integer id);
+
+    @Update("UPDATE `user` SET fans_count=fans_count-1 WHERE id=#{id}")
+    int decreaseFansCount(Integer id);
+
+    @Update("UPDATE `user` SET fans_count=fans_count+#{count} WHERE id=#{id}")
+    int incrementFansCountN(Integer id, Integer count);
+
+    @Update("UPDATE `user` SET fans_count=fans_count-#{count} WHERE id=#{id}")
+    int decreaseFansCountN(Integer id, Integer count);
+
+    int incrementFansCountBatch(@Param("ids") List<Integer> ids);
+
+    int decreaseFansCountBatch(@Param("ids") List<Integer> ids);
 }

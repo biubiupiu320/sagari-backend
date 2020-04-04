@@ -15,9 +15,12 @@
         <module name="sagari-dto-collect" />
         <module name="sagari-api-collect" />
         <module name="sagari-api-comment" />
+        <module name="sagari-service-article-impl" />
         <module name="sagari-service-vcode-impl" />
+        <module name="sagari-api-tag" />
         <module name="sagari-api-user" />
         <module name="sagari-common" />
+        <module name="sagari-dto-tag" />
         <module name="sagari-api-good-bad" />
         <module name="sagari-api-vcode" />
         <module name="sagari-service-user-impl" />
@@ -27,7 +30,8 @@
         <module name="sagari-gateway" />
         <module name="sagari-dto-user" />
         <module name="sagari-api-interactive" />
-        <module name="sagari-service-article-impl" />
+        <module name="sagari-dto-interactive" />
+        <module name="sagari-service-tag-impl" />
         <module name="sagari-service-collect-impl" />
         <module name="sagari-service-comment-impl" />
       </profile>
@@ -41,6 +45,7 @@
       <module name="sagari-api-file" target="1.8" />
       <module name="sagari-api-good-bad" target="1.8" />
       <module name="sagari-api-interactive" target="1.8" />
+      <module name="sagari-api-tag" target="1.8" />
       <module name="sagari-api-user" target="1.8" />
       <module name="sagari-api-vcode" target="1.8" />
       <module name="sagari-basic" target="1.8" />
@@ -49,6 +54,8 @@
       <module name="sagari-dto-article" target="1.8" />
       <module name="sagari-dto-collect" target="1.8" />
       <module name="sagari-dto-comment" target="1.8" />
+      <module name="sagari-dto-interactive" target="1.8" />
+      <module name="sagari-dto-tag" target="1.8" />
       <module name="sagari-dto-user" target="1.8" />
       <module name="sagari-gateway" target="1.8" />
       <module name="sagari-parent" target="1.8" />
@@ -60,6 +67,7 @@
       <module name="sagari-service-file-impl" target="1.8" />
       <module name="sagari-service-impl" target="1.8" />
       <module name="sagari-service-interactive-impl" target="1.8" />
+      <module name="sagari-service-tag-impl" target="1.8" />
       <module name="sagari-service-upload-impl" target="1.8" />
       <module name="sagari-service-user-impl" target="1.8" />
       <module name="sagari-service-vcode-impl" target="1.8" />
@@ -77,6 +85,7 @@
       <module name="sagari-api-file" options="-parameters" />
       <module name="sagari-api-good-bad" options="-parameters" />
       <module name="sagari-api-interactive" options="-parameters" />
+      <module name="sagari-api-tag" options="-parameters" />
       <module name="sagari-api-user" options="-parameters" />
       <module name="sagari-api-vcode" options="-parameters" />
       <module name="sagari-basic" options="" />
@@ -85,6 +94,8 @@
       <module name="sagari-dto-article" options="-parameters" />
       <module name="sagari-dto-collect" options="-parameters" />
       <module name="sagari-dto-comment" options="-parameters" />
+      <module name="sagari-dto-interactive" options="-parameters" />
+      <module name="sagari-dto-tag" options="-parameters" />
       <module name="sagari-dto-user" options="-parameters" />
       <module name="sagari-gateway" options="-parameters" />
       <module name="sagari-parent" options="-parameters" />
@@ -96,6 +107,7 @@
       <module name="sagari-service-file-impl" options="-parameters" />
       <module name="sagari-service-impl" options="-parameters" />
       <module name="sagari-service-interactive-impl" options="-parameters" />
+      <module name="sagari-service-tag-impl" options="-parameters" />
       <module name="sagari-service-upload-impl" options="-parameters" />
       <module name="sagari-service-user-impl" options="-parameters" />
       <module name="sagari-service-vcode-impl" options="-parameters" />

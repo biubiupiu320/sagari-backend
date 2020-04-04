@@ -27,7 +27,7 @@ public interface UserService {
     public BaseResponse<JSONObject> signUp(@RequestBody @Valid UserSignUpInputDTO signUpDTO,
                                            BindingResult bindingResult);
 
-    @ApiOperation(value = "登录接口")
+    @ApiOperation(value = "用户登录密码校验接口")
     @GetMapping("/sign-in")
     public BaseResponse<JSONObject> signIn(@RequestParam(name = "account") String account,
                                            @RequestParam(name = "password") String password);
@@ -59,4 +59,57 @@ public interface UserService {
     @ApiOperation(value = "增加用户发表的文章数量")
     @GetMapping("/incrementArticleCount")
     public Boolean incrementArticleCount(@RequestParam(name = "id") Integer id);
+
+    @ApiOperation(value = "用户的关注数量+1")
+    @GetMapping("/incrementFollowCount")
+    public Boolean incrementFollowCount(@RequestParam(name = "id") Integer id);
+
+    @ApiOperation(value = "用户的关注数量-1")
+    @GetMapping("/decreaseFollowCount")
+    public Boolean decreaseFollowCount(@RequestParam(name = "id") Integer id);
+
+    @ApiOperation(value = "用户的关注数量+N")
+    @GetMapping("/incrementFollowCountN")
+    public Boolean incrementFollowCountN(@RequestParam(name = "id") Integer id,
+                                         @RequestParam(name = "count") Integer count);
+
+    @ApiOperation(value = "用户的关注数量-N")
+    @GetMapping("/decreaseFollowCountN")
+    public Boolean decreaseFollowCountN(@RequestParam(name = "id") Integer id,
+                                        @RequestParam(name = "count") Integer count);
+
+    @ApiOperation(value = "多名用户的关注数量+1")
+    @PostMapping("/incrementFollowCountBatch")
+    public Boolean incrementFollowCountBatch(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "多名用户的关注数量-1")
+    @PostMapping("/decreaseFollowCountBatch")
+    public Boolean decreaseFollowCountBatch(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "用户的粉丝数量+1")
+    @GetMapping("/incrementFansCount")
+    public Boolean incrementFansCount(@RequestParam(name = "id") Integer id);
+
+    @ApiOperation(value = "用户的粉丝数量-1")
+    @GetMapping("/decreaseFansCount")
+    public Boolean decreaseFansCount(@RequestParam(name = "id") Integer id);
+
+    @ApiOperation(value = "用户的粉丝数量+N")
+    @GetMapping("/incrementFansCountN")
+    public Boolean incrementFansCountN(@RequestParam(name = "id") Integer id,
+                                       @RequestParam(name = "count") Integer count);
+
+    @ApiOperation(value = "用户的粉丝数量-N")
+    @GetMapping("/decreaseFansCountN")
+    public Boolean decreaseFansCountN(@RequestParam(name = "id") Integer id,
+                                      @RequestParam(name = "count") Integer count);
+
+    @ApiOperation(value = "多名用户的粉丝数量+1")
+    @PostMapping("/incrementFansCountBatch")
+    public Boolean incrementFansCountBatch(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "多名用户的粉丝数量-1")
+    @PostMapping("/decreaseFansCountBatch")
+    public Boolean decreaseFansCountBatch(@RequestBody List<Integer> ids);
+
 }

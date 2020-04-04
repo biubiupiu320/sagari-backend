@@ -21,6 +21,7 @@
         <module>sagari-service-comment-impl</module>
         <module>sagari-service-file-impl</module>
         <module>sagari-service-collect-impl</module>
+        <module>sagari-service-tag-impl</module>
     </modules>
 
     <properties>

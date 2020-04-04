@@ -10,4 +10,40 @@
         id IN<foreach collection="list" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
     </select>
 
+    <update id="incrementFollowCountBatch">
+        UPDATE `user`
+        SET follow_count=follow_count+1
+        WHERE id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="decreaseFollowCountBatch">
+        UPDATE `user`
+        SET follow_count=follow_count-1
+        WHERE id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="incrementFansCountBatch">
+        UPDATE `user`
+        SET fans_count=fans_count+1
+        WHERE id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="decreaseFansCountBatch">
+        UPDATE `user`
+        SET fans_count=fans_count-1
+        WHERE id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>

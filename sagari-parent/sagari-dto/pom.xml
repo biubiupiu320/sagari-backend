@@ -17,6 +17,9 @@
         <module>sagari-dto-user</module>
         <module>sagari-dto-article</module>
         <module>sagari-dto-comment</module>
+        <module>sagari-dto-collect</module>
+        <module>sagari-dto-interactive</module>
+        <module>sagari-dto-tag</module>
     </modules>
 
     <properties>

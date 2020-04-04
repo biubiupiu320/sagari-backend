@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author biubiupiu~
@@ -48,7 +49,7 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     public BaseResponse<JSONObject> signUp(@RequestBody @Valid UserSignUpInputDTO signUpDTO,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         String phone = signUpDTO.getPhone();
@@ -149,5 +150,65 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     @Override
     public Boolean incrementArticleCount(Integer id) {
         return userMapper.incrementArticleCount(id) > 0;
+    }
+
+    @Override
+    public Boolean incrementFollowCount(Integer id) {
+        return userMapper.incrementFollowCount(id) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFollowCount(Integer id) {
+        return userMapper.decreaseFollowCount(id) > 0;
+    }
+
+    @Override
+    public Boolean incrementFollowCountN(Integer id, Integer count) {
+        return userMapper.incrementFollowCountN(id, count) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFollowCountN(Integer id, Integer count) {
+        return userMapper.decreaseFollowCountN(id, count) > 0;
+    }
+
+    @Override
+    public Boolean incrementFollowCountBatch(@RequestBody List<Integer> ids) {
+        return userMapper.incrementFollowCountBatch(ids) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFollowCountBatch(@RequestBody List<Integer> ids) {
+        return userMapper.decreaseFollowCountBatch(ids) > 0;
+    }
+
+    @Override
+    public Boolean incrementFansCount(Integer id) {
+        return userMapper.incrementFansCount(id) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFansCount(Integer id) {
+        return userMapper.decreaseFansCount(id) > 0;
+    }
+
+    @Override
+    public Boolean incrementFansCountN(Integer id, Integer count) {
+        return userMapper.incrementFansCountN(id, count) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFansCountN(Integer id, Integer count) {
+        return userMapper.decreaseFansCountN(id, count) > 0;
+    }
+
+    @Override
+    public Boolean incrementFansCountBatch(@RequestBody List<Integer> ids) {
+        return userMapper.incrementFansCountBatch(ids) > 0;
+    }
+
+    @Override
+    public Boolean decreaseFansCountBatch(@RequestBody List<Integer> ids) {
+        return userMapper.decreaseFansCountBatch(ids) > 0;
     }
 }

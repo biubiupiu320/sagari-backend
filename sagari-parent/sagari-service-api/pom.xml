@@ -21,6 +21,7 @@
         <module>sagari-api-comment</module>
         <module>sagari-api-file</module>
         <module>sagari-api-collect</module>
+        <module>sagari-api-tag</module>
     </modules>
 
     <properties>

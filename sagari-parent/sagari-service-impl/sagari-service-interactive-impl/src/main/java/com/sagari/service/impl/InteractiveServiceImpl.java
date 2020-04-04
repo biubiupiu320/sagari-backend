@@ -1,24 +1,32 @@
 package com.sagari.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
+import com.sagari.dto.input.FansIds;
+import com.sagari.dto.input.FollowIds;
 import com.sagari.service.InteractiveService;
+import com.sagari.service.entity.Follow;
 import com.sagari.service.entity.Interactive;
 import com.sagari.service.feign.ArticleServiceFeign;
 import com.sagari.service.feign.CommentServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
+import com.sagari.service.mapper.FollowMapper;
 import com.sagari.service.mapper.InteractArticleMapper;
 import com.sagari.service.mapper.InteractCommentMapper;
+import com.xxl.sso.core.login.SsoTokenLoginHelper;
+import com.xxl.sso.core.user.XxlSsoUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author biubiupiu~
@@ -36,6 +44,10 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
     private InteractArticleMapper interactArticleMapper;
     @Autowired
     private InteractCommentMapper interactCommentMapper;
+    @Autowired
+    private FollowMapper followMapper;
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * type为1代表点赞的是文章
@@ -122,5 +134,158 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
         } else {
             return false;
         }
+    }
+
+    @Override
+    public BaseResponse<JSONObject> follow(Integer followId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (userId.equals(followId)) {
+            return setResultError("您不能关注您自己");
+        }
+        Follow follow = new Follow();
+        follow.setFollowId(followId);
+        follow.setFansId(userId);
+        follow.setCreateTime(System.currentTimeMillis());
+        follow.setUpdateTime(follow.getCreateTime());
+        follow.setDel(false);
+        if (followMapper.follow(follow) > 0) {
+            //增加用户的关注数量
+            userServiceFeign.incrementFollowCount(userId);
+            //增加用户的粉丝数量
+            userServiceFeign.incrementFansCount(followId);
+            return setResultSuccess("关注成功");
+        }
+        return setResultError("关注失败");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> cancelFollow(@RequestBody FollowIds follows) {
+        List<Integer> followIds = follows.getFollowIds();
+        if (followIds == null || followIds.isEmpty()) {
+            return setResultSuccess();
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (followMapper.cancelFollow(followIds, userId, System.currentTimeMillis()) > 0) {
+            //减少用户的关注数量
+            userServiceFeign.decreaseFollowCountN(userId, followIds.size());
+            //减少用户的粉丝数量
+            userServiceFeign.decreaseFansCountBatch(followIds);
+            return setResultSuccess("取消关注成功");
+        }
+        return setResultError("取消关注失败");
+    }
+
+    @Override
+    public Boolean isFollow(Integer followId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return false;
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        return followMapper.isFollow(followId, userId) > 0;
+    }
+
+    @Override
+    public BaseResponse<JSONObject> removeFans(@RequestBody FansIds fanss) {
+        List<Integer> fansIds = fanss.getFansIds();
+        if (fansIds == null || fansIds.isEmpty()) {
+            return setResultSuccess();
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (followMapper.removeFans(userId, fansIds, System.currentTimeMillis()) > 0) {
+            //减少用户的粉丝数量
+            userServiceFeign.decreaseFansCountN(userId, fansIds.size());
+            //减少用户的关注数量
+            userServiceFeign.decreaseFollowCountBatch(fansIds);
+            return setResultSuccess("移除粉丝成功");
+        }
+        return setResultError("移除粉丝失败");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getFollowList(Integer fansId, Integer page, Integer size) {
+        if (fansId == null || fansId <= 0) {
+            String sessionId = request.getHeader("xxl-sso-session-id");
+            XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+            if (xxlUser == null) {
+                return setResultError("用户未登录");
+            }
+            fansId = Integer.valueOf(xxlUser.getUserid());
+        }
+        if (page == null || page < 1) {
+            page = 1;
+        }
+        if (size == null || size < 10) {
+            size = 10;
+        }
+        //1.获取关注的用户的ID列表
+        PageHelper.startPage(page, size);
+        List<Integer> followIds = followMapper.getFollowList(fansId);
+        if (followIds == null || followIds.isEmpty()) {
+            return setResultSuccess();
+        }
+        //2.根据第一步获得的ID列表查询用户信息
+        JSONArray userArray = userServiceFeign.getSimpleUserByList(followIds).getData().getJSONArray("users");
+        JSONObject result = (JSONObject) JSON.toJSON(new PageInfo<>(followIds));
+        result.remove("list");
+        result.put("follows", userArray);
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getFansList(Integer followId, Integer page, Integer size) {
+        if (followId == null || followId <= 0) {
+            String sessionId = request.getHeader("xxl-sso-session-id");
+            XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+            if (xxlUser == null) {
+                return setResultError("用户未登录");
+            }
+            followId = Integer.valueOf(xxlUser.getUserid());
+        }
+        if (page == null || page < 1) {
+            page = 1;
+        }
+        if (size == null || size < 10) {
+            size = 10;
+        }
+        //1.获取粉丝ID列表
+        PageHelper.startPage(page, size);
+        List<Integer> fansIds = followMapper.getFansList(followId);
+        if (fansIds == null || fansIds.isEmpty()) {
+            return setResultSuccess();
+        }
+        //2.根据第一步获得的ID列表查询用户信息
+        JSONObject userObject = userServiceFeign.getSimpleUserByList(fansIds).getData();
+        JSONArray userArray = userObject.getJSONArray("users");
+        //3.判断某一个粉丝是否关注了自己
+        List<Integer> followIds = followMapper.isFollowList(followId, fansIds);
+        for (int i = 0; i < userArray.size(); i++) {
+            JSONObject user = userArray.getJSONObject(i);
+            if (followIds.contains(user.getInteger("id"))) {
+                user.put("follow", true);
+            } else {
+                user.put("follow", false);
+            }
+        }
+        JSONObject result = (JSONObject) JSON.toJSON(new PageInfo<>(fansIds));
+        result.remove("list");
+        result.put("fans", userArray);
+        return setResultSuccess(result);
     }
 }

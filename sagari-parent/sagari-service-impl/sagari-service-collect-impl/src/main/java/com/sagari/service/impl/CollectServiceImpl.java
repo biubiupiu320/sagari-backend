@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +48,7 @@ public class CollectServiceImpl extends BaseApiService<JSONObject> implements Co
     public BaseResponse<JSONObject> collectArticle(@RequestBody @Valid CollectInputDTO collectInputDTO,
                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         String sessionId = request.getHeader("xxl-sso-session-id");
@@ -74,7 +75,7 @@ public class CollectServiceImpl extends BaseApiService<JSONObject> implements Co
     public BaseResponse<JSONObject> cancelCollectArticle(@RequestBody @Valid CollectBatchInputDTO collectBatchInputDTO,
                                                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         String sessionId = request.getHeader("xxl-sso-session-id");
@@ -100,7 +101,7 @@ public class CollectServiceImpl extends BaseApiService<JSONObject> implements Co
     public BaseResponse<JSONObject> moveToFavorites(@RequestBody @Valid MoveBatchInputDTO moveBatchInputDTO,
                                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         String sessionId = request.getHeader("xxl-sso-session-id");

@@ -11,6 +11,7 @@ import com.sagari.service.entity.Article;
 import com.sagari.service.entity.ArticleVO;
 import com.sagari.service.feign.CollectServiceFeign;
 import com.sagari.service.feign.InteractiveServiceFeign;
+import com.sagari.service.feign.TagServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.ArticleMapper;
 import com.xxl.sso.core.login.SsoTokenLoginHelper;
@@ -39,6 +40,8 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Autowired
     private CollectServiceFeign collectServiceFeign;
     @Autowired
+    private TagServiceFeign tagServiceFeign;
+    @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private HttpServletRequest request;
@@ -47,10 +50,18 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     public BaseResponse<JSONObject> publishArticle(@RequestBody @Valid ArticleInputDTO articleInputDTO,
                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         String[] tags = articleInputDTO.getTags().split(",");
+        List<Integer> tagIds = new ArrayList<>(tags.length);
+        for (String tag : tags) {
+            try {
+                tagIds.add(Integer.parseInt(tag));
+            } catch (NumberFormatException e) {
+                return setResultError("提交的数据格式不正确");
+            }
+        }
         Set<String> set = Arrays.stream(tags).collect(Collectors.toSet());
         if (set.size() > 5) {
             return setResultError("文章不同的标签最多只能有5个");
@@ -69,6 +80,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         article.setDel(false);
         if (articleMapper.publishArticle(article) > 0) {
             userServiceFeign.incrementArticleCount(article.getAuthor());
+            tagServiceFeign.incrArticleCount(tagIds);
             return setResultSuccess("文章发布成功");
         }
         return setResultError("文章发布失败");
@@ -104,6 +116,13 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         } else {
             result.put("collect", false);
         }
+        String tag = articleVO.getTags();
+        List<Integer> tagList = Arrays.stream(tag.split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        JSONArray tags = tagServiceFeign.getTagBatch(tagList).getData().getJSONArray("tags");
+        result.remove("tags");
+        result.put("tags", tags);
         return setResultSuccess(result);
     }
 
@@ -115,11 +134,15 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
             return setResultSuccess(jsonObject);
         }
         List<Article> articles = articleMapper.selectArticleList(articleIds);
-        Set<Integer> authorIdSet = articles.stream().map(Article::getAuthor).collect(Collectors.toSet());
-        List<Integer> authorIds = new ArrayList<>(authorIdSet);
+        List<Integer> authorIds = articles.stream()
+                .map(Article::getAuthor)
+                .distinct()
+                .collect(Collectors.toList());
         JSONObject userJSON = userServiceFeign.getSimpleUserByList(authorIds).getData();
         JSONArray users = userJSON.getJSONArray("users");
-        Map<Integer, JSONObject> userMap = new HashMap<>(16);
+        Map<Integer, JSONObject> userMap = users.stream()
+                .map(o -> (JSONObject) JSON.toJSON(o))
+                .collect(Collectors.toMap(o -> o.getInteger("id"), o -> o));
         for (int i = 0; i < users.size(); i++) {
             JSONObject user = users.getJSONObject(i);
             userMap.put(user.getInteger("id"), user);
@@ -127,6 +150,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         JSONArray articleArray = (JSONArray) JSON.toJSON(articles);
         for (int i = 0; i < articleArray.size(); i++) {
             JSONObject article = articleArray.getJSONObject(i);
+            article.remove("tags");
             article.put("user", userMap.get(article.getInteger("author")));
         }
         JSONObject result = new JSONObject();
