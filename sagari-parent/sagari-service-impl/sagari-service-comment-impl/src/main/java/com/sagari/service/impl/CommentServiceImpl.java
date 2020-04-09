@@ -48,7 +48,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     public BaseResponse<JSONObject> insertParentComment(@RequestBody @Valid ParentCommentDTO parentCommentDTO,
                                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         Integer author = articleServiceFeign.getAuthor(parentCommentDTO.getArticleId());
@@ -63,7 +63,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         parentComment.setAuthorId(author);
         parentComment.setCommentCount(0);
         parentComment.setGoodCount(0);
-        parentComment.setIsDel(false);
+        parentComment.setDel(false);
         parentComment.setCreateTime(System.currentTimeMillis());
         if (parentCommentMapper.insertComment(parentComment) > 0) {
             articleServiceFeign.incrementComment(parentComment.getArticleId());
@@ -156,7 +156,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     public BaseResponse<JSONObject> insertChildComment(@RequestBody @Valid ChildCommentDTO childCommentDTO,
                                                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMsg = bindingResult.getFieldError().getDefaultMessage();
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
         if (parentCommentMapper.isExist(childCommentDTO.getParentId()) <= 0) {
@@ -172,7 +172,7 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         BeanUtils.copyProperties(childCommentDTO, childComment);
         childComment.setGoodCount(0);
         childComment.setCreateTime(System.currentTimeMillis());
-        childComment.setIsDel(false);
+        childComment.setDel(false);
         if (childCommentMapper.insertComment(childComment) > 0) {
             articleServiceFeign.incrementComment(childComment.getArticleId());
             parentCommentMapper.incrementComment(childComment.getParentId());

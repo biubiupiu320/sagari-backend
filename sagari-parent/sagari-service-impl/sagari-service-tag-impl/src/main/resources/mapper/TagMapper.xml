@@ -5,17 +5,17 @@
 
     <insert id="createTag" parameterType="com.sagari.service.entity.Tag">
         INSERT INTO tag
-        VALUES(null,#{categoryId},#{title},#{articleCount},#{createTime},#{updateTime},#{isDel})
+        VALUES(null,#{categoryId},#{title},#{description},#{articleCount},#{createTime},#{updateTime},#{isDel})
     </insert>
 
     <select id="getTag" resultType="com.sagari.service.entity.TagVO">
-        SELECT id,category_id,title,article_count
+        SELECT id,category_id,title,description,article_count
         FROM tag
         WHERE is_del=FALSE
     </select>
 
     <select id="getHotTag" resultType="com.sagari.service.entity.TagVO">
-        SELECT id,category_id,title,article_count
+        SELECT id,category_id,title,description,article_count
         FROM tag
         WHERE is_del=FALSE
         ORDER BY article_count DESC
@@ -23,7 +23,7 @@
     </select>
 
     <select id="getTagBatch" resultType="com.sagari.service.entity.TagVO">
-        SELECT id,category_id,title,article_count
+        SELECT id,category_id,title,description,article_count
         FROM tag
         WHERE is_del=FALSE AND id IN
         <foreach collection="tagIds" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>

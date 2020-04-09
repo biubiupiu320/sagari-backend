@@ -5,75 +5,111 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="389b1633-47a4-4f02-bcf2-d7421ee9cd5b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/src/main/java/com/sagari/dto/input/FansIds.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/src/main/java/com/sagari/dto/input/FollowIds.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/src/main/java/com/sagari/dto/input/TagInputDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/src/main/java/com/sagari/service/TagService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/config/XxlSsoConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/entity/Follow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/mapper/FollowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/resources/mapper/FollowMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/SagariServiceTagImplApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/config/XxlSsoConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/CategoryVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/Tag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/TagVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/impl/TagServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/mapper/CategoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/mapper/TagMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/CategoryMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/test/java/com/sagari/service/SagariServiceTagImplApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_carrotsearch_hppc_0_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_cbor_2_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_smile_2_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_spullara_mustache_java_compiler_0_9_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_tdunning_t_digest_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http_4_1_45_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jopt_simple_jopt_simple_5_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpasyncclient_4_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_nio_4_4_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_common_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_backward_codecs_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_core_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_grouping_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_highlighter_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_join_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_memory_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_misc_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queries_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queryparser_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_sandbox_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial3d_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_extras_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_suggest_7_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_elasticsearch_rest_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_elasticsearch_rest_high_level_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_transport_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_cli_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_core_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_secure_sm_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_ssl_config_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_x_content_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_jna_4_5_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_aggs_matrix_stats_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_lang_mustache_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_parent_join_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_percolator_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_rank_eval_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_reindex_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_transport_netty4_client_6_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_elasticsearch_2_2_5_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_elasticsearch_3_2_5_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/ModifyPasswordDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/ModifyUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/src/main/java/com/sagari/service/SearchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/SagariServiceSearchImplApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/impl/SearchServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/test/java/com/sagari/service/SagariServiceSearchImplApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/mapper/TagFollowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagFollowMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/config/XxlSsoConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/UserVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/UsernameRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/biubiupiu_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/biubiupiu_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_12.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-basic/eureka-server/src/main/java/com/sagari/eureka/EurekaServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-basic/eureka-server/src/main/java/com/sagari/eureka/EurekaServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/base/BaseApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/base/BaseApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/base/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/base/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-common/src/main/java/com/sagari/common/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-article/src/main/java/com/sagari/dto/input/ArticleInputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-article/src/main/java/com/sagari/dto/input/ArticleInputDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/src/main/java/com/sagari/dto/input/ChildCommentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/src/main/java/com/sagari/dto/input/ChildCommentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/src/main/java/com/sagari/dto/input/ParentCommentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/src/main/java/com/sagari/dto/input/ParentCommentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/UserSignInInputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/UserSignInInputDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/UserSignUpInputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/src/main/java/com/sagari/dto/input/UserSignUpInputDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/src/main/java/com/sagari/service/InteractiveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/src/main/java/com/sagari/service/InteractiveService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/src/main/java/com/sagari/service/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/src/main/java/com/sagari/service/TagService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/src/main/java/com/sagari/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/src/main/java/com/sagari/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/impl/ArticleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-collect-impl/src/main/java/com/sagari/service/impl/CollectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-collect-impl/src/main/java/com/sagari/service/impl/CollectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/entity/Interactive.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/entity/Interactive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/feign/UserServiceFeign.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/feign/UserServiceFeign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/impl/InteractiveServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/java/com/sagari/service/impl/InteractiveServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ChildComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ChildComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ChildCommentVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ChildCommentVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ParentComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ParentComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ParentCommentVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/entity/ParentCommentVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-comment-impl/src/main/java/com/sagari/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-file-impl/src/main/java/com/sagari/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-file-impl/src/main/java/com/sagari/service/impl/FileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/Tag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/TagVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/entity/TagVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/impl/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/impl/TagServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/SignIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/impl/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
@@ -107,31 +143,19 @@
       <list>
         <option value="JavaScript File" />
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="D:\SSM\sagari\.idea" />
-      </set>
-    </option>
-  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="E:/apache-maven-3.6.2" />
       </MavenGeneralSettings>
-    </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
     </option>
   </component>
   <component name="ProjectId" id="1Z9z6CAJKE6nl0D5BZrxifRzvgH" />
@@ -140,7 +164,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -162,7 +185,7 @@
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.run.dashboard.notification" value="false" />
   </component>
   <component name="ReactorSettings">
@@ -170,8 +193,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.sagari.service.util" />
       <recent name="com.sagari.service.config" />
+      <recent name="com.sagari.service.util" />
       <recent name="com.sagari.service.feign" />
       <recent name="com.sagari.service.entity" />
       <recent name="com.sagari.dto.input" />
@@ -184,7 +207,7 @@
       <recent name="D:\SSM\sagari\sagari-parent\sagari-service-impl\sagari-service-collect-impl\src\main\resources\mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.SagariServiceCommentImplApplication">
+  <component name="RunManager" selected="Spring Boot.SagariServiceSearchImplApplication">
     <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="eureka-server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.sagari.eureka.EurekaServerApplication" />
@@ -236,6 +259,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SagariServiceSearchImplApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="sagari-service-search-impl" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.sagari.service.SagariServiceSearchImplApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SagariServiceTagImplApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="sagari-service-tag-impl" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.sagari.service.SagariServiceTagImplApplication" />
@@ -278,29 +308,8 @@
       <item itemvalue="Spring Boot.SagariServiceCommentImplApplication" />
       <item itemvalue="Spring Boot.SagariServiceCollectImplApplication" />
       <item itemvalue="Spring Boot.SagariServiceTagImplApplication" />
+      <item itemvalue="Spring Boot.SagariServiceSearchImplApplication" />
     </list>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:sagari" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:sagari" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@31503282" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-            </expand>
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -341,12 +350,16 @@
       <workItem from="1585717224931" duration="12331000" />
       <workItem from="1585801208849" duration="20902000" />
       <workItem from="1585892835292" duration="9139000" />
-      <workItem from="1585990856048" duration="18091000" />
+      <workItem from="1585990856048" duration="18683000" />
+      <workItem from="1586066383491" duration="19220000" />
+      <workItem from="1586317492213" duration="23644000" />
+      <workItem from="1586408280371" duration="10516000" />
+      <workItem from="1586443405805" duration="1010000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -364,10 +377,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="552" y="198" width="816" height="731" key="#Intentions/0.0.1920.1080@0.0.1920.1080" timestamp="1585557004358" />
-    <state x="552" y="198" key="#Notifications" timestamp="1584267045825">
+    <state x="552" y="198" key="#Notifications" timestamp="1586443455416">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="198" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1584267045825" />
+    <state x="552" y="198" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1586443455416" />
     <state x="552" y="198" key="#Project_Structure" timestamp="1585065764357">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -380,10 +393,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584425405683" />
-    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585894351836">
+    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586324399456">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1585894351836" />
+    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1586324399456" />
     <state x="108" y="342" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584613926407">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -392,18 +405,18 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="244" key="#com.intellij.ide.macro.MacrosDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584279413087" />
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1586003789410">
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1586444290126">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1586003789410" />
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1586444290126" />
     <state x="689" y="322" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1585718007559">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="689" y="322" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1585718007559" />
-    <state x="640" y="266" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1585149772640">
+    <state x="640" y="266" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586442997387">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="640" y="266" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1585149772640" />
+    <state x="640" y="266" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1586442997387" />
     <state x="459" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585637966478">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -416,66 +429,66 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="254" height="195" key="DatabaseViewActions_Filter/0.0.1920.1080@0.0.1920.1080" timestamp="1584348966276" />
-    <state width="1105" height="466" key="DebuggerActiveHint" timestamp="1585999391581">
+    <state width="1105" height="466" key="DebuggerActiveHint" timestamp="1586353657565">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1105" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1585999391581" />
+    <state width="1105" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1586353657565" />
     <state x="740" y="294" key="FileChooserDialogImpl" timestamp="1584872876542">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="294" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1584872876542" />
-    <state width="1877" height="256" key="GridCell.Tab.0.bottom" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.0.bottom" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="256" key="GridCell.Tab.0.center" timestamp="1586009262189">
+    <state width="1877" height="198" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.0.center" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262189" />
-    <state width="1877" height="256" key="GridCell.Tab.0.left" timestamp="1586009262189">
+    <state width="1877" height="198" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.0.left" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262189" />
-    <state width="1877" height="256" key="GridCell.Tab.0.right" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.0.right" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="256" key="GridCell.Tab.1.bottom" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.1.bottom" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="256" key="GridCell.Tab.1.center" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.1.center" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="256" key="GridCell.Tab.1.left" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.1.left" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="256" key="GridCell.Tab.1.right" timestamp="1586009262190">
+    <state width="1877" height="198" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="198" key="GridCell.Tab.1.right" timestamp="1586443074616">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="256" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586009262190" />
-    <state width="1877" height="300" key="GridCell.Tab.2.bottom" timestamp="1586000484836">
+    <state width="1877" height="198" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586443074616" />
+    <state width="1877" height="264" key="GridCell.Tab.2.bottom" timestamp="1586356022447">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.2.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586000484836" />
-    <state width="1877" height="300" key="GridCell.Tab.2.center" timestamp="1586000484836">
+    <state width="1877" height="264" key="GridCell.Tab.2.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586356022447" />
+    <state width="1877" height="264" key="GridCell.Tab.2.center" timestamp="1586356022447">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.2.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586000484836" />
-    <state width="1877" height="300" key="GridCell.Tab.2.left" timestamp="1586000484836">
+    <state width="1877" height="264" key="GridCell.Tab.2.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586356022447" />
+    <state width="1877" height="264" key="GridCell.Tab.2.left" timestamp="1586356022447">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.2.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586000484836" />
-    <state width="1877" height="300" key="GridCell.Tab.2.right" timestamp="1586000484836">
+    <state width="1877" height="264" key="GridCell.Tab.2.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586356022447" />
+    <state width="1877" height="264" key="GridCell.Tab.2.right" timestamp="1586356022447">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="300" key="GridCell.Tab.2.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586000484836" />
-    <state x="461" y="181" key="SettingsEditor" timestamp="1585144917921">
+    <state width="1877" height="264" key="GridCell.Tab.2.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586356022447" />
+    <state x="461" y="181" key="SettingsEditor" timestamp="1586443534620">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="461" y="181" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1585144917921" />
+    <state x="461" y="181" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1586443534620" />
     <state x="806" y="455" key="VCS.ChangelistChooser" timestamp="1586005817861">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -488,17 +501,21 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="795" y="227" key="com.intellij.database.view.ui.DbObjectDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584348750870" />
+    <state x="477" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1586352654309">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="477" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1586352654309" />
     <state x="511" y="275" width="1071" height="606" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1585718523420">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="511" y="275" width="1071" height="606" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1585718523420" />
-    <state x="286" y="408" width="1251" height="615" key="new project wizard" timestamp="1585895460551">
+    <state x="333" y="397" width="1251" height="615" key="new project wizard" timestamp="1586325783639">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="286" y="408" width="1251" height="615" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1585895460551" />
-    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1585991960192">
+    <state x="333" y="397" width="1251" height="615" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1586325783639" />
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1586075027644">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1585991960192" />
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1586075027644" />
   </component>
 </project>

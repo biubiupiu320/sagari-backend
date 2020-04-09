@@ -34,6 +34,8 @@
         <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/pom.xml" />
         <option value="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/pom.xml" />
         <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/pom.xml" />
+        <option value="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/pom.xml" />
       </list>
     </option>
   </component>

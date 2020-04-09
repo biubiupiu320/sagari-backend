@@ -11,6 +11,7 @@ import com.sagari.service.entity.CategoryVO;
 import com.sagari.service.entity.Tag;
 import com.sagari.service.entity.TagVO;
 import com.sagari.service.mapper.CategoryMapper;
+import com.sagari.service.mapper.TagFollowMapper;
 import com.sagari.service.mapper.TagMapper;
 import com.xxl.sso.core.login.SsoTokenLoginHelper;
 import com.xxl.sso.core.user.XxlSsoUser;
@@ -20,7 +21,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -45,6 +45,8 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
     private HttpServletRequest request;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private TagFollowMapper tagFollowMapper;
     @Autowired
     private TagMapper tagMapper;
     @Autowired
@@ -71,6 +73,7 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         tag.setCreateTime(System.currentTimeMillis());
         tag.setUpdateTime(tag.getCreateTime());
         tag.setDel(false);
+        tag.setDescription("");
         if (tagMapper.createTag(tag) > 0) {
             categoryMapper.incrementTagCount(tag.getCategoryId());
             cacheSyncDB();
@@ -85,7 +88,7 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         if (!cache.isEmpty() && !cache.getJSONArray("category").isEmpty()) {
             return setResultSuccess(cache);
         }
-        List<CategoryVO> categoryList = getCategory();
+        List<CategoryVO> categoryList = getAllCategory();
         List<TagVO> tagList = getTags();
         JSONObject result = new JSONObject();
         JSONArray categoryArray = (JSONArray) JSON.toJSON(categoryList);
@@ -96,6 +99,19 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
             }
             result.put("category", categoryArray);
             return setResultSuccess(result);
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser != null) {
+            Integer userId = Integer.valueOf(xxlUser.getUserid());
+            Set<Integer> follow = new HashSet<>(tagFollowMapper.getFollow(userId));
+            for (TagVO vo : tagList) {
+                if (follow.contains(vo.getId())) {
+                    vo.setFollow(true);
+                } else {
+                    vo.setFollow(false);
+                }
+            }
         }
         Map<Integer, List<TagVO>> tagMap = tagList.stream().collect(Collectors.groupingBy(TagVO::getCategoryId));
         for (int i = 0; i < categoryArray.size(); i++) {
@@ -158,6 +174,41 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         return setResultError("increment article_count failed");
     }
 
+    @Override
+    public BaseResponse<JSONObject> getCategory() {
+        JSONObject result = new JSONObject();
+        ListOperations<String, String> opsForList = redisTemplate.opsForList();
+        List<String> category = opsForList.range("category", 0, -1);
+        if (category != null && !category.isEmpty()) {
+            List<JSONObject> list = category.stream().map(JSON::parseObject).collect(Collectors.toList());
+            result.put("category", JSON.toJSON(list));
+            return setResultSuccess(result);
+        }
+        List<CategoryVO> allCategory = getAllCategory();
+        result.put("category", JSON.toJSON(allCategory));
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> toggleFollowTag(Integer tagId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("您需要登录之后才可以关注该标签");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (tagFollowMapper.isFollow(tagId, userId) > 0) {
+            if (tagFollowMapper.cancelFollow(tagId, userId) > 0) {
+                return setResultSuccess();
+            }
+        } else {
+            if (tagFollowMapper.follow(tagId, userId, System.currentTimeMillis()) > 0) {
+                return setResultSuccess();
+            }
+        }
+        return setResultError("failed");
+    }
+
     @Scheduled(fixedRate = 300000)
     private void cacheSyncDB() {
         log.info("cache sync started");
@@ -169,7 +220,7 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         } else {
             log.warn("an error occurred while clearing the cache");
         }
-        List<CategoryVO> category = getCategory();
+        List<CategoryVO> category = getAllCategory();
         if (category == null || category.isEmpty()) {
             log.error("cache sync occur a error -> category is null or empty");
         }
@@ -204,8 +255,23 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
                 .map(o -> JSON.parseObject((String) o))
                 .collect(Collectors.toList());
         JSONArray tagsArray = (JSONArray) JSON.toJSON(tags);
-        Map<Integer, List<JSONObject>> tagMap = tagsArray.stream()
-                .map(o -> JSON.parseObject((String) o))
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        List<JSONObject> tagObject = new ArrayList<>(tags.size());
+        if (xxlUser != null) {
+            Integer userId = Integer.valueOf(xxlUser.getUserid());
+            Set<Integer> follow = new HashSet<>(tagFollowMapper.getFollow(userId));
+            for (int i = 0; i < tagsArray.size(); i++) {
+                JSONObject tag = JSON.parseObject(tagsArray.getString(i));
+                if (follow.contains(tag.getInteger("id"))) {
+                    tag.put("follow", true);
+                } else {
+                    tag.put("follow", false);
+                }
+                tagObject.add(tag);
+            }
+        }
+        Map<Integer, List<JSONObject>> tagMap = tagObject.stream()
                 .collect(Collectors.groupingBy(o -> o.getInteger("categoryId")));
         for (JSONObject object : categoryList) {
             List<JSONObject> tagVoGroup = tagMap.get(object.getInteger("id"));
@@ -220,7 +286,7 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         return cache;
     }
 
-    private List<CategoryVO> getCategory() {
+    private List<CategoryVO> getAllCategory() {
         return categoryMapper.getCategory();
     }
 

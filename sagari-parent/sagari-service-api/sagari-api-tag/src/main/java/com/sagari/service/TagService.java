@@ -38,4 +38,12 @@ public interface TagService {
     @PostMapping("/incrArticleCount")
     public BaseResponse<JSONObject> incrArticleCount(@RequestBody List<Integer> tagIds);
 
+    @ApiOperation(value = "获取所有标签分类接口")
+    @GetMapping("/getCategory")
+    public BaseResponse<JSONObject> getCategory();
+
+    @ApiOperation(value = "关注或取消关注标签")
+    @PostMapping("/toggleFollowTag")
+    public BaseResponse<JSONObject> toggleFollowTag(@RequestParam("tagId") Integer tagId);
+
 }

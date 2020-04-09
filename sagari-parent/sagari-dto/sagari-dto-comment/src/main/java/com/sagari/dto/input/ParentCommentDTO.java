@@ -2,7 +2,6 @@ package com.sagari.dto.input;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import javax.validation.constraints.Size;
 /**
  * @author biubiupiu~
  */
-@Data
 @ApiModel(value = "生成父评论实体类")
 public class ParentCommentDTO {
 
@@ -30,4 +28,38 @@ public class ParentCommentDTO {
     @NotBlank(message = "评论内容不能为空")
     @Size(max = 255, message = "评论最多255个字")
     private String content;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ParentCommentDTO{");
+        sb.append("userId=").append(userId);
+        sb.append(", articleId=").append(articleId);
+        sb.append(", content='").append(content).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

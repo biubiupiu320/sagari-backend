@@ -22,6 +22,7 @@
         <module>sagari-api-file</module>
         <module>sagari-api-collect</module>
         <module>sagari-api-tag</module>
+        <module>sagari-api-search</module>
     </modules>
 
     <properties>

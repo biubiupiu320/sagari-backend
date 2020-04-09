@@ -1,13 +1,11 @@
 package com.sagari.common.base;
 
 import com.sagari.common.constants.Constants;
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 /**
  * @author biubiupiu~
  */
-@Data
 @Component
 public class BaseApiService<T> {
 

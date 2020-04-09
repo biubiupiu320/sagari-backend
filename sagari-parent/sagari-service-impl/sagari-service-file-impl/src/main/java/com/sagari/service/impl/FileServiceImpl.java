@@ -6,7 +6,8 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.service.FileService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,6 @@ import java.util.Date;
  * @author biubiupiu~
  */
 @RestController
-@Slf4j
 public class FileServiceImpl extends BaseApiService<JSONObject> implements FileService {
 
     @Value("${oss.endpoint}")
@@ -41,6 +41,7 @@ public class FileServiceImpl extends BaseApiService<JSONObject> implements FileS
     private String letter;
     @Value("${oss.expires}")
     private Long expires;
+    private static Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
     public BaseResponse<JSONObject> upload(MultipartFile file, Integer type) {

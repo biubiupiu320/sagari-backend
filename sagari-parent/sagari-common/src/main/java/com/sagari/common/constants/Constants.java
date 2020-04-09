@@ -1,5 +1,8 @@
 package com.sagari.common.constants;
 
+/**
+ * @author biubiupiu~
+ */
 public interface Constants {
 	/**
 	 * 响应成功

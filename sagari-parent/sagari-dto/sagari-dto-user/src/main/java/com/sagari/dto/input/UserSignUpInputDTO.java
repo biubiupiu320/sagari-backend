@@ -2,7 +2,6 @@ package com.sagari.dto.input;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -12,7 +11,6 @@ import javax.validation.constraints.Size;
 /**
  * @author biubiupiu~
  */
-@Data
 @ApiModel(value = "用户注册实体类")
 public class UserSignUpInputDTO {
 
@@ -47,4 +45,65 @@ public class UserSignUpInputDTO {
     @NotBlank(message = "用户头像链接不能为空")
     @Pattern(regexp = "^((https|http)?:\\/\\/)[^\\s]+", message = "无效的用户头像")
     private String avatar;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("UserSignUpInputDTO{");
+        sb.append("username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", phone='").append(phone).append('\'');
+        sb.append(", verifyCode='").append(verifyCode).append('\'');
+        sb.append(", avatar='").append(avatar).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

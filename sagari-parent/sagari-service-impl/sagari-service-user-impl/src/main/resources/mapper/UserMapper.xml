@@ -3,12 +3,97 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sagari.service.mapper.UserMapper">
 
+    <insert id="signUp" parameterType="com.sagari.service.entity.User">
+        INSERT INTO `user`
+        VALUES(null,#{username},#{password},#{email},#{phone},#{avatar},#{articleCount},#{followCount},#{fansCount},
+        #{gender},#{birth},#{office},#{company},#{education},#{school},#{profession},#{introduction},#{qqId},#{baiduId},
+        #{githubId},#{createTime},#{updateTime})
+    </insert>
+
+    <select id="signInByPhone" resultType="com.sagari.service.entity.User">
+        SELECT id,username,email,phone,password
+        FROM `user`
+        WHERE phone=#{phone}
+    </select>
+
+    <select id="signInByEmail" resultType="com.sagari.service.entity.User">
+        SELECT id,username,email,phone,password
+        FROM `user`
+        WHERE email=#{email}
+    </select>
+
+    <select id="signInByUsername" resultType="com.sagari.service.entity.User">
+        SELECT id,username,email,phone,password
+        FROM `user`
+        WHERE username=#{username}
+    </select>
+
+    <select id="isExist" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM `user`
+        WHERE id=#{id}
+    </select>
+
+    <select id="getSimpleUser" resultType="com.sagari.service.entity.User">
+        SELECT id,username,avatar,article_count,follow_count,fans_count
+        FROM `user`
+        WHERE id=#{id}
+    </select>
+
     <select id="getSimpleUserByList" parameterType="java.util.List" resultType="com.sagari.service.entity.User">
         SELECT id,username,avatar,article_count,follow_count,fans_count
         FROM `user`
         WHERE
-        id IN<foreach collection="list" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+        id IN<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
     </select>
+
+    <select id="isExistByPhone" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM `user`
+        WHERE phone=#{phone}
+    </select>
+
+    <select id="isExistByUsername" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM `user`
+        WHERE username=#{username}
+    </select>
+
+    <select id="isExistByEmail" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM `user`
+        WHERE email=#{email}
+    </select>
+
+    <update id="incrementArticleCount">
+        UPDATE `user`
+        SET article_count=article_count+1
+        WHERE id=#{id}
+    </update>
+
+    <update id="incrementFollowCount">
+        UPDATE `user`
+        SET follow_count=follow_count+1
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseFollowCount">
+        UPDATE `user`
+        SET follow_count=follow_count-1
+        WHERE id=#{id}
+    </update>
+
+    <update id="incrementFollowCountN">
+        UPDATE `user`
+        SET follow_count=follow_count+#{count}
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseFollowCountN">
+        UPDATE `user`
+        SET follow_count=follow_count-#{count}
+        WHERE id=#{id}
+    </update>
 
     <update id="incrementFollowCountBatch">
         UPDATE `user`
@@ -28,6 +113,30 @@
         </foreach>
     </update>
 
+    <update id="incrementFansCount">
+        UPDATE `user`
+        SET fans_count=fans_count+1
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseFansCount">
+        UPDATE `user`
+        SET fans_count=fans_count-1
+        WHERE id=#{id}
+    </update>
+
+    <update id="incrementFansCountN">
+        UPDATE `user`
+        SET fans_count=fans_count+#{count}
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseFansCountN">
+        UPDATE `user`
+        SET fans_count=fans_count-#{count}
+        WHERE id=#{id}
+    </update>
+
     <update id="incrementFansCountBatch">
         UPDATE `user`
         SET fans_count=fans_count+1
@@ -45,5 +154,45 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="getUserAll" resultType="com.sagari.service.entity.UserVO">
+        SELECT id,username,email,phone,avatar,article_count,follow_count,fans_count,gender,birth,office,company,
+               education,school,profession,introduction,create_time
+        FROM `user`
+        WHERE id=#{id}
+    </select>
+
+    <update id="modifyUser">
+        UPDATE `user`
+        SET <if test="username!=null and username!=''">username=#{username},</if>
+            gender=#{gender},birth=#{birth},office=#{office},company=#{company},education=#{education},
+            school=#{school},profession=#{profession},introduction=#{introduction},update_time=#{updateTime}
+        WHERE id=#{id}
+    </update>
+
+    <insert id="insertUsernameRecord">
+        INSERT INTO username_record
+        VALUES(null,#{userId},#{oldUsername},#{newUsername},#{createTime})
+    </insert>
+
+    <select id="getLastRecord" resultType="java.lang.Long">
+        SELECT create_time
+        FROM username_record
+        WHERE user_id=#{userId}
+        ORDER BY id DESC
+        LIMIT 0,1
+    </select>
+
+    <update id="modifyPassword">
+        UPDATE `user`
+        SET password=#{password},update_time=#{updateTime}
+        WHERE id=#{id}
+    </update>
+
+    <select id="getPhone" resultType="java.lang.String">
+        SELECT phone
+        FROM `user`
+        WHERE id=#{id}
+    </select>
 
 </mapper>

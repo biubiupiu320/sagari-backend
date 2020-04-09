@@ -8,6 +8,7 @@ public class Tag {
     private Integer id;
     private Integer categoryId;
     private String title;
+    private String description;
     private Integer articleCount;
     private Long createTime;
     private Long updateTime;
@@ -35,6 +36,14 @@ public class Tag {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getArticleCount() {
@@ -71,14 +80,16 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", categoryId=" + categoryId +
-                ", title='" + title + '\'' +
-                ", articleCount=" + articleCount +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", isDel=" + isDel +
-                '}';
+        final StringBuffer sb = new StringBuffer("Tag{");
+        sb.append("id=").append(id);
+        sb.append(", categoryId=").append(categoryId);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", articleCount=").append(articleCount);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", isDel=").append(isDel);
+        sb.append('}');
+        return sb.toString();
     }
 }

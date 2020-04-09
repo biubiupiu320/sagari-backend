@@ -1,7 +1,5 @@
 package com.sagari.service.entity;
 
-import lombok.Data;
-
 /**
  * @author biubiupiu~
  */

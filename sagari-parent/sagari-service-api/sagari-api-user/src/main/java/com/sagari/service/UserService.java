@@ -2,6 +2,8 @@ package com.sagari.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseResponse;
+import com.sagari.dto.input.ModifyPasswordDTO;
+import com.sagari.dto.input.ModifyUserDTO;
 import com.sagari.dto.input.UserSignInInputDTO;
 import com.sagari.dto.input.UserSignUpInputDTO;
 import io.swagger.annotations.Api;
@@ -111,5 +113,23 @@ public interface UserService {
     @ApiOperation(value = "多名用户的粉丝数量-1")
     @PostMapping("/decreaseFansCountBatch")
     public Boolean decreaseFansCountBatch(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "获取用户的所有信息")
+    @GetMapping("/getUserAll")
+    public BaseResponse<JSONObject> getUserAll();
+
+    @ApiOperation(value = "修改用户信息")
+    @PostMapping("/modifyUser")
+    public BaseResponse<JSONObject> modifyUser(@RequestBody @Valid ModifyUserDTO modifyUserDTO,
+                                               BindingResult bindingResult);
+
+    @ApiOperation(value = "修改密码")
+    @PostMapping("/modifyPassword")
+    public BaseResponse<JSONObject> modifyPassword(@RequestBody @Valid ModifyPasswordDTO modifyPasswordDTO,
+                                                   BindingResult bindingResult);
+
+    @ApiOperation(value = "获取用户手机号码")
+    @GetMapping("/getPhone")
+    public BaseResponse<JSONObject> getPhone();
 
 }

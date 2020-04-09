@@ -6,18 +6,24 @@ import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.common.utils.MD5Util;
 import com.sagari.common.utils.RegexUtils;
-import com.sagari.dto.input.UserSignInInputDTO;
+import com.sagari.dto.input.ModifyPasswordDTO;
+import com.sagari.dto.input.ModifyUserDTO;
 import com.sagari.dto.input.UserSignUpInputDTO;
 import com.sagari.service.UserService;
 import com.sagari.service.entity.SignIn;
 import com.sagari.service.entity.User;
+import com.sagari.service.entity.UserVO;
+import com.sagari.service.entity.UsernameRecord;
 import com.sagari.service.feign.VCodeServiceFeign;
 import com.sagari.service.mapper.SignInHistoryMapper;
 import com.sagari.service.mapper.UserMapper;
 import com.sagari.service.util.ClientInfo;
+import com.xxl.sso.core.login.SsoTokenLoginHelper;
+import com.xxl.sso.core.user.XxlSsoUser;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +52,8 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     private VCodeServiceFeign codeServiceFeign;
     @Autowired
     private HttpServletRequest request;
+    @Value("${modify.username.duration}")
+    private Integer durationDay;
 
     @Override
     public BaseResponse<JSONObject> signUp(@RequestBody @Valid UserSignUpInputDTO signUpDTO,
@@ -210,5 +220,107 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     @Override
     public Boolean decreaseFansCountBatch(@RequestBody List<Integer> ids) {
         return userMapper.decreaseFansCountBatch(ids) > 0;
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getUserAll() {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        UserVO userVO = userMapper.getUserAll(userId);
+        if (userVO != null) {
+            return setResultSuccess((JSONObject) JSON.toJSON(userVO));
+        }
+        return setResultError("用户不存在");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> modifyUser(@RequestBody @Valid ModifyUserDTO modifyUserDTO,
+                                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return setResultError(errorMsg);
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        User user = new User();
+        BeanUtils.copyProperties(modifyUserDTO, user);
+        user.setId(userId);
+        user.setUpdateTime(System.currentTimeMillis());
+        if (!StringUtils.isBlank(user.getGender())) {
+            if (!"男".equals(user.getGender()) && !"女".equals(user.getGender())) {
+                return setResultError("性别数据格式错误");
+            }
+        }
+        if (!StringUtils.isBlank(user.getUsername()) && !user.getUsername().equals(xxlUser.getUsername())) {
+            Long lastTime = userMapper.getLastRecord(userId);
+            if (lastTime != null) {
+                Long nowTime = System.currentTimeMillis();
+                long duration = nowTime - lastTime;
+                long minDuration = durationDay * 24 * 60 * 60 * 1000L;
+                if (duration < minDuration) {
+                    return setResultError("距离上次修改用户名不足" + durationDay + "天");
+                }
+            }
+        }
+        if (userMapper.modifyUser(user) > 0) {
+            if (!StringUtils.isBlank(user.getUsername()) && !user.getUsername().equals(xxlUser.getUsername())) {
+                UsernameRecord usernameRecord = new UsernameRecord();
+                usernameRecord.setUserId(userId);
+                usernameRecord.setOldUsername(xxlUser.getUsername());
+                usernameRecord.setNewUsername(user.getUsername());
+                usernameRecord.setCreateTime(System.currentTimeMillis());
+                userMapper.insertUsernameRecord(usernameRecord);
+            }
+            return setResultSuccess("用户信息修改成功");
+        }
+        return setResultError("用户信息修改失败");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> modifyPassword(@RequestBody @Valid ModifyPasswordDTO modifyPasswordDTO,
+                                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return setResultError(errorMsg);
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        String phone = userMapper.getPhone(userId);
+        String vcode = modifyPasswordDTO.getVerifyCode();
+        BaseResponse<JSONObject> response = codeServiceFeign.verifyCode(phone, 2, vcode);
+        if (!response.getCode().equals(200)) {
+            return response;
+        }
+        String password = MD5Util.md5(modifyPasswordDTO.getPassword());
+        if (userMapper.modifyPassword(userId, password, System.currentTimeMillis()) > 0) {
+            return setResultSuccess("密码修改成功");
+        }
+        return setResultError("密码修改失败");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getPhone() {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        String phone = userMapper.getPhone(userId);
+        JSONObject result = new JSONObject();
+        result.put("phone", phone);
+        return setResultSuccess(result);
     }
 }

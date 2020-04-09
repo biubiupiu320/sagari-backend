@@ -1,11 +1,9 @@
 package com.sagari.service.mapper;
 
 import com.sagari.service.entity.User;
-import org.apache.ibatis.annotations.Insert;
+import com.sagari.service.entity.UserVO;
+import com.sagari.service.entity.UsernameRecord;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -14,68 +12,63 @@ import java.util.List;
  */
 public interface UserMapper {
 
-    @Insert("insert into `user` values(null,#{username},#{password},#{email},#{phone},#{avatar}," +
-            "#{articleCount},#{followCount},#{fansCount},#{createTime},#{updateTime})")
     int signUp(User user);
 
-    @Select("select * from `user` where phone=#{phone}")
-    User signInByPhone(String phone);
+    User signInByPhone(@Param("phone") String phone);
 
-    @Select("select * from `user` where email=#{email}")
-    User signInByEmail(String email);
+    User signInByEmail(@Param("email") String email);
 
-    @Select("select * from `user` where username=#{username}")
-    User signInByUsername(String username);
+    User signInByUsername(@Param("username") String username);
 
-    @Select("select count(id) from `user` where id=#{id}")
-    int isExist(Integer id);
+    int isExist(@Param("id") Integer id);
 
-    @Select("select id,username,avatar,article_count,follow_count,fans_count from `user` where id=#{id}")
-    User getSimpleUser(Integer id);
+    User getSimpleUser(@Param("id") Integer id);
 
-    List<User> getSimpleUserByList(List<Integer> list);
+    List<User> getSimpleUserByList(@Param("ids") List<Integer> ids);
 
-    @Select("select count(id) from `user` where phone=#{phone}")
-    int isExistByPhone(String phone);
+    int isExistByPhone(@Param("phone") String phone);
 
-    @Select("select count(id) from `user` where username=#{username}")
-    int isExistByUsername(String username);
+    int isExistByUsername(@Param("username") String username);
 
-    @Select("select count(id) from `user` where email=#{email}")
-    int isExistByEmail(String email);
+    int isExistByEmail(@Param("email") String email);
 
-    @Update("update `user` set article_count=article_count+1 where id=#{id}")
-    int incrementArticleCount(Integer id);
+    int incrementArticleCount(@Param("id") Integer id);
 
-    @Update("UPDATE `user` SET follow_count=follow_count+1 WHERE id=#{id}")
-    int incrementFollowCount(Integer id);
+    int incrementFollowCount(@Param("id") Integer id);
 
-    @Update("UPDATE `user` SET follow_count=follow_count-1 WHERE id=#{id}")
-    int decreaseFollowCount(Integer id);
+    int decreaseFollowCount(@Param("id") Integer id);
 
-    @Update("UPDATE `user` SET follow_count=follow_count+#{count} WHERE id=#{id}")
-    int incrementFollowCountN(Integer id, Integer count);
+    int incrementFollowCountN(@Param("id") Integer id, @Param("count") Integer count);
 
-    @Update("UPDATE `user` SET follow_count=follow_count-#{count} WHERE id=#{id}")
-    int decreaseFollowCountN(Integer id, Integer count);
+    int decreaseFollowCountN(@Param("id") Integer id, @Param("count") Integer count);
 
     int incrementFollowCountBatch(@Param("ids") List<Integer> ids);
 
     int decreaseFollowCountBatch(@Param("ids") List<Integer> ids);
 
-    @Update("UPDATE `user` SET fans_count=fans_count+1 WHERE id=#{id}")
-    int incrementFansCount(Integer id);
+    int incrementFansCount(@Param("id") Integer id);
 
-    @Update("UPDATE `user` SET fans_count=fans_count-1 WHERE id=#{id}")
-    int decreaseFansCount(Integer id);
+    int decreaseFansCount(@Param("id") Integer id);
 
-    @Update("UPDATE `user` SET fans_count=fans_count+#{count} WHERE id=#{id}")
-    int incrementFansCountN(Integer id, Integer count);
+    int incrementFansCountN(@Param("id") Integer id, @Param("count") Integer count);
 
-    @Update("UPDATE `user` SET fans_count=fans_count-#{count} WHERE id=#{id}")
-    int decreaseFansCountN(Integer id, Integer count);
+    int decreaseFansCountN(@Param("id") Integer id, @Param("count") Integer count);
 
     int incrementFansCountBatch(@Param("ids") List<Integer> ids);
 
     int decreaseFansCountBatch(@Param("ids") List<Integer> ids);
+
+    UserVO getUserAll(@Param("id") Integer id);
+
+    int modifyUser(User user);
+
+    int insertUsernameRecord(UsernameRecord usernameRecord);
+
+    Long getLastRecord(@Param("userId") Integer userId);
+
+    int modifyPassword(@Param("id") Integer id,
+                       @Param("password") String password,
+                       @Param("updateTime") Long updateTime);
+
+    String getPhone(@Param("id") Integer id);
 }
