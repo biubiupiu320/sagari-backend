@@ -1,10 +1,12 @@
 package com.sagari.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.service.SearchService;
+import com.sagari.service.feign.UserServiceFeign;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,15 +39,52 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
 
     @Autowired
     private RestHighLevelClient client;
-    private final String ARTICLE_INDEX = "article_latest";
-    private final String TAG_INDEX = "tag_latest";
-    private final String USER_INDEX = "user_latest";
+    @Autowired
+    private UserServiceFeign userServiceFeign;
+    private static final String ARTICLE_INDEX = "article_latest";
+    private static final String TAG_INDEX = "tag_latest";
+    private static final String USER_INDEX = "user_latest";
     @Value("${elasticsearch.fragmentSize}")
     private Integer fragmentSize;
     @Value("${elasticsearch.preTag}")
     private String preTag;
     @Value("${elasticsearch.postTag}")
     private String postTag;
+
+    @Override
+    public BaseResponse<JSONObject> search(String search, Integer page) throws IOException {
+        if (page < 0) {
+            page = 0;
+        }
+
+        JSONObject articleJson = searchArticle(search, page, 10, 1);
+        JSONObject tagJson = searchTag(page, 10, search);
+        JSONObject userJson = searchUser(page, 10, search);
+
+        Integer total = articleJson.getInteger("total");
+        total += tagJson.getInteger("total");
+        total += userJson.getInteger("total");
+
+        JSONArray resultArray = new JSONArray(30);
+        JSONArray articleArray = articleJson.getJSONArray("result");
+        if (!articleArray.isEmpty()) {
+            resultArray.addAll(articleArray);
+        }
+        JSONArray tagArray = tagJson.getJSONArray("result");
+        if (!tagArray.isEmpty()) {
+            resultArray.addAll(tagArray);
+        }
+        JSONArray userArray = userJson.getJSONArray("result");
+        if (!userArray.isEmpty()) {
+            resultArray.addAll(userArray);
+        }
+
+        JSONObject result = new JSONObject();
+        result.put("result", resultArray);
+        result.put("total", total);
+
+        return setResultSuccess(result);
+    }
 
     @Override
     public BaseResponse<JSONObject> searchArticle(String search, Integer page, Integer size) throws IOException {
@@ -54,96 +94,29 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
         if (size < 10) {
             size = 10;
         }
-        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
-        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(QueryBuilders.multiMatchQuery(search, "title", "content", "tags"));
-        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
-        sourceBuilder.query(boolQueryBuilder);
-        countRequest.source(sourceBuilder);
-        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field(new HighlightBuilder.Field("title"));
-        highlightBuilder.field(new HighlightBuilder.Field("content"));
-        highlightBuilder.fragmentSize(fragmentSize);
-        highlightBuilder.preTags(preTag);
-        highlightBuilder.postTags(postTag);
-        sourceBuilder.highlighter(highlightBuilder);
-        sourceBuilder.from(page * size);
-        sourceBuilder.size(size);
-        request.source(sourceBuilder);
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
-        SearchHit[] hits = response.getHits().getHits();
-        JSONObject result = new JSONObject();
-        List<JSONObject> list = Arrays.stream(hits).
-                map(o -> JSON.parseObject(o.toString())).
-                collect(Collectors.toList());
-        result.put("result", JSON.toJSON(list));
-        result.put("total", countResponse.getCount());
-        return setResultSuccess(result);
+        return setResultSuccess(searchArticle(search, page, size, 1));
     }
 
     @Override
     public BaseResponse<JSONObject> searchArticleByTitle(String title, Integer page, Integer size) throws IOException {
-        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
-        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(QueryBuilders.multiMatchQuery(title, "title"));
-        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
-        sourceBuilder.query(boolQueryBuilder);
-        countRequest.source(sourceBuilder);
-        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field(new HighlightBuilder.Field("title"));
-        highlightBuilder.fragmentSize(fragmentSize);
-        highlightBuilder.preTags(preTag);
-        highlightBuilder.postTags(postTag);
-        sourceBuilder.highlighter(highlightBuilder);
-        sourceBuilder.from(page * size);
-        sourceBuilder.size(size);
-        request.source(sourceBuilder);
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
-        SearchHit[] hits = response.getHits().getHits();
-        JSONObject result = new JSONObject();
-        List<JSONObject> list = Arrays.stream(hits).
-                map(o -> JSON.parseObject(o.toString())).
-                collect(Collectors.toList());
-        result.put("result", JSON.toJSON(list));
-        result.put("total", countResponse.getCount());
-        return setResultSuccess(result);
+        if (page < 0) {
+            page = 0;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        return setResultSuccess(searchArticle(title, page, size, 2));
     }
 
     @Override
     public BaseResponse<JSONObject> searchArticleByContent(String content, Integer page, Integer size) throws IOException {
-        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
-        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(QueryBuilders.multiMatchQuery(content, "content"));
-        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
-        sourceBuilder.query(boolQueryBuilder);
-        countRequest.source(sourceBuilder);
-        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field(new HighlightBuilder.Field("content"));
-        highlightBuilder.fragmentSize(fragmentSize);
-        highlightBuilder.preTags(preTag);
-        highlightBuilder.postTags(postTag);
-        sourceBuilder.highlighter(highlightBuilder);
-        sourceBuilder.from(page * size);
-        sourceBuilder.size(size);
-        request.source(sourceBuilder);
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
-        SearchHit[] hits = response.getHits().getHits();
-        JSONObject result = new JSONObject();
-        List<JSONObject> list = Arrays.stream(hits).
-                map(o -> JSON.parseObject(o.toString())).
-                collect(Collectors.toList());
-        result.put("result", JSON.toJSON(list));
-        result.put("total", countResponse.getCount());
-        return setResultSuccess(result);
+        if (page < 0) {
+            page = 0;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        return setResultSuccess(searchArticle(content, page, size, 3));
     }
 
     @Override
@@ -161,5 +134,143 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
         SearchResponse response = client.search(request, RequestOptions.DEFAULT);
         Suggest suggest = response.getSuggest();
         return setResultSuccess(JSON.parseObject(suggest.toString()));
+    }
+
+    @Override
+    public BaseResponse<JSONObject> searchTag(String search, Integer page, Integer size) throws IOException {
+        if (page < 0) {
+            page = 0;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        return setResultSuccess(searchTag(page, size, search));
+    }
+
+    @Override
+    public BaseResponse<JSONObject> searchUser(String search, Integer page, Integer size) throws IOException {
+        if (page < 0) {
+            page = 0;
+        }
+        if (size < 0) {
+            size = 10;
+        }
+        return setResultSuccess(searchUser(page, size, search));
+    }
+
+    private JSONObject searchArticle(String search, Integer page, Integer size, Integer type) throws IOException {
+        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
+        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        if (type.equals(1)) {
+            boolQueryBuilder.must(QueryBuilders.multiMatchQuery(search, "title", "content"));
+            highlightBuilder.field(new HighlightBuilder.Field("title"));
+            highlightBuilder.field(new HighlightBuilder.Field("content"));
+        } else if (type.equals(2)) {
+            boolQueryBuilder.must(QueryBuilders.multiMatchQuery(search, "title"));
+            highlightBuilder.field(new HighlightBuilder.Field("title"));
+        } else if (type.equals(3)) {
+            boolQueryBuilder.must(QueryBuilders.multiMatchQuery(search, "content"));
+            highlightBuilder.field(new HighlightBuilder.Field("content"));
+        } else {
+            return new JSONObject();
+        }
+
+        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
+        sourceBuilder.query(boolQueryBuilder);
+        countRequest.source(sourceBuilder);
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        highlightBuilder.fragmentSize(fragmentSize);
+        highlightBuilder.preTags(preTag);
+        highlightBuilder.postTags(postTag);
+
+        sourceBuilder.highlighter(highlightBuilder);
+        sourceBuilder.from(page * size);
+        sourceBuilder.size(size);
+        request.source(sourceBuilder);
+
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchHit[] hits = response.getHits().getHits();
+        JSONObject result = new JSONObject();
+        List<JSONObject> list = Arrays.stream(hits).
+                map(o -> JSON.parseObject(o.toString())).
+                collect(Collectors.toList());
+        List<Integer> userIds = list.stream().map(o -> {
+            JSONObject source = o.getJSONObject("_source");
+            return source.getInteger("author");
+        }).collect(Collectors.toList());
+        JSONArray userArray = userServiceFeign.getSimpleUserByList(userIds).getData().getJSONArray("users");
+        Map<Integer, JSONObject> userMap = userArray.stream()
+                .map(o -> (JSONObject) JSON.toJSON(o))
+                .collect(Collectors.toMap(o -> o.getInteger("id"), o -> o));
+        JSONArray articleArray = (JSONArray) JSON.toJSON(list);
+        for (int i = 0; i < articleArray.size(); i++) {
+            JSONObject article = articleArray.getJSONObject(i);
+            JSONObject source = article.getJSONObject("_source");
+            source.put("user", userMap.get(source.getInteger("author")));
+        }
+        result.put("result", articleArray);
+        result.put("total", countResponse.getCount());
+        return result;
+    }
+
+    private JSONObject searchTag(Integer page, Integer size, String search) throws IOException {
+        SearchRequest request = new SearchRequest(TAG_INDEX);
+        CountRequest countRequest = new CountRequest(TAG_INDEX);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        boolQueryBuilder.must(QueryBuilders.multiMatchQuery(search, "title", "description"));
+
+        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
+        sourceBuilder.query(boolQueryBuilder);
+        countRequest.source(sourceBuilder);
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        sourceBuilder.from(page * size);
+        sourceBuilder.size(size);
+        request.source(sourceBuilder);
+
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchHit[] hits = response.getHits().getHits();
+        JSONObject result = new JSONObject();
+        List<JSONObject> list = Arrays.stream(hits).
+                map(o -> JSON.parseObject(o.toString())).
+                collect(Collectors.toList());
+        result.put("result", JSON.toJSON(list));
+        result.put("total", countResponse.getCount());
+        return result;
+    }
+
+    private JSONObject searchUser(Integer page, Integer size, String search) throws IOException {
+        SearchRequest request = new SearchRequest(USER_INDEX);
+        CountRequest countRequest = new CountRequest(USER_INDEX);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        boolQueryBuilder.should(QueryBuilders.multiMatchQuery(search, "username", "introduction"));
+        boolQueryBuilder.should(QueryBuilders.matchPhrasePrefixQuery("username", search));
+
+        sourceBuilder.query(boolQueryBuilder);
+        countRequest.source(sourceBuilder);
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        sourceBuilder.from(page * size);
+        sourceBuilder.size(size);
+        request.source(sourceBuilder);
+
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchHit[] hits = response.getHits().getHits();
+        JSONObject result = new JSONObject();
+        List<JSONObject> list = Arrays.stream(hits).
+                map(o -> JSON.parseObject(o.toString())).
+                collect(Collectors.toList());
+        result.put("result", JSON.toJSON(list));
+        result.put("total", countResponse.getCount());
+        return result;
     }
 }

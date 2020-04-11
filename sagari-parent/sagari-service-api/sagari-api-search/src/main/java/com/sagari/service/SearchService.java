@@ -15,7 +15,12 @@ import java.io.IOException;
 @Api(tags = "搜索服务接口")
 public interface SearchService {
 
-    @ApiOperation(value = "同时根据文章标题、内容、标签搜索")
+    @ApiOperation(value = "搜索文章、标签、用户")
+    @GetMapping("/search")
+    public BaseResponse<JSONObject> search(@RequestParam(name = "search") String search,
+                                           @RequestParam(name = "page") Integer page) throws IOException;
+
+    @ApiOperation(value = "同时根据文章标题、内容搜索")
     @GetMapping("/searchArticle")
     public BaseResponse<JSONObject> searchArticle(@RequestParam(name = "search") String search,
                                                   @RequestParam(name = "page") Integer page,
@@ -36,5 +41,18 @@ public interface SearchService {
     @ApiOperation(value = "搜索栏搜索，返回搜素建议")
     @GetMapping("/searchAtBar")
     public BaseResponse<JSONObject> searchAtBar(@RequestParam(name = "search") String search) throws IOException;
+
+
+    @ApiOperation(value = "搜索标签")
+    @GetMapping("/searchTag")
+    public BaseResponse<JSONObject> searchTag(@RequestParam(name = "search") String search,
+                                              @RequestParam(name = "page") Integer page,
+                                              @RequestParam(name = "size") Integer size) throws IOException;
+
+    @ApiOperation(value = "搜索用户")
+    @GetMapping("/searchUser")
+    public BaseResponse<JSONObject> searchUser(@RequestParam(name = "search") String search,
+                                               @RequestParam(name = "page") Integer page,
+                                               @RequestParam(name = "size") Integer size) throws IOException;
 
 }
