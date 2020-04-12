@@ -51,6 +51,13 @@
         </foreach>
     </select>
 
+    <select id="getTitle" resultType="com.sagari.service.entity.TitleVO">
+        SELECT id,title
+        FROM article
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
     <update id="incrementCollectN" parameterType="java.util.List">
         UPDATE article
         SET collect_count=collect_count+1

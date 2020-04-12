@@ -17,7 +17,8 @@ public interface InteractiveService {
     @ApiOperation(value = "点赞或取消点赞接口")
     @GetMapping("/good")
     public BaseResponse<JSONObject> toggleGood(@RequestParam(name = "targetId") Integer targetId,
-                                               @RequestParam(name = "userId") Integer userId,
+                                               @RequestParam(name = "author") Integer author,
+                                               @RequestParam(name = "articleId") Integer articleId,
                                                @RequestParam(name = "type") Integer type);
 
     @ApiOperation(value = "获取用户是否点赞接口")

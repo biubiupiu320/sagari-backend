@@ -9,6 +9,7 @@ import com.sagari.dto.input.ArticleInputDTO;
 import com.sagari.service.ArticleService;
 import com.sagari.service.entity.Article;
 import com.sagari.service.entity.ArticleVO;
+import com.sagari.service.entity.TitleVO;
 import com.sagari.service.feign.CollectServiceFeign;
 import com.sagari.service.feign.InteractiveServiceFeign;
 import com.sagari.service.feign.TagServiceFeign;
@@ -230,6 +231,14 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Override
     public Integer getAuthor(Integer articleId) {
         return articleMapper.getAuthor(articleId);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getTitle(List<Integer> ids) {
+        List<TitleVO> list = articleMapper.getTitle(ids);
+        JSONObject result = new JSONObject();
+        result.put("titles", JSON.toJSON(list));
+        return setResultSuccess(result);
     }
 
     @Override

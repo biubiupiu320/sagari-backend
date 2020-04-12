@@ -7,7 +7,7 @@
         <artifactId>sagari-service-api</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.sagari.vcode</groupId>
+    <groupId>com.sagari.service.api</groupId>
     <artifactId>sagari-api-vcode</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sagari-api-vcode</name>
@@ -16,14 +16,5 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

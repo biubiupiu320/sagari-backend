@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.ParentCommentMapper">
+
+    <insert id="insertComment" parameterType="com.sagari.service.entity.ParentComment"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment_parent
+        VALUES(null,#{userId},#{articleId},#{authorId},#{content},
+                #{goodCount},#{commentCount},#{createTime},#{isDel})
+    </insert>
+
+    <update id="deleteComment">
+        UPDATE comment_parent SET is_del=TRUE WHERE id=#{id} AND is_del=FALSE;
+        UPDATE article a INNER JOIN (SELECT comment_count FROM comment_parent WHERE id=#{id}) b
+        SET a.comment_count=a.comment_count-b.comment_count
+    </update>
+
+    <select id="selectParentComment" resultType="com.sagari.service.entity.ParentCommentVo">
+        SELECT DISTINCT a.*,IFNULL(b.good,FALSE) AS good
+        FROM comment_parent a
+        LEFT JOIN
+        interactive_comment b
+        ON a.id=b.target_id AND b.type=true AND b.user_id=#{userId}
+        WHERE
+        a.article_id=#{articleId}
+        AND
+        a.is_del=false
+        ORDER BY a.id
+    </select>
+
+    <select id="checkPermissions" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM comment_parent
+        WHERE id=#{id} AND user_id=#{userId} AND is_del=FALSE
+    </select>
+
+    <select id="isExist" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM comment_parent
+        WHERE id=#{id} AND is_del=FALSE
+    </select>
+
+    <update id="incrementComment">
+        UPDATE comment_parent
+        SET comment_count=comment_count+1
+        WHERE id=#{id} AND is_del=FALSE
+    </update>
+
+    <update id="decreaseComment">
+        UPDATE comment_parent
+        SET comment_count=comment_count-1
+        WHERE id=#{id} AND is_del=FALSE
+    </update>
+
+    <update id="incrementGood">
+        UPDATE comment_parent
+        SET good_count=good_count+1
+        WHERE id=#{id} AND is_del=FALSE
+    </update>
+
+    <update id="decreaseGood">
+        UPDATE comment_parent
+        SET good_count=good_count-1
+        WHERE id=#{id} AND is_del=FALSE
+    </update>
+
+    <select id="getParentContent" resultType="com.sagari.service.entity.ContentVO">
+        SELECT id,content
+        FROM comment_parent
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+</mapper>

@@ -2,6 +2,7 @@ package com.sagari.service.mapper;
 
 import com.sagari.service.entity.Article;
 import com.sagari.service.entity.ArticleVO;
+import com.sagari.service.entity.TitleVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -41,6 +42,8 @@ public interface ArticleMapper {
 
     @Select("select author from article where id=#{articleId} and is_del=false")
     Integer getAuthor(Integer articleId);
+
+    List<TitleVO> getTitle(@Param("ids") List<Integer> ids);
 
     @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
     int incrementComment(Integer articleId);

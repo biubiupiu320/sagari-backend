@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-comment/sagari-api-comment.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-comment/sagari-api-comment.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-file/sagari-api-file.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-file/sagari-api-file.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/sagari-api-interactive.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-interactive/sagari-api-interactive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-notice/sagari-api-notice.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-notice/sagari-api-notice.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/sagari-api-search.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/sagari-api-search.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/sagari-api-tag.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/sagari-api-tag.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/sagari-api-user.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/sagari-api-user.iml" />
@@ -19,6 +20,7 @@
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-collect/sagari-dto-collect.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-collect/sagari-dto-collect.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/sagari-dto-comment.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-comment/sagari-dto-comment.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/sagari-dto-interactive.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-interactive/sagari-dto-interactive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-notice/sagari-dto-notice.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-notice/sagari-dto-notice.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/sagari-dto-tag.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-tag/sagari-dto-tag.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/sagari-dto-user.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-dto/sagari-dto-user/sagari-dto-user.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-basic/sagari-gateway/sagari-gateway.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-basic/sagari-gateway/sagari-gateway.iml" />
@@ -30,6 +32,7 @@
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-file-impl/sagari-service-file-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-file-impl/sagari-service-file-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/sagari-service-interactive-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-interactive-impl/sagari-service-interactive-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-notice-impl/sagari-service-notice-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-notice-impl/sagari-service-notice-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/sagari-service-search-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/sagari-service-search-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/sagari-service-tag-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/sagari-service-tag-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/sagari-service-user-impl.iml" filepath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/sagari-service-user-impl.iml" />

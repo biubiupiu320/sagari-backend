@@ -61,6 +61,10 @@ public interface ArticleService {
     @GetMapping(value = "/getAuthor")
     public Integer getAuthor(@RequestParam("articleId") Integer articleId);
 
+    @ApiOperation(value = "获取文章标题")
+    @PostMapping(value = "/getTitle")
+    public BaseResponse<JSONObject> getTitle(@RequestBody List<Integer> ids);
+
     @ApiOperation(value = "文章评论数量+1接口")
     @GetMapping(value = "/incrementComment")
     public Boolean incrementComment(@RequestParam("articleId") Integer articleId);

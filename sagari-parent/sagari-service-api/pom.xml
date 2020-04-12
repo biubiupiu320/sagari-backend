@@ -23,6 +23,7 @@
         <module>sagari-api-collect</module>
         <module>sagari-api-tag</module>
         <module>sagari-api-search</module>
+        <module>sagari-api-notice</module>
     </modules>
 
     <properties>
@@ -40,14 +41,5 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

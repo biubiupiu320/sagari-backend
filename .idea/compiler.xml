@@ -7,35 +7,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="xxl-sso-server" />
-        <module name="sagari-service-interactive-impl" />
-        <module name="sagari-dto-article" />
-        <module name="sagari-api-file" />
-        <module name="sagari-api-article" />
-        <module name="sagari-dto-collect" />
-        <module name="sagari-service-collect-impl" />
-        <module name="sagari-api-comment" />
-        <module name="sagari-api-search" />
-        <module name="sagari-dto-interactive" />
-        <module name="eureka-server" />
-        <module name="sagari-dto-user" />
-        <module name="sagari-gateway" />
-        <module name="sagari-api-user" />
-        <module name="sagari-common" />
-        <module name="sagari-service-tag-impl" />
-        <module name="sagari-service-search-impl" />
-        <module name="sagari-api-good-bad" />
         <module name="sagari-api-collect" />
-        <module name="sagari-api-tag" />
-        <module name="sagari-service-vcode-impl" />
-        <module name="sagari-service-user-impl" />
-        <module name="sagari-service-file-impl" />
-        <module name="sagari-dto-comment" />
-        <module name="sagari-dto-tag" />
+        <module name="sagari-dto-interactive" />
+        <module name="sagari-dto-collect" />
+        <module name="sagari-api-file" />
+        <module name="sagari-common" />
         <module name="sagari-api-interactive" />
-        <module name="sagari-service-article-impl" />
-        <module name="sagari-api-vcode" />
+        <module name="sagari-dto-user" />
+        <module name="sagari-service-tag-impl" />
         <module name="sagari-service-comment-impl" />
+        <module name="sagari-service-notice-impl" />
+        <module name="sagari-gateway" />
+        <module name="sagari-service-collect-impl" />
+        <module name="sagari-service-search-impl" />
+        <module name="sagari-api-vcode" />
+        <module name="sagari-service-article-impl" />
+        <module name="sagari-api-comment" />
+        <module name="sagari-api-notice" />
+        <module name="sagari-dto-comment" />
+        <module name="sagari-api-user" />
+        <module name="sagari-api-article" />
+        <module name="sagari-dto-tag" />
+        <module name="sagari-api-good-bad" />
+        <module name="sagari-service-user-impl" />
+        <module name="sagari-dto-article" />
+        <module name="sagari-service-interactive-impl" />
+        <module name="sagari-service-vcode-impl" />
+        <module name="eureka-server" />
+        <module name="sagari-dto-notice" />
+        <module name="sagari-api-tag" />
+        <module name="xxl-sso-server" />
+        <module name="sagari-api-search" />
+        <module name="sagari-service-file-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
@@ -47,6 +50,7 @@
       <module name="sagari-api-file" target="1.8" />
       <module name="sagari-api-good-bad" target="1.8" />
       <module name="sagari-api-interactive" target="1.8" />
+      <module name="sagari-api-notice" target="1.8" />
       <module name="sagari-api-search" target="1.8" />
       <module name="sagari-api-tag" target="1.8" />
       <module name="sagari-api-user" target="1.8" />
@@ -58,6 +62,7 @@
       <module name="sagari-dto-collect" target="1.8" />
       <module name="sagari-dto-comment" target="1.8" />
       <module name="sagari-dto-interactive" target="1.8" />
+      <module name="sagari-dto-notice" target="1.8" />
       <module name="sagari-dto-tag" target="1.8" />
       <module name="sagari-dto-user" target="1.8" />
       <module name="sagari-gateway" target="1.8" />
@@ -70,6 +75,7 @@
       <module name="sagari-service-file-impl" target="1.8" />
       <module name="sagari-service-impl" target="1.8" />
       <module name="sagari-service-interactive-impl" target="1.8" />
+      <module name="sagari-service-notice-impl" target="1.8" />
       <module name="sagari-service-search-impl" target="1.8" />
       <module name="sagari-service-tag-impl" target="1.8" />
       <module name="sagari-service-upload-impl" target="1.8" />
@@ -89,6 +95,7 @@
       <module name="sagari-api-file" options="-parameters" />
       <module name="sagari-api-good-bad" options="-parameters" />
       <module name="sagari-api-interactive" options="-parameters" />
+      <module name="sagari-api-notice" options="-parameters" />
       <module name="sagari-api-search" options="-parameters" />
       <module name="sagari-api-tag" options="-parameters" />
       <module name="sagari-api-user" options="-parameters" />
@@ -100,6 +107,7 @@
       <module name="sagari-dto-collect" options="-parameters" />
       <module name="sagari-dto-comment" options="-parameters" />
       <module name="sagari-dto-interactive" options="-parameters" />
+      <module name="sagari-dto-notice" options="-parameters" />
       <module name="sagari-dto-tag" options="-parameters" />
       <module name="sagari-dto-user" options="-parameters" />
       <module name="sagari-gateway" options="-parameters" />
@@ -112,6 +120,7 @@
       <module name="sagari-service-file-impl" options="-parameters" />
       <module name="sagari-service-impl" options="-parameters" />
       <module name="sagari-service-interactive-impl" options="-parameters" />
+      <module name="sagari-service-notice-impl" options="-parameters" />
       <module name="sagari-service-search-impl" options="-parameters" />
       <module name="sagari-service-tag-impl" options="-parameters" />
       <module name="sagari-service-upload-impl" options="-parameters" />

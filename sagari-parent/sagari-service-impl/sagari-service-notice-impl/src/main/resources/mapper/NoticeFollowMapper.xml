@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.NoticeFollowMapper">
+
+    <select id="getNotice" resultType="com.sagari.service.entity.NoticeFollowVO">
+        SELECT id,from_id,to_id,create_time,is_read
+        FROM notice_follow
+        WHERE to_id=#{userId} AND is_del=FALSE
+        ORDER BY update_time DESC
+    </select>
+
+    <insert id="createNotice" parameterType="com.sagari.service.entity.NoticeFollow">
+        INSERT INTO notice_follow
+        VALUES(null,#{fromId},#{toId},#{createTime},#{updateTime},#{isRead},#{isDel})
+    </insert>
+
+    <update id="markReadNotice">
+        UPDATE notice_follow
+        SET is_read=TRUE,update_time=#{updateTime}
+        WHERE to_id=#{userId} AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+    </update>
+
+    <update id="deleteNotice">
+        UPDATE notice_follow
+        SET is_read=TRUE,is_del=TRUE,update_time=#{updateTime}
+        WHERE to_id=#{userId} AND is_del=FALSE AND id IN
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+    </update>
+
+    <update id="markReadNoticeAll">
+        UPDATE notice_follow
+        SET is_read=TRUE,update_time=#{updateTime}
+        WHERE to_id=#{userId} AND is_del=FALSE
+    </update>
+
+    <update id="deleteNoticeAll">
+        UPDATE notice_follow
+        SET is_read=TRUE,is_del=TRUE,update_time=#{updateTime}
+        WHERE to_id=#{userId} AND is_del=FALSE
+    </update>
+
+</mapper>

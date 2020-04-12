@@ -19,12 +19,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sagari.service.api.article</groupId>
+            <groupId>com.sagari.service.api</groupId>
             <artifactId>sagari-api-article</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.sagari.service.api.user</groupId>
+            <groupId>com.sagari.service.api</groupId>
             <artifactId>sagari-api-user</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -38,14 +38,5 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

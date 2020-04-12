@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author biubiupiu~
@@ -59,4 +60,10 @@ public interface CommentService {
 
     @GetMapping("/decreaseGood")
     public Boolean decreaseGood(@RequestParam("id") Integer id, @RequestParam("type") Boolean type);
+
+    @PostMapping("/getParentContent")
+    public BaseResponse<JSONObject> getParentContent(@RequestBody List<Integer> ids);
+
+    @PostMapping("/getChildContent")
+    public BaseResponse<JSONObject> getChildContent(@RequestBody List<Integer> ids);
 }

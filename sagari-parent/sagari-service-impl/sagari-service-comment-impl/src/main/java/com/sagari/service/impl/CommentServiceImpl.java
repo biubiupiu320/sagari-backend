@@ -9,13 +9,12 @@ import com.github.pagehelper.PageInfo;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ChildCommentDTO;
+import com.sagari.dto.input.NoticeCommentDTO;
 import com.sagari.dto.input.ParentCommentDTO;
 import com.sagari.service.CommentService;
-import com.sagari.service.entity.ChildComment;
-import com.sagari.service.entity.ChildCommentVo;
-import com.sagari.service.entity.ParentComment;
-import com.sagari.service.entity.ParentCommentVo;
+import com.sagari.service.entity.*;
 import com.sagari.service.feign.ArticleServiceFeign;
+import com.sagari.service.feign.NoticeServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.ChildCommentMapper;
 import com.sagari.service.mapper.ParentCommentMapper;
@@ -37,12 +36,15 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
 
     @Autowired
     private ParentCommentMapper parentCommentMapper;
+
     @Autowired
     private ChildCommentMapper childCommentMapper;
     @Autowired
     private UserServiceFeign userServiceFeign;
     @Autowired
     private ArticleServiceFeign articleServiceFeign;
+    @Autowired
+    private NoticeServiceFeign noticeServiceFeign;
 
     @Override
     public BaseResponse<JSONObject> insertParentComment(@RequestBody @Valid ParentCommentDTO parentCommentDTO,
@@ -67,6 +69,14 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         parentComment.setCreateTime(System.currentTimeMillis());
         if (parentCommentMapper.insertComment(parentComment) > 0) {
             articleServiceFeign.incrementComment(parentComment.getArticleId());
+            NoticeCommentDTO noticeCommentDTO = new NoticeCommentDTO();
+            noticeCommentDTO.setType(1);
+            noticeCommentDTO.setArticleId(parentComment.getArticleId());
+            noticeCommentDTO.setContentId(parentComment.getId());
+            noticeCommentDTO.setFromId(parentComment.getUserId());
+            noticeCommentDTO.setToId(parentComment.getAuthorId());
+            noticeCommentDTO.setTargetId(parentComment.getArticleId());
+            noticeServiceFeign.noticeComment(noticeCommentDTO);
             return setResultSuccess("评论成功", (JSONObject) JSON.toJSON(parentComment));
         }
         return setResultError("评论失败");
@@ -176,6 +186,19 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         if (childCommentMapper.insertComment(childComment) > 0) {
             articleServiceFeign.incrementComment(childComment.getArticleId());
             parentCommentMapper.incrementComment(childComment.getParentId());
+            NoticeCommentDTO noticeCommentDTO = new NoticeCommentDTO();
+            if (childCommentDTO.getChildId() == null) {
+                noticeCommentDTO.setType(2);
+                noticeCommentDTO.setTargetId(childComment.getParentId());
+            } else {
+                noticeCommentDTO.setType(3);
+                noticeCommentDTO.setTargetId(childCommentDTO.getChildId());
+            }
+            noticeCommentDTO.setContentId(childComment.getId());
+            noticeCommentDTO.setFromId(childComment.getFromId());
+            noticeCommentDTO.setToId(childComment.getToId());
+            noticeCommentDTO.setArticleId(childComment.getArticleId());
+            noticeServiceFeign.noticeComment(noticeCommentDTO);
             return setResultSuccess("评论成功", (JSONObject) JSON.toJSON(childComment));
         }
         return setResultError("评论失败");
@@ -261,5 +284,21 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         } else {
             return childCommentMapper.decreaseGood(id) > 0;
         }
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getParentContent(@RequestBody List<Integer> ids) {
+        List<ContentVO> contents = parentCommentMapper.getParentContent(ids);
+        JSONObject result = new JSONObject();
+        result.put("contents", JSON.toJSON(contents));
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getChildContent(@RequestBody List<Integer> ids) {
+        List<ContentVO> contents = childCommentMapper.getChildContent(ids);
+        JSONObject result = new JSONObject();
+        result.put("contents", JSON.toJSON(contents));
+        return setResultSuccess(result);
     }
 }

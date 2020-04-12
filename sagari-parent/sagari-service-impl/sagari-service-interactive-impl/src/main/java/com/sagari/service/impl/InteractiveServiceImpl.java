@@ -9,11 +9,14 @@ import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.FansIds;
 import com.sagari.dto.input.FollowIds;
+import com.sagari.dto.input.NoticeFollowDTO;
+import com.sagari.dto.input.NoticeGoodDTO;
 import com.sagari.service.InteractiveService;
 import com.sagari.service.entity.Follow;
 import com.sagari.service.entity.Interactive;
 import com.sagari.service.feign.ArticleServiceFeign;
 import com.sagari.service.feign.CommentServiceFeign;
+import com.sagari.service.feign.NoticeServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.FollowMapper;
 import com.sagari.service.mapper.InteractArticleMapper;
@@ -41,6 +44,8 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
     @Autowired
     private CommentServiceFeign commentServiceFeign;
     @Autowired
+    private NoticeServiceFeign noticeServiceFeign;
+    @Autowired
     private InteractArticleMapper interactArticleMapper;
     @Autowired
     private InteractCommentMapper interactCommentMapper;
@@ -54,15 +59,22 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
      *     2代表点赞的是父评论
      *     3代表点赞的是子评论
      * 下同
-     * @param id
-     * @param userId
+     * @param targetId  //若type为1，则为文章ID，若type为2，则为父评论ID，若type为3，则为子评论ID
+     * @param userId    //当前登录的用户ID，将来将替换为targetID对应的用户ID
      * @param type
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse<JSONObject> toggleGood(Integer targetId, Integer userId, Integer type) {
-        if (targetId == null || targetId <= 0 || userId == null || userId <= 0) {
+    public BaseResponse<JSONObject> toggleGood(Integer targetId, Integer author,
+                                               Integer articleId, Integer type) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (targetId == null || targetId <= 0 || userId <= 0) {
             return setResultError("无效的请求");
         }
         if (!userServiceFeign.isExist(userId)) {
@@ -84,6 +96,15 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
                 interactive.setGood(true);
                 if (interactArticleMapper.insert(interactive) > 0) {
                     articleServiceFeign.incrementGood(targetId);
+                    if (!userId.equals(author)) {
+                        NoticeGoodDTO noticeGoodDTO = new NoticeGoodDTO();
+                        noticeGoodDTO.setType(type);
+                        noticeGoodDTO.setFromId(userId);
+                        noticeGoodDTO.setToId(author);
+                        noticeGoodDTO.setTargetId(targetId);
+                        noticeGoodDTO.setArticleId(articleId);
+                        noticeServiceFeign.noticeGood(noticeGoodDTO);
+                    }
                     return setResultSuccess("点赞成功");
                 }
                 return setResultError("点赞失败");
@@ -106,6 +127,15 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
                 interactive.setType(flag);
                 if (interactCommentMapper.insert(interactive) > 0) {
                     commentServiceFeign.incrementGood(targetId, flag);
+                    if (!userId.equals(author)) {
+                        NoticeGoodDTO noticeGoodDTO = new NoticeGoodDTO();
+                        noticeGoodDTO.setType(type);
+                        noticeGoodDTO.setFromId(userId);
+                        noticeGoodDTO.setToId(author);
+                        noticeGoodDTO.setTargetId(targetId);
+                        noticeGoodDTO.setArticleId(articleId);
+                        noticeServiceFeign.noticeGood(noticeGoodDTO);
+                    }
                     return setResultSuccess("点赞成功");
                 }
                 return setResultError("点赞失败");
@@ -158,6 +188,10 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
             userServiceFeign.incrementFollowCount(userId);
             //增加用户的粉丝数量
             userServiceFeign.incrementFansCount(followId);
+            NoticeFollowDTO noticeFollowDTO = new NoticeFollowDTO();
+            noticeFollowDTO.setFromId(userId);
+            noticeFollowDTO.setToId(followId);
+            noticeServiceFeign.noticeFollow(noticeFollowDTO);
             return setResultSuccess("关注成功");
         }
         return setResultError("关注失败");

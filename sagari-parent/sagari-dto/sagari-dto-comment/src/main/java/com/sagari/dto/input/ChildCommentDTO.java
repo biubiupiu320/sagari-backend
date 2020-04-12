@@ -19,6 +19,9 @@ public class ChildCommentDTO {
     @Min(value = 1, message = "父评论ID无效")
     private Integer parentId;
 
+    @ApiModelProperty(value = "非必须，则代表回复的是子评论")
+    private Integer childId;
+
     @ApiModelProperty(value = "评论者ID")
     @NotNull(message = "评论者ID不能为空")
     @Min(value = 1, message = "评论者ID无效")
@@ -50,6 +53,14 @@ public class ChildCommentDTO {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getChildId() {
+        return childId;
+    }
+
+    public void setChildId(Integer childId) {
+        this.childId = childId;
     }
 
     public Integer getFromId() {
@@ -96,6 +107,7 @@ public class ChildCommentDTO {
     public String toString() {
         final StringBuffer sb = new StringBuffer("ChildCommentDTO{");
         sb.append("parentId=").append(parentId);
+        sb.append(", childId=").append(childId);
         sb.append(", fromId=").append(fromId);
         sb.append(", toId=").append(toId);
         sb.append(", content='").append(content).append('\'');
