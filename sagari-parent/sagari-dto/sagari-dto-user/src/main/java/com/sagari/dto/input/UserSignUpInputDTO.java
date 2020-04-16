@@ -46,6 +46,11 @@ public class UserSignUpInputDTO {
     @Pattern(regexp = "^((https|http)?:\\/\\/)[^\\s]+", message = "无效的用户头像")
     private String avatar;
 
+    private String qqId;
+    private String baiduId;
+    private String githubId;
+    private String gender;
+
     public String getUsername() {
         return username;
     }
@@ -94,6 +99,38 @@ public class UserSignUpInputDTO {
         this.avatar = avatar;
     }
 
+    public String getQqId() {
+        return qqId;
+    }
+
+    public void setQqId(String qqId) {
+        this.qqId = qqId;
+    }
+
+    public String getBaiduId() {
+        return baiduId;
+    }
+
+    public void setBaiduId(String baiduId) {
+        this.baiduId = baiduId;
+    }
+
+    public String getGithubId() {
+        return githubId;
+    }
+
+    public void setGithubId(String githubId) {
+        this.githubId = githubId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("UserSignUpInputDTO{");
@@ -103,6 +140,10 @@ public class UserSignUpInputDTO {
         sb.append(", phone='").append(phone).append('\'');
         sb.append(", verifyCode='").append(verifyCode).append('\'');
         sb.append(", avatar='").append(avatar).append('\'');
+        sb.append(", qqId='").append(qqId).append('\'');
+        sb.append(", baiduId='").append(baiduId).append('\'');
+        sb.append(", githubId='").append(githubId).append('\'');
+        sb.append(", gender='").append(gender).append('\'');
         sb.append('}');
         return sb.toString();
     }

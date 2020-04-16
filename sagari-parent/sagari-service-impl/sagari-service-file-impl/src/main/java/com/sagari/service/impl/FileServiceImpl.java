@@ -1,5 +1,7 @@
 package com.sagari.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -17,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author biubiupiu~
@@ -79,6 +83,37 @@ public class FileServiceImpl extends BaseApiService<JSONObject> implements FileS
         }
         JSONObject result = new JSONObject();
         result.put("url", url.toString());
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> upload(MultipartFile[] files) {
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKey, accessSecret);
+        List<String> urls = new ArrayList<>();
+        InputStream inputStream = null;
+        try {
+            for (MultipartFile file : files) {
+                inputStream = file.getInputStream();
+                String filename = System.currentTimeMillis() + "";
+                Date expiresTime = new Date(Long.parseLong(filename) + expires);
+                ossClient.putObject(bucketName, letter + filename, inputStream);
+                URL url = ossClient.generatePresignedUrl(bucketName, letter + filename, expiresTime);
+                urls.add(url.toString());
+            }
+            ossClient.shutdown();
+        } catch (IOException e) {
+            return setResultError("上传文件失败");
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        }
+        JSONObject result = new JSONObject();
+        result.put("urls", JSON.toJSON(urls));
         return setResultSuccess(result);
     }
 

@@ -23,6 +23,16 @@ public class BaseApiService<T> {
 	}
 
 	/**
+	 *
+	 * @param msg
+	 * @param data
+	 * @return
+	 */
+	public BaseResponse<T> setResultError(String msg, T data) {
+		return setResult(Constants.HTTP_RES_CODE_500, msg, data);
+	}
+
+	/**
 	 * 返回成功，可以传data值
 	 * @param data
 	 * @return

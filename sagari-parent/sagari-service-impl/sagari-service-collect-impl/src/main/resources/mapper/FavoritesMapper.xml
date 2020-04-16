@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.FavoritesMapper">
+
+    <insert id="createFavorites" parameterType="com.sagari.service.entity.Favorites">
+        INSERT INTO favorites
+        VALUES(null,#{userId},#{title},#{description},#{count},#{pri},#{createTime},#{isDel})
+    </insert>
+
+    <update id="modifyFavorites" parameterType="com.sagari.service.entity.Favorites">
+        UPDATE favorites SET title=#{title},description=#{description},pri=#{pri}
+        WHERE id=#{id} AND user_id=#{userId} AND is_del=FALSE
+    </update>
+
+    <update id="deleteFavorites">
+        UPDATE favorites SET is_del=TRUE
+        WHERE id=#{id} AND user_id=#{userId} AND is_del=FALSE
+    </update>
+
+    <select id="checkPermissions" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM favorites
+        WHERE id=#{id} AND user_id=#{userId} AND is_del=FALSE
+    </select>
+
+    <select id="getPubFavorites" resultType="com.sagari.service.entity.FavoritesVO">
+        SELECT id,user_id,title,description,count,pri
+        FROM favorites
+        WHERE user_id=#{targetUserId} AND pri=FALSE AND is_del=FALSE
+    </select>
+
+    <select id="getPriFavorites" resultType="com.sagari.service.entity.FavoritesVO">
+        SELECT id,user_id,title,description,count,pri
+        FROM favorites
+        WHERE user_id=#{targetUserId} AND pri=TRUE AND is_del=FALSE
+    </select>
+
+    <select id="isPub" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM favorites
+        WHERE id=#{id} AND pri=FALSE
+    </select>
+
+    <update id="incrementCount">
+        UPDATE favorites
+        SET count=count+1
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseCount">
+        UPDATE favorites
+        SET count=count-1
+        WHERE id=#{id}
+    </update>
+
+    <update id="incrementCountN">
+        UPDATE favorites
+        SET count=count+#{count}
+        WHERE id=#{id}
+    </update>
+
+    <update id="decreaseCountN">
+        UPDATE favorites
+        SET count=count-#{count}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

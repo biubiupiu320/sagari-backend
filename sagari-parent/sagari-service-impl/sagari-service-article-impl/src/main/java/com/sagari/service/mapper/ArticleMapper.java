@@ -3,10 +3,7 @@ package com.sagari.service.mapper;
 import com.sagari.service.entity.Article;
 import com.sagari.service.entity.ArticleVO;
 import com.sagari.service.entity.TitleVO;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -15,50 +12,36 @@ import java.util.List;
  */
 public interface ArticleMapper {
 
-    @Insert("insert into article values(null,#{title},#{content},#{author},#{commentCount},#{viewCount}," +
-            "#{goodCount},#{collectCount},#{tags},#{createTime},#{updateTime},#{isDel})")
     int publishArticle(Article article);
 
-    ArticleVO selectArticle(Integer id);
+    ArticleVO selectArticle(@Param("id") Integer id);
 
-    @Update("update article set title=#{title},content=#{content},tags=#{tags},update_time=#{updateTime} " +
-            "where id=#{id} and creator=#{creator} and is_del=false")
     int updateArticle(Article article);
 
-    @Update("update article set is_del=true where id=#{id}")
-    int deleteArticle(Integer id);
+    int deleteArticle(@Param("id") Integer id);
 
-    @Select("select count(id) from article where id=#{id} and is_del=false")
-    int isExist(Integer id);
+    int isExist(@Param("id") Integer id);
 
-    @Select("select count(id) from article where id=#{articleId} and creator=#{creator}")
-    int checkPermissions(Integer articleId, Integer creator);
+    int checkPermissions(@Param("articleId") Integer articleId,
+                         @Param("author") Integer author);
 
-    @Update("update article set good_count=good_count+1 where id=#{articleId}")
-    int incrementGood(Integer articleId);
+    int incrementGood(@Param("articleId") Integer articleId);
 
-    @Update("update article set good_count=good_count-1 where id=#{articleId}")
-    int decreaseGood(Integer articleId);
+    int decreaseGood(@Param("articleId") Integer articleId);
 
-    @Select("select author from article where id=#{articleId} and is_del=false")
-    Integer getAuthor(Integer articleId);
+    Integer getAuthor(@Param("articleId") Integer articleId);
 
     List<TitleVO> getTitle(@Param("ids") List<Integer> ids);
 
-    @Update("update article set comment_count=comment_count+1 where id=#{articleId}")
-    int incrementComment(Integer articleId);
+    int incrementComment(@Param("articleId") Integer articleId);
 
-    @Update("update article set comment_count=comment_count-1 where id=#{articleId}")
-    int decreaseComment(Integer articleId);
+    int decreaseComment(@Param("articleId") Integer articleId);
 
-    @Update("update article set view_count=view_count+1 where id=#{articleId}")
-    int incrementView(Integer articleId);
+    int incrementView(@Param("articleId") Integer articleId);
 
-    @Update("update article set collect_count=collect_count+1 where id=#{articleId}")
-    int incrementCollect(Integer articleId);
+    int incrementCollect(@Param("articleId") Integer articleId);
 
-    @Update("update article set collect_count=collect_count+1 where id=#{articleId}")
-    int decreaseCollect(Integer articleId);
+    int decreaseCollect(@Param("articleId") Integer articleId);
 
     int incrementCollectN(@Param("ids") List<Integer> ids);
 

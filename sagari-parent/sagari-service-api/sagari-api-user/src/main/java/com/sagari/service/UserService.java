@@ -132,4 +132,9 @@ public interface UserService {
     @GetMapping("/getPhone")
     public BaseResponse<JSONObject> getPhone();
 
+    @ApiOperation(value = "绑定QQ账号")
+    @GetMapping("/bindQQ")
+    public BaseResponse<JSONObject> bindQQ(@RequestParam(name = "account") String account,
+                                           @RequestParam(name = "qqId") String qqId);
+
 }

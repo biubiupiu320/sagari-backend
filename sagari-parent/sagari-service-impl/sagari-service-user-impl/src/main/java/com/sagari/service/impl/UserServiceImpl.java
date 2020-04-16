@@ -124,6 +124,14 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
 
     @Override
     public BaseResponse<JSONObject> getSimpleUser(Integer id) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        if (sessionId != null) {
+            XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+            if (xxlUser == null) {
+                return setResultError("用户未登录");
+            }
+            id = Integer.valueOf(xxlUser.getUserid());
+        }
         User user = userMapper.getSimpleUser(id);
         if (user != null) {
             return setResultSuccess((JSONObject) JSON.toJSON(user));
@@ -322,5 +330,18 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
         JSONObject result = new JSONObject();
         result.put("phone", phone);
         return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> bindQQ(String account, String qqId) {
+        if (RegexUtils.checkMobile(account)) {
+            if (userMapper.bindQQByPhone(account, qqId) > 0) {
+                return setResultSuccess();
+            }
+        }
+        if (userMapper.bindQQByUsername(account, qqId) > 0) {
+            return setResultSuccess();
+        }
+        return setResultError("bind failed");
     }
 }

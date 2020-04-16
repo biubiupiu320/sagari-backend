@@ -71,4 +71,12 @@ public interface UserMapper {
                        @Param("updateTime") Long updateTime);
 
     String getPhone(@Param("id") Integer id);
+
+    UserVO getUserByQQ(@Param("openId") String openId);
+
+    int bindQQByUsername(@Param("username") String username,
+                         @Param("qqId") String qqId);
+
+    int bindQQByPhone(@Param("phone") String phone,
+                      @Param("qqId") String qqId);
 }

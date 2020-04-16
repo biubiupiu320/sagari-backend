@@ -18,8 +18,12 @@ public interface FileService {
 
     @ApiOperation(value = "上传文件接口")
     @PostMapping("/upload")
-    public BaseResponse<JSONObject> upload(@RequestParam(value = "file")MultipartFile file,
-                                           @RequestParam(value = "type")Integer type);
+    public BaseResponse<JSONObject> upload(@RequestParam(value = "file") MultipartFile file,
+                                           @RequestParam(value = "type") Integer type);
+
+    @ApiOperation(value = "上传多文件接口")
+    @PostMapping("/upload-batch")
+    public BaseResponse<JSONObject> upload(@RequestParam(value = "file") MultipartFile[] files);
 
     @PostMapping("/insert-image")
     public String upload(HttpServletRequest request);

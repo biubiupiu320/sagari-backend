@@ -3,38 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sagari.service.mapper.ArticleMapper">
 
-    <!--<resultMap id="articleVo" type="com.sagari.service.entity.ArticleVo">
-        <id property="id" column="id"/>
-        <result property="title" column="title"/>
-        <result property="content" column="content"/>
-        <result property="author" column="author"/>
-        <result property="commentCount" column="comment_count"/>
-        <result property="viewCount" column="view_count"/>
-        <result property="goodCount" column="good_count"/>
-        <result property="collectCount" column="collect_count"/>
-        <result property="tags" column="tags"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="isDel" column="is_del"/>
-        <association property="user" javaType="com.sagari.service.entity.User">
-            <id property="id" column="user_id"/>
-            <result property="username" column="username"/>
-            <result property="avatar" column="avatar"/>
-            <result property="articleCount" column="article_count"/>
-            <result property="fansCount" column="fans_count"/>
-        </association>
-    </resultMap>
-
-    <select id="selectArticle" resultMap="articleVo">
-        SELECT a.*,u.id as user_id,u.username,u.avatar,u.article_count,u.fans_count
-        FROM article a
-        INNER JOIN
-        `user` u
-        ON a.author=u.id
-        WHERE a.id=#{id}
-        AND
-        is_del=FALSE
-    </select>-->
+    <insert id="publishArticle" parameterType="com.sagari.service.entity.Article">
+        INSERT INTO article
+        VALUES(null,#{title},#{content},#{author},#{commentCount},#{viewCount},
+                #{goodCount},#{collectCount},#{tags},#{createTime},#{updateTime},#{isDel})
+    </insert>
 
     <select id="selectArticle" resultType="com.sagari.service.entity.ArticleVO">
         SELECT id,title,content,author,comment_count,view_count,good_count,collect_count,tags,create_time,update_time
@@ -42,13 +15,46 @@
         WHERE id=#{id} AND is_del=FALSE
     </select>
 
-    <select id="selectArticleList" resultType="com.sagari.service.entity.Article">
-        SELECT id,title,LEFT(content,100) AS content,author,comment_count,view_count,good_count
+    <update id="updateArticle" parameterType="com.sagari.service.entity.Article">
+        UPDATE article
+        SET title=#{title},content=#{content},tags=#{tags},update_time=#{updateTime}
+        WHERE id=#{id} AND creator=#{creator} AND is_del=FALSE
+    </update>
+
+    <update id="deleteArticle">
+        UPDATE article
+        SET is_del=TRUE
+        WHERE id=#{id}
+    </update>
+
+    <select id="isExist" resultType="java.lang.Integer">
+        SELECT COUNT(id)
         FROM article
-        WHERE is_del=FALSE AND id IN
-        <foreach collection="articleIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        WHERE id=#{id} AND is_del=FALSE
+    </select>
+
+    <select id="checkPermissions" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM article
+        WHERE id=#{articleId} AND author=#{creator}
+    </select>
+
+    <update id="incrementGood">
+        UPDATE article
+        SET good_count=good_count+1
+        WHERE id=#{articleId}
+    </update>
+
+    <update id="decreaseGood">
+        UPDATE article
+        SET good_count=good_count-1
+        WHERE id=#{articleId}
+    </update>
+
+    <select id="getAuthor" resultType="java.lang.Integer">
+        SELECT author
+        FROM article
+        WHERE id=#{articleId} AND is_del=FALSE
     </select>
 
     <select id="getTitle" resultType="com.sagari.service.entity.TitleVO">
@@ -57,6 +63,36 @@
         WHERE is_del=FALSE AND id IN
         <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
     </select>
+
+    <update id="incrementComment">
+        UPDATE article
+        SET comment_count=comment_count+1
+        WHERE id=#{articleId}
+    </update>
+
+    <update id="decreaseComment">
+        UPDATE article
+        SET comment_count=comment_count-1
+        WHERE id=#{articleId}
+    </update>
+
+    <update id="incrementView">
+        UPDATE article
+        SET view_count=view_count+1
+        WHERE id=#{articleId}
+    </update>
+
+    <update id="incrementCollect">
+        UPDATE article
+        SET collect_count=collect_count+1
+        WHERE id=#{articleId}
+    </update>
+
+    <update id="decreaseCollect">
+        UPDATE article
+        SET collect_count=collect_count-1
+        WHERE id=#{articleId}
+    </update>
 
     <update id="incrementCollectN" parameterType="java.util.List">
         UPDATE article
@@ -75,5 +111,14 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="selectArticleList" resultType="com.sagari.service.entity.Article">
+        SELECT id,title,LEFT(content,100) AS content,author,comment_count,view_count,good_count
+        FROM article
+        WHERE is_del=FALSE AND id IN
+        <foreach collection="articleIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

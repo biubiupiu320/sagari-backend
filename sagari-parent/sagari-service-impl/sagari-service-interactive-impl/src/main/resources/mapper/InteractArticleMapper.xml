@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagari.service.mapper.InteractArticleMapper">
+
+    <insert id="insert" parameterType="com.sagari.service.entity.Interactive">
+        INSERT INTO interactive_article
+        VALUES(null,#{userId},#{targetId},#{good},#{createTime},#{updateTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM interactive_article
+        WHERE target_id=#{targetId} AND user_id=#{userId}
+    </delete>
+
+    <select id="isGood" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM interactive_article
+        WHERE target_id=#{targetId} AND user_id=#{userId} AND good=TRUE
+    </select>
+
+</mapper>

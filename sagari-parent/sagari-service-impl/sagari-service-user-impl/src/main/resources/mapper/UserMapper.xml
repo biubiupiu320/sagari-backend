@@ -195,4 +195,22 @@
         WHERE id=#{id}
     </select>
 
+    <select id="getUserByQQ" resultType="com.sagari.service.entity.UserVO">
+        SELECT *
+        FROM `user`
+        WHERE qq_id=#{openId}
+    </select>
+
+    <update id="bindQQByUsername">
+        UPDATE `user`
+        SET qq_id=#{qqId}
+        WHERE username=#{username}
+    </update>
+
+    <update id="bindQQByPhone">
+        UPDATE `user`
+        SET qq_id=#{qqId}
+        WHERE phone=#{phone}
+    </update>
+
 </mapper>

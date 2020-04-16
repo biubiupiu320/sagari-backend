@@ -1,56 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sagari.service.mapper.FollowMapper">
+<mapper namespace="com.sagari.service.mapper.LetterMapper">
 
-    <insert id="follow" parameterType="com.sagari.service.entity.Follow">
-        INSERT INTO follow
-        VALUES(null,#{followId},#{fansId},#{createTime},#{updateTime},#{isDel})
+    <insert id="createMsg" parameterType="com.sagari.service.entity.Letter">
+        INSERT INTO letter
+        VALUES(null,#{fromId},#{toId},#{msg},#{createTime},#{isDel})
     </insert>
 
-    <update id="cancelFollow">
-        UPDATE follow
-        SET is_del=TRUE,update_time=#{updateTime}
-        WHERE fans_id=#{fansId} AND is_del=FALSE AND follow_id in
-        <foreach collection="followIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
-
-    <select id="isFollow" resultType="java.lang.Integer">
-        SELECT COUNT(id)
-        FROM follow
-        WHERE follow_id=#{followId} AND fans_id=#{fansId} AND is_del=FALSE
+    <select id="getPersonList" resultType="com.sagari.service.entity.Person">
+        SELECT to_id,msg,create_time
+        FROM letter
+        WHERE id IN(
+		    SELECT MAX(id)
+		    FROM letter
+		    WHERE from_id=#{fromId} AND is_del=FALSE
+		    GROUP BY to_id)
+        ORDER BY create_time DESC
     </select>
 
-    <select id="isFollowList" resultType="java.lang.Integer">
-        SELECT follow_id
-        FROM follow
-        WHERE fans_id=#{fansId} AND is_del=FALSE AND follow_id IN
-        <foreach collection="followIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </select>
-
-    <update id="removeFans">
-        UPDATE follow
-        SET is_del=TRUE,update_time=#{updateTime}
-        WHERE follow_id=#{followId} AND is_del=FALSE AND fans_id in
-        <foreach collection="fansIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
-
-    <select id="getFollowList" resultType="java.lang.Integer">
-        SELECT follow_id
-        FROM follow
-        WHERE is_del=FALSE AND fans_id=#{fansId}
-    </select>
-
-    <select id="getFansList" resultType="java.lang.Integer">
-        SELECT fans_id
-        FROM follow
-        WHERE is_del=FALSE AND follow_id=#{followId}
+    <select id="getLetters" resultType="com.sagari.service.entity.Letter">
+        SELECT from_id,to_id,msg,create_time
+        FROM letter
+        WHERE ((from_id=#{fromId} AND to_id=#{toId}) OR (from_id=#{toId} AND to_id=#{fromId}))
+            AND is_del=FALSE
+        ORDER BY create_time DESC
     </select>
 
 </mapper>
