@@ -79,4 +79,7 @@ public interface UserMapper {
 
     int bindQQByPhone(@Param("phone") String phone,
                       @Param("qqId") String qqId);
+
+    int modifyAvatar(@Param("id") Integer id,
+                     @Param("avatar") String avatar);
 }

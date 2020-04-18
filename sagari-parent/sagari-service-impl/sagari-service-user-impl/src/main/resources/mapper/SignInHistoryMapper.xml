@@ -8,4 +8,11 @@
         VALUES(null,#{userId},#{type},#{device},#{browser},#{system},#{ip},#{time})
     </insert>
 
+    <select id="getHistory" resultType="com.sagari.service.entity.SignIn">
+        SELECT *
+        FROM signin_history
+        WHERE user_id=#{userId}
+        ORDER BY time DESC
+    </select>
+
 </mapper>

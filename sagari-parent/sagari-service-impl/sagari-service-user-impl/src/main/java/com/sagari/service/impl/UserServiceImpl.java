@@ -2,6 +2,8 @@ package com.sagari.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.common.utils.MD5Util;
@@ -31,8 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -343,5 +343,43 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
             return setResultSuccess();
         }
         return setResultError("bind failed");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getHistory(Integer page, Integer size) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (page < 1) {
+            page = 1;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        PageHelper.startPage(page, size);
+        List<SignIn> history = historyMapper.getHistory(userId);
+        PageInfo<SignIn> result = new PageInfo<>(history);
+
+        return setResultSuccess((JSONObject) JSON.toJSON(result));
+    }
+
+    @Override
+    public BaseResponse<JSONObject> modifyAvatar(String avatar) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (RegexUtils.checkURL(avatar)) {
+            if (userMapper.modifyAvatar(userId, avatar) > 0) {
+                return setResultSuccess();
+            }
+            return setResultError("modify avatar failed");
+        }
+        return setResultError("the avatar must be a URL");
     }
 }

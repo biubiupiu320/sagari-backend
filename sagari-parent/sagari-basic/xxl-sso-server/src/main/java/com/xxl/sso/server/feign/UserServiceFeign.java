@@ -3,6 +3,7 @@ package com.xxl.sso.server.feign;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseResponse;
+import com.xxl.sso.server.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author biubiupiu~
  */
-@FeignClient(value = "sagari-user-service")
+@FeignClient(value = "sagari-user-service", configuration = FeignConfig.class)
 public interface UserServiceFeign {
 
     @GetMapping("/sign-in")

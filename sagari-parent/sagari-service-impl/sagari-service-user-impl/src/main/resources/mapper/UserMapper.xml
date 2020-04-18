@@ -213,4 +213,10 @@
         WHERE phone=#{phone}
     </update>
 
+    <update id="modifyAvatar">
+        UPDATE `user`
+        SET avatar=#{avatar}
+        WHERE id=#{id}
+    </update>
+
 </mapper>

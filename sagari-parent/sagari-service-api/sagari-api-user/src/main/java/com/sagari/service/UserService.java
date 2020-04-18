@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ModifyPasswordDTO;
 import com.sagari.dto.input.ModifyUserDTO;
-import com.sagari.dto.input.UserSignInInputDTO;
 import com.sagari.dto.input.UserSignUpInputDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -136,5 +134,14 @@ public interface UserService {
     @GetMapping("/bindQQ")
     public BaseResponse<JSONObject> bindQQ(@RequestParam(name = "account") String account,
                                            @RequestParam(name = "qqId") String qqId);
+
+    @ApiOperation(value = "获取登录记录")
+    @GetMapping("/getSignInHistory")
+    public BaseResponse<JSONObject> getHistory(@RequestParam(name = "page") Integer page,
+                                               @RequestParam(name = "size") Integer size);
+
+    @ApiOperation(value = "修改用户头像")
+    @GetMapping("/modifyAvatar")
+    public BaseResponse<JSONObject> modifyAvatar(@RequestParam(name = "avatar") String avatar);
 
 }
