@@ -3,6 +3,7 @@ package com.sagari.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ArticleInputDTO;
@@ -100,11 +101,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         JSONObject user = userServiceFeign.getSimpleUser(articleVO.getAuthor()).getData();
         result.put("user", user);
         //1.查看该用户有没有点赞
-        if (interactiveServiceFeign.isGood(articleVO.getId(), articleVO.getAuthor(), 1)) {
-            result.put("good", true);
-        } else {
-            result.put("good", false);
-        }
+        result.put("good", interactiveServiceFeign.isGood(articleVO.getId(), articleVO.getAuthor(), 1));
         //2.查看该用户有没有收藏
         String sessionId = request.getHeader("xxl-sso-session-id");
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
@@ -205,11 +202,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
             return setResultError("无效的请求");
         }
         JSONObject result = new JSONObject();
-        if (articleMapper.checkPermissions(articleId, creator) > 0) {
-            result.put("isPass", true);
-        } else {
-            result.put("isPass", false);
-        }
+        result.put("isPass", articleMapper.checkPermissions(articleId, creator) > 0);
         return setResultSuccess(result);
     }
 

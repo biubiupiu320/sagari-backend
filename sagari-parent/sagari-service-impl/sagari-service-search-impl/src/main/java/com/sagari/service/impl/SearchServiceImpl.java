@@ -6,7 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.service.SearchService;
+import com.sagari.service.feign.TagServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
+import com.xxl.sso.core.login.SsoTokenLoginHelper;
+import com.xxl.sso.core.user.XxlSsoUser;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -18,6 +21,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.suggest.Suggest;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
@@ -25,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +46,10 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
     private RestHighLevelClient client;
     @Autowired
     private UserServiceFeign userServiceFeign;
+    @Autowired
+    private TagServiceFeign tagServiceFeign;
+    @Autowired
+    private HttpServletRequest request;
     private static final String ARTICLE_INDEX = "article_latest";
     private static final String TAG_INDEX = "tag_latest";
     private static final String USER_INDEX = "user_latest";
@@ -121,7 +130,7 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
 
     @Override
     public BaseResponse<JSONObject> searchAtBar(String search) throws IOException {
-        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
+        SearchRequest searchRequest = new SearchRequest(ARTICLE_INDEX);
         CompletionSuggestionBuilder suggestion = new CompletionSuggestionBuilder("titleSuggest");
         suggestion.prefix(search);
         suggestion.size(10);
@@ -130,8 +139,8 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.suggest(suggestBuilder);
         sourceBuilder.fetchSource(false);
-        request.source(sourceBuilder);
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        searchRequest.source(sourceBuilder);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         Suggest suggest = response.getSuggest();
         return setResultSuccess(JSON.parseObject(suggest.toString()));
     }
@@ -158,8 +167,66 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
         return setResultSuccess(searchUser(page, size, search));
     }
 
+    @Override
+    public BaseResponse<JSONObject> getRelateArticle(Integer page, Integer size) throws IOException {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        JSONArray tagArray = new JSONArray();
+        if (xxlUser != null) {
+            Integer userId = Integer.valueOf(xxlUser.getUserid());
+            tagArray = tagServiceFeign.getFollowTags(userId).getData().getJSONArray("tags");
+        }
+
+        SearchRequest searchRequest = new SearchRequest(ARTICLE_INDEX);
+        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        List<Integer> tagIds = tagArray.toJavaList(Integer.class);
+        if (tagIds != null && !tagIds.isEmpty()) {
+            for (Integer tagId : tagIds) {
+                boolQueryBuilder.should(QueryBuilders.wildcardQuery("tags", "*" + tagId + "*"));
+            }
+        }
+
+        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
+        sourceBuilder.query(boolQueryBuilder);
+        countRequest.source(sourceBuilder);
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        sourceBuilder.sort("createTime", SortOrder.DESC);
+        sourceBuilder.from(page * size);
+        sourceBuilder.size(size);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHit[] hits = response.getHits().getHits();
+        JSONObject result = new JSONObject();
+        List<JSONObject> list = Arrays.stream(hits).
+                map(o -> JSON.parseObject(o.toString())).
+                collect(Collectors.toList());
+        List<Integer> userIds = list.stream().map(o -> {
+            JSONObject source = o.getJSONObject("_source");
+            return source.getInteger("author");
+        }).collect(Collectors.toList());
+        JSONArray userArray = userServiceFeign.getSimpleUserByList(userIds).getData().getJSONArray("users");
+        Map<Integer, JSONObject> userMap = userArray.stream()
+                .map(o -> (JSONObject) JSON.toJSON(o))
+                .collect(Collectors.toMap(o -> o.getInteger("id"), o -> o));
+        JSONArray articleArray = (JSONArray) JSON.toJSON(list);
+        for (int i = 0; i < articleArray.size(); i++) {
+            JSONObject article = articleArray.getJSONObject(i);
+            JSONObject source = article.getJSONObject("_source");
+            source.put("user", userMap.get(source.getInteger("author")));
+        }
+        result.put("result", articleArray);
+        result.put("total", countResponse.getCount());
+
+        return setResultSuccess(result);
+    }
+
     private JSONObject searchArticle(String search, Integer page, Integer size, Integer type) throws IOException {
-        SearchRequest request = new SearchRequest(ARTICLE_INDEX);
+        SearchRequest searchRequest = new SearchRequest(ARTICLE_INDEX);
         CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -191,9 +258,9 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
         sourceBuilder.highlighter(highlightBuilder);
         sourceBuilder.from(page * size);
         sourceBuilder.size(size);
-        request.source(sourceBuilder);
+        searchRequest.source(sourceBuilder);
 
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         SearchHit[] hits = response.getHits().getHits();
         JSONObject result = new JSONObject();
         List<JSONObject> list = Arrays.stream(hits).
@@ -219,7 +286,7 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
     }
 
     private JSONObject searchTag(Integer page, Integer size, String search) throws IOException {
-        SearchRequest request = new SearchRequest(TAG_INDEX);
+        SearchRequest searchRequest = new SearchRequest(TAG_INDEX);
         CountRequest countRequest = new CountRequest(TAG_INDEX);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
@@ -233,9 +300,9 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
 
         sourceBuilder.from(page * size);
         sourceBuilder.size(size);
-        request.source(sourceBuilder);
+        searchRequest.source(sourceBuilder);
 
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         SearchHit[] hits = response.getHits().getHits();
         JSONObject result = new JSONObject();
         List<JSONObject> list = Arrays.stream(hits).
@@ -247,7 +314,7 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
     }
 
     private JSONObject searchUser(Integer page, Integer size, String search) throws IOException {
-        SearchRequest request = new SearchRequest(USER_INDEX);
+        SearchRequest searchRequest = new SearchRequest(USER_INDEX);
         CountRequest countRequest = new CountRequest(USER_INDEX);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
@@ -261,9 +328,9 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
 
         sourceBuilder.from(page * size);
         sourceBuilder.size(size);
-        request.source(sourceBuilder);
+        searchRequest.source(sourceBuilder);
 
-        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         SearchHit[] hits = response.getHits().getHits();
         JSONObject result = new JSONObject();
         List<JSONObject> list = Arrays.stream(hits).

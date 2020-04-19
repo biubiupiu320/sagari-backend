@@ -143,5 +143,4 @@ public interface UserService {
     @ApiOperation(value = "修改用户头像")
     @GetMapping("/modifyAvatar")
     public BaseResponse<JSONObject> modifyAvatar(@RequestParam(name = "avatar") String avatar);
-
 }

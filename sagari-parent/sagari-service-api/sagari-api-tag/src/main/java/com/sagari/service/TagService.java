@@ -46,4 +46,8 @@ public interface TagService {
     @PostMapping("/toggleFollowTag")
     public BaseResponse<JSONObject> toggleFollowTag(@RequestParam("tagId") Integer tagId);
 
+    @ApiOperation(value = "获取用户关注的标签")
+    @GetMapping("/getFollowTags")
+    public BaseResponse<JSONObject> getFollowTags(@RequestParam("userId") Integer userId);
+
 }

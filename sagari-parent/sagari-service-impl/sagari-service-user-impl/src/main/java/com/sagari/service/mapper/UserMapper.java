@@ -82,4 +82,6 @@ public interface UserMapper {
 
     int modifyAvatar(@Param("id") Integer id,
                      @Param("avatar") String avatar);
+
+    String getFollowTags(@Param("id") Integer id);
 }

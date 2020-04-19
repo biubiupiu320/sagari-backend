@@ -55,4 +55,9 @@ public interface SearchService {
                                                @RequestParam(name = "page") Integer page,
                                                @RequestParam(name = "size") Integer size) throws IOException;
 
+    @ApiOperation(value = "获取相关文章")
+    @GetMapping("/getRelateArticle")
+    public BaseResponse<JSONObject> getRelateArticle(@RequestParam(name = "page") Integer page,
+                                                     @RequestParam(name = "size") Integer size) throws IOException;
+
 }

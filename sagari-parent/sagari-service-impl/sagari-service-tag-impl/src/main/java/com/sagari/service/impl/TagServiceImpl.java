@@ -209,6 +209,14 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         return setResultError("failed");
     }
 
+    @Override
+    public BaseResponse<JSONObject> getFollowTags(Integer userId) {
+        List<Integer> follow = tagFollowMapper.getFollow(userId);
+        JSONObject result = new JSONObject();
+        result.put("tags", JSON.toJSON(follow));
+        return setResultSuccess(result);
+    }
+
     @Scheduled(fixedRate = 300000)
     private void cacheSyncDB() {
         log.info("cache sync started");
