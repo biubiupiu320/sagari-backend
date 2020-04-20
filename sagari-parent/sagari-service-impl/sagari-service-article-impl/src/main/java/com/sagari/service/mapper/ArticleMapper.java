@@ -18,7 +18,8 @@ public interface ArticleMapper {
 
     int updateArticle(Article article);
 
-    int deleteArticle(@Param("id") Integer id);
+    int deleteArticle(@Param("id") Integer id,
+                      @Param("author") Integer author);
 
     int isExist(@Param("id") Integer id);
 
@@ -48,4 +49,17 @@ public interface ArticleMapper {
     int decreaseCollectN(@Param("ids") List<Integer> ids);
 
     List<Article> selectArticleList(@Param("articleIds") List<Integer> articleIds);
+
+    String getArticleTags(@Param("id") Integer id);
+
+    List<ArticleVO> getArticle(@Param("author") Integer author);
+
+    List<ArticleVO> getArticleNotDel(@Param("author") Integer author);
+
+    List<ArticleVO> getArticleInRecycle(@Param("author") Integer author);
+
+    int delCompArticle(@Param("id") Integer id,
+                       @Param("author") Integer author);
+
+    int createDelCompRecord(ArticleVO articleVO);
 }

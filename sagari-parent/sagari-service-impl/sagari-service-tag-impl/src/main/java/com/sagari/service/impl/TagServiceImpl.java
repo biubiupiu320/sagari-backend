@@ -217,6 +217,14 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
         return setResultSuccess(result);
     }
 
+    @Override
+    public BaseResponse<JSONObject> getTagsByCategory(Integer categoryId) {
+        List<Integer> tags = tagMapper.getTagsByCategory(categoryId);
+        JSONObject result = new JSONObject();
+        result.put("tags", JSON.toJSON(tags));
+        return setResultSuccess(result);
+    }
+
     @Scheduled(fixedRate = 300000)
     private void cacheSyncDB() {
         log.info("cache sync started");

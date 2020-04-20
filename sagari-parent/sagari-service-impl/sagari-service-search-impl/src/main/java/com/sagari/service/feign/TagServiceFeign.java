@@ -14,4 +14,7 @@ public interface TagServiceFeign {
 
     @GetMapping("/getFollowTags")
     public BaseResponse<JSONObject> getFollowTags(@RequestParam("userId") Integer userId);
+
+    @GetMapping("/getTagsByCategory")
+    public BaseResponse<JSONObject> getTagsByCategory(@RequestParam("categoryId") Integer categoryId);
 }

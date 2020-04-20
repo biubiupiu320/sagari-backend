@@ -24,7 +24,7 @@
     <update id="deleteArticle">
         UPDATE article
         SET is_del=TRUE
-        WHERE id=#{id}
+        WHERE id=#{id} AND author=#{author} AND is_del=FALSE
     </update>
 
     <select id="isExist" resultType="java.lang.Integer">
@@ -121,4 +121,41 @@
         </foreach>
     </select>
 
+    <select id="getArticleTags" resultType="java.lang.String">
+        SELECT tags
+        FROM article
+        WHERE is_del=FALSE AND id=#{id}
+    </select>
+
+    <select id="getArticle" resultType="com.sagari.service.entity.ArticleVO">
+        SELECT id,title,author,comment_count,view_count,good_count,collect_count,create_time,is_del
+        FROM article
+        WHERE author=#{author}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getArticleNotDel" resultType="com.sagari.service.entity.ArticleVO">
+        SELECT id,title,author,comment_count,view_count,good_count,collect_count,create_time,is_del
+        FROM article
+        WHERE is_del=FALSE AND author=#{author}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getArticleInRecycle" resultType="com.sagari.service.entity.ArticleVO">
+        SELECT id,title,author,comment_count,view_count,good_count,collect_count,create_time,is_del
+        FROM article
+        WHERE is_del=TRUE AND author=#{author}
+        ORDER BY create_time DESC
+    </select>
+
+    <delete id="delCompArticle">
+        DELETE FROM article
+        WHERE id=#{id} AND author=#{author}
+    </delete>
+
+    <insert id="createDelCompRecord" parameterType="com.sagari.service.entity.ArticleVO">
+        INSERT INTO article_del_comp
+        VALUES(null,#{id},#{title},#{content},#{author},#{commentCount},#{viewCount},#{goodCount},
+                #{collectCount},#{tags},#{createTime})
+    </insert>
 </mapper>

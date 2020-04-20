@@ -15,6 +15,7 @@ public class ArticleVO {
     private String tags;
     private Long createTime;
     private Long updateTime;
+    private Boolean isDel;
 
     public Integer getId() {
         return id;
@@ -104,20 +105,30 @@ public class ArticleVO {
         this.updateTime = updateTime;
     }
 
+    public Boolean getDel() {
+        return isDel;
+    }
+
+    public void setDel(Boolean del) {
+        isDel = del;
+    }
+
     @Override
     public String toString() {
-        return "ArticleVO1{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", author=" + author +
-                ", commentCount=" + commentCount +
-                ", viewCount=" + viewCount +
-                ", goodCount=" + goodCount +
-                ", collectCount=" + collectCount +
-                ", tags='" + tags + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+        final StringBuffer sb = new StringBuffer("ArticleVO{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", content='").append(content).append('\'');
+        sb.append(", author=").append(author);
+        sb.append(", commentCount=").append(commentCount);
+        sb.append(", viewCount=").append(viewCount);
+        sb.append(", goodCount=").append(goodCount);
+        sb.append(", collectCount=").append(collectCount);
+        sb.append(", tags='").append(tags).append('\'');
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", isDel=").append(isDel);
+        sb.append('}');
+        return sb.toString();
     }
 }

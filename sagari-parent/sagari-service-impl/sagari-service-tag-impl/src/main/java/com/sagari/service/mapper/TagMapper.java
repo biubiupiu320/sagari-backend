@@ -20,4 +20,6 @@ public interface TagMapper {
     List<TagVO> getTagBatch(@Param("tagIds") List<Integer> tagIds);
 
     int incrArticleCount(@Param("tagIds") List<Integer> tagIds);
+
+    List<Integer> getTagsByCategory(@Param("categoryId") Integer categoryId);
 }

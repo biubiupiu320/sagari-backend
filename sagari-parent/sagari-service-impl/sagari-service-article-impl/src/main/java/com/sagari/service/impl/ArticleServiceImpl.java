@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ArticleInputDTO;
@@ -20,6 +21,7 @@ import com.xxl.sso.core.login.SsoTokenLoginHelper;
 import com.xxl.sso.core.user.XxlSsoUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -189,7 +191,13 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (articleId == null || articleId <= 0) {
             return setResultError("无效的请求");
         }
-        if (articleMapper.deleteArticle(articleId) > 0) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (articleMapper.deleteArticle(articleId, userId) > 0) {
             return setResultSuccess("文章删除成功");
         }
         return setResultError("文章删除失败");
@@ -267,5 +275,57 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Override
     public Boolean decreaseCollectN(List<Integer> ids) {
         return articleMapper.decreaseCollectN(ids) > 0;
+    }
+
+    @Override
+    public String getArticleTags(Integer articleId) {
+        return articleMapper.getArticleTags(articleId);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getArticle(Integer page, Integer size, Integer type) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (page < 1) {
+            page = 1;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        PageHelper.startPage(page, size);
+        List<ArticleVO> article;
+        if (type.equals(1)) {
+            article = articleMapper.getArticle(userId);
+        } else if (type.equals(2)) {
+            article = articleMapper.getArticleNotDel(userId);
+        } else if (type.equals(3)) {
+            article = articleMapper.getArticleInRecycle(userId);
+        } else {
+            return setResultError("Invalid request");
+        }
+        PageInfo<ArticleVO> pageInfo = new PageInfo<>(article);
+        return setResultSuccess((JSONObject) JSON.toJSON(pageInfo));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResponse<JSONObject> deleteArticleComp(Integer articleId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        ArticleVO articleVO = articleMapper.selectArticle(articleId);
+        if (articleMapper.delCompArticle(articleId, userId) > 0) {
+            articleVO.setCreateTime(System.currentTimeMillis());
+            articleMapper.createDelCompRecord(articleVO);
+            return setResultSuccess();
+        }
+        return setResultError("delete failed");
     }
 }

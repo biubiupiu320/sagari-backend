@@ -1,0 +1,72 @@
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T075224.200.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T075222.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T075218.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T075212.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T073840.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T073839.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T073836.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T073835.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
+
+<> 2020-04-20T073828.500.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=1&page=0&size=10
+
+<> 2020-04-20T073807.200.json
+
+###
+
+GET http://localhost/search/getArticleByCategory?categoryId=1&page=0&size=10
+
+<> 2020-04-20T073718.500.json
+
+###
+
+GET http://localhost/search/getHomeArticle?page=0&size=10
+
+<> 2020-04-20T073601.200.json
+
+###
+

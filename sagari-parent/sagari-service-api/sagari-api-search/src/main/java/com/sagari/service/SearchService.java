@@ -56,8 +56,18 @@ public interface SearchService {
                                                @RequestParam(name = "size") Integer size) throws IOException;
 
     @ApiOperation(value = "获取相关文章")
+    @GetMapping("/getHomeArticle")
+    public BaseResponse<JSONObject> getHomeArticle(@RequestParam(name = "page") Integer page,
+                                                   @RequestParam(name = "size") Integer size) throws IOException;
+
+    @ApiOperation(value = "根据分类获取文章")
+    @GetMapping("/getArticleByCategory")
+    public BaseResponse<JSONObject> getArticleByCategory(@RequestParam(name = "categoryId") Integer categoryId,
+                                                         @RequestParam(name = "page") Integer page,
+                                                         @RequestParam(name = "size") Integer size) throws IOException;
+
+    @ApiOperation(value = "获取与文章相关的其他文章")
     @GetMapping("/getRelateArticle")
-    public BaseResponse<JSONObject> getRelateArticle(@RequestParam(name = "page") Integer page,
-                                                     @RequestParam(name = "size") Integer size) throws IOException;
+    public BaseResponse<JSONObject> getRelateArticle(@RequestParam(name = "articleId") Integer articleId) throws IOException;
 
 }

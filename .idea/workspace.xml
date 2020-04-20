@@ -5,19 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="389b1633-47a4-4f02-bcf2-d7421ee9cd5b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/config/XxlSsoConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/feign/ArticleServiceFeign.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-article/src/main/java/com/sagari/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-article/src/main/java/com/sagari/service/ArticleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/src/main/java/com/sagari/service/SearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-search/src/main/java/com/sagari/service/SearchService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/src/main/java/com/sagari/service/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-tag/src/main/java/com/sagari/service/TagService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/src/main/java/com/sagari/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-api/sagari-api-user/src/main/java/com/sagari/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/entity/ArticleVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/entity/ArticleVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/mapper/ArticleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/java/com/sagari/service/mapper/ArticleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/resources/mapper/ArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-article-impl/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/feign/TagServiceFeign.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/impl/SearchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-search-impl/src/main/java/com/sagari/service/impl/SearchServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/impl/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/impl/TagServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-user-impl/src/main/java/com/sagari/service/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/mapper/TagMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/java/com/sagari/service/mapper/TagMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sagari-parent/sagari-service-impl/sagari-service-tag-impl/src/main/resources/mapper/TagMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,9 +100,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sagari.service.feign" />
       <recent name="com.sagari.service.config" />
       <recent name="com.sagari.service.entity" />
-      <recent name="com.sagari.service.feign" />
       <recent name="com.sagari.service.util" />
       <recent name="com.sagari.dto.input" />
     </key>
@@ -113,7 +114,81 @@
       <recent name="D:\SSM\sagari\sagari-parent\sagari-service-impl\sagari-service-comment-impl\src\main\resources\mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.SagariServiceSearchImplApplication">
+  <component name="RestClientSettings">
+    <option name="REQUEST_HISTORY">
+      <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost/search/getArticleByCategory" />
+          <option name="urlPath" value="" />
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="categoryId" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="size" />
+                <option name="value" value="10" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost/search/getArticleByCategory" />
+          <option name="urlPath" value="" />
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="categoryId" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="size" />
+                <option name="value" value="10" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost/search/getHomeArticle" />
+          <option name="urlPath" value="" />
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="size" />
+                <option name="value" value="10" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SagariServiceArticleImplApplication">
     <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="eureka-server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.sagari.eureka.EurekaServerApplication" />
@@ -281,7 +356,8 @@
       <workItem from="1587023386496" duration="19244000" />
       <workItem from="1587216191016" duration="6409000" />
       <workItem from="1587223018044" duration="740000" />
-      <workItem from="1587300121322" duration="8027000" />
+      <workItem from="1587300121322" duration="8392000" />
+      <workItem from="1587375924452" duration="15141000" />
     </task>
     <servers />
   </component>
@@ -320,10 +396,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="294" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584425405683" />
-    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586598199857">
+    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587385705340">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1586598199857" />
+    <state x="255" y="261" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1587385705340" />
     <state x="108" y="342" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584613926407">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -332,10 +408,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="244" key="#com.intellij.ide.macro.MacrosDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584279413087" />
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1587305642927">
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser" timestamp="1587393874515">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1587305642927" />
+    <state x="765" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1587393874515" />
     <state x="689" y="322" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586784939150">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -368,58 +444,58 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="294" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1584872876542" />
-    <state width="1877" height="271" key="GridCell.Tab.0.bottom" timestamp="1587309224268">
+    <state width="1877" height="289" key="GridCell.Tab.0.bottom" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224268" />
-    <state width="1877" height="271" key="GridCell.Tab.0.center" timestamp="1587309224268">
+    <state width="1877" height="289" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.0.center" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224268" />
-    <state width="1877" height="271" key="GridCell.Tab.0.left" timestamp="1587309224268">
+    <state width="1877" height="289" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.0.left" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224268" />
-    <state width="1877" height="271" key="GridCell.Tab.0.right" timestamp="1587309224268">
+    <state width="1877" height="289" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.0.right" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224268" />
-    <state width="1877" height="271" key="GridCell.Tab.1.bottom" timestamp="1587309224270">
+    <state width="1877" height="289" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.1.bottom" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224270" />
-    <state width="1877" height="271" key="GridCell.Tab.1.center" timestamp="1587309224270">
+    <state width="1877" height="289" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.1.center" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224270" />
-    <state width="1877" height="271" key="GridCell.Tab.1.left" timestamp="1587309224270">
+    <state width="1877" height="289" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.1.left" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224270" />
-    <state width="1877" height="271" key="GridCell.Tab.1.right" timestamp="1587309224270">
+    <state width="1877" height="289" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="289" key="GridCell.Tab.1.right" timestamp="1587393833300">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="271" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587309224270" />
-    <state width="1877" height="264" key="GridCell.Tab.2.bottom" timestamp="1586960064604">
+    <state width="1877" height="289" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587393833300" />
+    <state width="1877" height="472" key="GridCell.Tab.2.bottom" timestamp="1587391671051">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="264" key="GridCell.Tab.2.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1586960064604" />
-    <state width="1877" height="264" key="GridCell.Tab.2.center" timestamp="1586960064604">
+    <state width="1877" height="472" key="GridCell.Tab.2.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587391671051" />
+    <state width="1877" height="472" key="GridCell.Tab.2.center" timestamp="1587391671050">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="264" key="GridCell.Tab.2.center/0.0.1920.1080@0.0.1920.1080" timestamp="1586960064604" />
-    <state width="1877" height="264" key="GridCell.Tab.2.left" timestamp="1586960064604">
+    <state width="1877" height="472" key="GridCell.Tab.2.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587391671050" />
+    <state width="1877" height="472" key="GridCell.Tab.2.left" timestamp="1587391671050">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="264" key="GridCell.Tab.2.left/0.0.1920.1080@0.0.1920.1080" timestamp="1586960064604" />
-    <state width="1877" height="264" key="GridCell.Tab.2.right" timestamp="1586960064604">
+    <state width="1877" height="472" key="GridCell.Tab.2.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587391671050" />
+    <state width="1877" height="472" key="GridCell.Tab.2.right" timestamp="1587391671051">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1877" height="264" key="GridCell.Tab.2.right/0.0.1920.1080@0.0.1920.1080" timestamp="1586960064604" />
-    <state x="540" y="274" key="IDE.errors.dialog" timestamp="1587302024603">
+    <state width="1877" height="472" key="GridCell.Tab.2.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587391671051" />
+    <state x="540" y="274" key="IDE.errors.dialog" timestamp="1587377631019">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="540" y="274" key="IDE.errors.dialog/0.0.1920.1080@0.0.1920.1080" timestamp="1587302024603" />
+    <state x="540" y="274" key="IDE.errors.dialog/0.0.1920.1080@0.0.1920.1080" timestamp="1587377631019" />
     <state x="461" y="181" key="SettingsEditor" timestamp="1586497680993">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -440,10 +516,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="477" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1586352654309" />
-    <state x="511" y="275" width="1071" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1586784940883">
+    <state x="511" y="275" width="1071" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1587378646943">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="511" y="275" width="1071" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1586784940883" />
+    <state x="511" y="275" width="1071" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1587378646943" />
     <state x="333" y="397" width="1251" height="615" key="new project wizard" timestamp="1586587865799">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -452,15 +528,5 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1586587288508" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

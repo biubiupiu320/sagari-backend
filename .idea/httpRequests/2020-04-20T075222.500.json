@@ -1,0 +1,1 @@
+{"timestamp":"2020-04-20T11:52:22.773+0000","status":500,"error":"Internal Server Error","message":"Read timed out executing GET http://sagari-tag-service/getTagsByCategory?categoryId=2","path":"/getArticleByCategory"}

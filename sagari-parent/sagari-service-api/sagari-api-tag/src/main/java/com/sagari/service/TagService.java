@@ -50,4 +50,8 @@ public interface TagService {
     @GetMapping("/getFollowTags")
     public BaseResponse<JSONObject> getFollowTags(@RequestParam("userId") Integer userId);
 
+    @ApiOperation(value = "根据分类ID获取该分类下的所有标签")
+    @GetMapping("/getTagsByCategory")
+    public BaseResponse<JSONObject> getTagsByCategory(@RequestParam("categoryId") Integer categoryId);
+
 }

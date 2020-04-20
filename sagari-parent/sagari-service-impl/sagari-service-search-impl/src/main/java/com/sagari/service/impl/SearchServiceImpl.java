@@ -6,10 +6,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.service.SearchService;
+import com.sagari.service.feign.ArticleServiceFeign;
 import com.sagari.service.feign.TagServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.xxl.sso.core.login.SsoTokenLoginHelper;
 import com.xxl.sso.core.user.XxlSsoUser;
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -18,9 +20,12 @@ import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.ScriptSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.suggest.Suggest;
 import org.elasticsearch.search.suggest.SuggestBuilder;
@@ -48,6 +53,8 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
     private UserServiceFeign userServiceFeign;
     @Autowired
     private TagServiceFeign tagServiceFeign;
+    @Autowired
+    private ArticleServiceFeign articleServiceFeign;
     @Autowired
     private HttpServletRequest request;
     private static final String ARTICLE_INDEX = "article_latest";
@@ -168,7 +175,7 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
     }
 
     @Override
-    public BaseResponse<JSONObject> getRelateArticle(Integer page, Integer size) throws IOException {
+    public BaseResponse<JSONObject> getHomeArticle(Integer page, Integer size) throws IOException {
         String sessionId = request.getHeader("xxl-sso-session-id");
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
         JSONArray tagArray = new JSONArray();
@@ -177,51 +184,50 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
             tagArray = tagServiceFeign.getFollowTags(userId).getData().getJSONArray("tags");
         }
 
+        JSONObject result = getIndexArticle(tagArray, page, size);
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getArticleByCategory(Integer categoryId, Integer page, Integer size) throws IOException {
+        JSONArray tagArray = tagServiceFeign.getTagsByCategory(categoryId).getData().getJSONArray("tags");
+        if (tagArray == null) {
+            tagArray = new JSONArray();
+        }
+
+        JSONObject result = getIndexArticle(tagArray, page, size);
+        return setResultSuccess(result);
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getRelateArticle(Integer articleId) throws IOException {
+        String tagString = articleServiceFeign.getArticleTags(articleId);
         SearchRequest searchRequest = new SearchRequest(ARTICLE_INDEX);
-        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
-        List<Integer> tagIds = tagArray.toJavaList(Integer.class);
-        if (tagIds != null && !tagIds.isEmpty()) {
-            for (Integer tagId : tagIds) {
-                boolQueryBuilder.should(QueryBuilders.wildcardQuery("tags", "*" + tagId + "*"));
-            }
-        }
+        boolQueryBuilder.must(QueryBuilders.matchQuery("tags", tagString));
 
         boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
         sourceBuilder.query(boolQueryBuilder);
-        countRequest.source(sourceBuilder);
-        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
 
-        sourceBuilder.sort("createTime", SortOrder.DESC);
-        sourceBuilder.from(page * size);
-        sourceBuilder.size(size);
+        Script script = new Script("Math.random()");
+        ScriptSortBuilder scriptBuilder = SortBuilders.scriptSort(script, ScriptSortBuilder.ScriptSortType.NUMBER);
+        sourceBuilder.sort(scriptBuilder);
+        sourceBuilder.from(0);
+        sourceBuilder.size(10);
+        String[] excludes = new String[]{"content", "titleSuggest"};
+        sourceBuilder.fetchSource(null, excludes);
         searchRequest.source(sourceBuilder);
 
         SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        System.out.println(searchRequest.toString());
         SearchHit[] hits = response.getHits().getHits();
         JSONObject result = new JSONObject();
-        List<JSONObject> list = Arrays.stream(hits).
-                map(o -> JSON.parseObject(o.toString())).
-                collect(Collectors.toList());
-        List<Integer> userIds = list.stream().map(o -> {
-            JSONObject source = o.getJSONObject("_source");
-            return source.getInteger("author");
-        }).collect(Collectors.toList());
-        JSONArray userArray = userServiceFeign.getSimpleUserByList(userIds).getData().getJSONArray("users");
-        Map<Integer, JSONObject> userMap = userArray.stream()
-                .map(o -> (JSONObject) JSON.toJSON(o))
-                .collect(Collectors.toMap(o -> o.getInteger("id"), o -> o));
-        JSONArray articleArray = (JSONArray) JSON.toJSON(list);
-        for (int i = 0; i < articleArray.size(); i++) {
-            JSONObject article = articleArray.getJSONObject(i);
-            JSONObject source = article.getJSONObject("_source");
-            source.put("user", userMap.get(source.getInteger("author")));
-        }
-        result.put("result", articleArray);
-        result.put("total", countResponse.getCount());
-
+        List<JSONObject> list = Arrays.stream(hits)
+                .map(o -> JSON.parseObject(o.toString()))
+                .collect(Collectors.toList());
+        result.put("relates", JSON.toJSON(list));
         return setResultSuccess(result);
     }
 
@@ -337,6 +343,57 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
                 map(o -> JSON.parseObject(o.toString())).
                 collect(Collectors.toList());
         result.put("result", JSON.toJSON(list));
+        result.put("total", countResponse.getCount());
+        return result;
+    }
+
+    private JSONObject getIndexArticle(JSONArray tagArray, Integer page, Integer size) throws IOException {
+        SearchRequest searchRequest = new SearchRequest(ARTICLE_INDEX);
+        CountRequest countRequest = new CountRequest(ARTICLE_INDEX);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        String tagString = tagArray.toJSONString().replaceAll("\\[", "");
+        tagString = tagString.replaceAll("]", "");
+        if (StringUtils.isNotBlank(tagString)) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("tags", tagString));
+        }
+
+        boolQueryBuilder.filter(QueryBuilders.termQuery("isDel", false));
+        sourceBuilder.query(boolQueryBuilder);
+        countRequest.source(sourceBuilder);
+        CountResponse countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+
+        sourceBuilder.sort("createTime", SortOrder.DESC);
+        sourceBuilder.from(page * size);
+        sourceBuilder.size(size);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHit[] hits = response.getHits().getHits();
+        JSONObject result = new JSONObject();
+        List<JSONObject> list = Arrays.stream(hits)
+                .map(o -> JSON.parseObject(o.toString()))
+                .collect(Collectors.toList());
+        List<Integer> userIds = list.stream().map(o -> {
+            JSONObject source = o.getJSONObject("_source");
+            return source.getInteger("author");
+        }).distinct().collect(Collectors.toList());
+        if (!userIds.isEmpty()) {
+            JSONArray userArray = userServiceFeign.getSimpleUserByList(userIds).getData().getJSONArray("users");
+            Map<Integer, JSONObject> userMap = userArray.stream()
+                    .map(o -> (JSONObject) JSON.toJSON(o))
+                    .collect(Collectors.toMap(o -> o.getInteger("id"), o -> o));
+            JSONArray articleArray = (JSONArray) JSON.toJSON(list);
+            for (int i = 0; i < articleArray.size(); i++) {
+                JSONObject article = articleArray.getJSONObject(i);
+                JSONObject source = article.getJSONObject("_source");
+                source.put("user", userMap.get(source.getInteger("author")));
+            }
+            result.put("result", articleArray);
+        } else {
+            result.put("result", new JSONArray());
+        }
         result.put("total", countResponse.getCount());
         return result;
     }

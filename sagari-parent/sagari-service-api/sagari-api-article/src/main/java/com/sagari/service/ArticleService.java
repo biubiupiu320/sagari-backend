@@ -3,7 +3,6 @@ package com.sagari.service;
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseResponse;
 import com.sagari.dto.input.ArticleInputDTO;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
@@ -36,7 +35,7 @@ public interface ArticleService {
     public BaseResponse<JSONObject> editArticle(@PathVariable("articleId") Integer articleId,
                                                 @RequestBody ArticleInputDTO articleInputDTO);
 
-    @ApiOperation(value = "删除文章接口")
+    @ApiOperation(value = "删除文章至回收站接口")
     @DeleteMapping(value = "/article/{articleId}")
     public BaseResponse<JSONObject> deleteArticle(@PathVariable("articleId") Integer articleId);
 
@@ -92,4 +91,18 @@ public interface ArticleService {
     @ApiOperation(value = "多篇文章收藏数量-1接口")
     @PostMapping(value = "/decreaseCollectN")
     public Boolean decreaseCollectN(@RequestBody List<Integer> ids);
+
+    @ApiOperation(value = "获取文章的标签")
+    @GetMapping(value = "/getArticleTags")
+    public String getArticleTags(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "获取用户的文章")
+    @GetMapping(value = "/getArticle")
+    public BaseResponse<JSONObject> getArticle(@RequestParam("page") Integer page,
+                                               @RequestParam("size") Integer size,
+                                               @RequestParam("type") Integer type);
+
+    @ApiOperation(value = "彻底删除文章")
+    @DeleteMapping(value = "/deleteArticleComp")
+    public BaseResponse<JSONObject> deleteArticleComp(@RequestParam("articleId") Integer articleId);
 }
