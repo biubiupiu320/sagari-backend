@@ -15,6 +15,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka-server</module>
+        <module>sagari-gateway</module>
+        <module>xxl-sso-server</module>
     </modules>
 
     <properties>

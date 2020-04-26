@@ -213,10 +213,28 @@
         WHERE phone=#{phone}
     </update>
 
+    <update id="unbindQQ">
+        UPDATE `user`
+        SET qq_id=null
+        WHERE id=#{id}
+    </update>
+
     <update id="modifyAvatar">
         UPDATE `user`
         SET avatar=#{avatar}
         WHERE id=#{id}
     </update>
+
+    <update id="modifyEmail">
+        UPDATE `user`
+        SET email=#{newEmail}
+        WHERE id=#{id} AND email=#{oldEmail}
+    </update>
+
+    <select id="getOtherPlatform" resultType="com.sagari.service.entity.User">
+        SELECT qq_id,baidu_id,github_id
+        FROM `user`
+        WHERE id=#{id}
+    </select>
 
 </mapper>

@@ -25,10 +25,6 @@ public class ArticleInputDTO {
     @NotBlank(message = "文章内容不能为空")
     private String content;
 
-    @ApiModelProperty(value = "文章作者")
-    @NotNull(message = "您还未登录，请登录后再发布文章")
-    private Integer author;
-
     @ApiModelProperty(value = "文章标签(至少一个)")
     @NotBlank(message = "文章标签不能为空")
     private String tags;
@@ -57,14 +53,6 @@ public class ArticleInputDTO {
         this.content = content;
     }
 
-    public Integer getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Integer author) {
-        this.author = author;
-    }
-
     public String getTags() {
         return tags;
     }
@@ -79,7 +67,6 @@ public class ArticleInputDTO {
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", content='").append(content).append('\'');
-        sb.append(", author=").append(author);
         sb.append(", tags='").append(tags).append('\'');
         sb.append('}');
         return sb.toString();

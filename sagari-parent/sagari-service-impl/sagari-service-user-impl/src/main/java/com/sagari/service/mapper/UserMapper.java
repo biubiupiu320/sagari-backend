@@ -80,8 +80,16 @@ public interface UserMapper {
     int bindQQByPhone(@Param("phone") String phone,
                       @Param("qqId") String qqId);
 
+    int unbindQQ(@Param("id") Integer id);
+
     int modifyAvatar(@Param("id") Integer id,
                      @Param("avatar") String avatar);
 
     String getFollowTags(@Param("id") Integer id);
+
+    int modifyEmail(@Param("id") Integer id,
+                    @Param("oldEmail") String oldEmail,
+                    @Param("newEmail") String newEmail);
+
+    User getOtherPlatform(@Param("id") Integer id);
 }

@@ -55,7 +55,7 @@ public interface SearchService {
                                                @RequestParam(name = "page") Integer page,
                                                @RequestParam(name = "size") Integer size) throws IOException;
 
-    @ApiOperation(value = "获取相关文章")
+    @ApiOperation(value = "获取首页推荐文章")
     @GetMapping("/getHomeArticle")
     public BaseResponse<JSONObject> getHomeArticle(@RequestParam(name = "page") Integer page,
                                                    @RequestParam(name = "size") Integer size) throws IOException;
@@ -69,5 +69,10 @@ public interface SearchService {
     @ApiOperation(value = "获取与文章相关的其他文章")
     @GetMapping("/getRelateArticle")
     public BaseResponse<JSONObject> getRelateArticle(@RequestParam(name = "articleId") Integer articleId) throws IOException;
+
+    @ApiOperation(value = "删除文章，此接口仅需在完全删除文章时由系统自动调用")
+    @GetMapping("/deleteArticle")
+    public Boolean deleteArticle(@RequestParam(name = "articleId") Integer articleId,
+                                 @RequestParam(name = "userId") Integer userId) throws IOException;
 
 }

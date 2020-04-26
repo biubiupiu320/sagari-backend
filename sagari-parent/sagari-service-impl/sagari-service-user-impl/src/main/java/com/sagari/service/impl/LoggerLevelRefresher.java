@@ -4,13 +4,16 @@ import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.model.ConfigChangeEvent;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
-import java.util.Set;
-import javax.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.Set;
 
 /**
  * @author biubiupiu~
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class LoggerLevelRefresher implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
+    private final Logger log = LoggerFactory.getLogger(LoggerLevelRefresher.class);
 
     @ApolloConfig
     private Config config;
@@ -34,7 +38,7 @@ public class LoggerLevelRefresher implements ApplicationContextAware {
     }
 
     private void refreshLoggingLevels(Set<String> changedKeys) {
-        System.out.println("Refreshing logging levels");
+        log.info("Refreshing logging levels");
 
         /**
          * refresh logging levels
@@ -42,7 +46,7 @@ public class LoggerLevelRefresher implements ApplicationContextAware {
          */
         this.applicationContext.publishEvent(new EnvironmentChangeEvent(changedKeys));
 
-        System.out.println("Logging levels refreshed");
+        log.info("Logging levels refreshed");
     }
 
     @Override

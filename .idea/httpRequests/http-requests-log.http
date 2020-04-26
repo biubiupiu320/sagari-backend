@@ -1,3 +1,27 @@
+GET http://localhost/user/sign-in?account=18360861707&password=123123..0a
+
+<> 2020-04-21T061935.200.json
+
+###
+
+GET http://39.97.162.33/user/sign-in?account=18360861707&password=123123..0a
+
+<> 2020-04-21T061814.500.json
+
+###
+
+GET http://39.97.162.33/user/sign-in?account=18360861707&password=123123..0a
+
+<> 2020-04-21T061531.500.json
+
+###
+
+GET http://39.97.162.33/user/sign-in?account=18360861707&password=123123..0a
+
+<> 2020-04-21T061324.500.json
+
+###
+
 GET http://localhost/search/getArticleByCategory?categoryId=2&page=0&size=10
 
 <> 2020-04-20T075224.200.json

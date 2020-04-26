@@ -28,4 +28,6 @@ public interface NoticeFollowMapper {
 
     int deleteNoticeAll(@Param("userId") Integer userId,
                         @Param("updateTime") Long updateTime);
+
+    int unreadNoticeCount(@Param("userId") Integer userId);
 }

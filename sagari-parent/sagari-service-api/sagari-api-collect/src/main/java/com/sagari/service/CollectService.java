@@ -35,12 +35,12 @@ public interface CollectService {
 
     @ApiOperation(value = "获取收藏夹文章")
     @GetMapping("/getCollect")
-    public BaseResponse<JSONObject> getCollect(@RequestParam("favoritesId") Integer favoritesId,
-                                               @RequestParam("page") Integer page,
-                                               @RequestParam("size") Integer size);
+    public BaseResponse<JSONObject> getCollect(@RequestParam(name = "favoritesId") Integer favoritesId,
+                                               @RequestParam(name = "page") Integer page,
+                                               @RequestParam(name = "size") Integer size);
 
     @ApiOperation(value = "检查用户是否收藏了该文章")
     @GetMapping("/isCollect")
-    public Boolean isCollect(@RequestParam("articleId") Integer articleId,
-                             @RequestParam("userId") Integer userId);
+    public Boolean isCollect(@RequestParam(name = "articleId") Integer articleId,
+                             @RequestParam(name = "userId", required = false) Integer userId);
 }

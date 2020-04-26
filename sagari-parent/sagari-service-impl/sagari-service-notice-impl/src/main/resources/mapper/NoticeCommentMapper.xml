@@ -42,4 +42,10 @@
         WHERE to_id=#{userId} AND is_del=FALSE
     </update>
 
+    <select id="unreadNoticeCount" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM notice_comment
+        WHERE to_id=#{userId} AND is_read=FALSE AND is_del=FALSE
+    </select>
+
 </mapper>

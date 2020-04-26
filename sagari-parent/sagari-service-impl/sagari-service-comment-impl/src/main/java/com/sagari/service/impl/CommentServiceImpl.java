@@ -36,7 +36,6 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
 
     @Autowired
     private ParentCommentMapper parentCommentMapper;
-
     @Autowired
     private ChildCommentMapper childCommentMapper;
     @Autowired
@@ -114,6 +113,9 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
         }
         PageHelper.startPage(page, size);
         List<ParentCommentVo> list = parentCommentMapper.selectParentComment(articleId, userId);
+        if (list == null || list.isEmpty()) {
+            return setResultSuccess(new JSONObject());
+        }
         PageInfo<ParentCommentVo> parentCommentVo = new PageInfo<>(list);
         JSONObject comments = (JSONObject) JSON.toJSON(parentCommentVo);
         JSONArray result = comments.getJSONArray("list");
@@ -288,16 +290,24 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
 
     @Override
     public BaseResponse<JSONObject> getParentContent(@RequestBody List<Integer> ids) {
-        List<ContentVO> contents = parentCommentMapper.getParentContent(ids);
         JSONObject result = new JSONObject();
+        if (ids == null || ids.isEmpty()) {
+            result.put("contents", new JSONArray());
+            return setResultSuccess(result);
+        }
+        List<ContentVO> contents = parentCommentMapper.getParentContent(ids);
         result.put("contents", JSON.toJSON(contents));
         return setResultSuccess(result);
     }
 
     @Override
     public BaseResponse<JSONObject> getChildContent(@RequestBody List<Integer> ids) {
-        List<ContentVO> contents = childCommentMapper.getChildContent(ids);
         JSONObject result = new JSONObject();
+        if (ids == null || ids.isEmpty()) {
+            result.put("contents", new JSONArray());
+            return setResultSuccess(result);
+        }
+        List<ContentVO> contents = childCommentMapper.getChildContent(ids);
         result.put("contents", JSON.toJSON(contents));
         return setResultSuccess(result);
     }

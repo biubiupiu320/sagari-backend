@@ -18,7 +18,7 @@
     <update id="updateArticle" parameterType="com.sagari.service.entity.Article">
         UPDATE article
         SET title=#{title},content=#{content},tags=#{tags},update_time=#{updateTime}
-        WHERE id=#{id} AND creator=#{creator} AND is_del=FALSE
+        WHERE id=#{id} AND author=#{author} AND is_del=FALSE
     </update>
 
     <update id="deleteArticle">
@@ -36,7 +36,7 @@
     <select id="checkPermissions" resultType="java.lang.Integer">
         SELECT COUNT(id)
         FROM article
-        WHERE id=#{articleId} AND author=#{creator}
+        WHERE id=#{articleId} AND author=#{author}
     </select>
 
     <update id="incrementGood">

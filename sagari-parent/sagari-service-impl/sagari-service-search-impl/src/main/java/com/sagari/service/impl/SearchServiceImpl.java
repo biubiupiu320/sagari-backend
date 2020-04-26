@@ -20,7 +20,10 @@ import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -229,6 +233,25 @@ public class SearchServiceImpl extends BaseApiService<JSONObject> implements Sea
                 .collect(Collectors.toList());
         result.put("relates", JSON.toJSON(list));
         return setResultSuccess(result);
+    }
+
+    @Override
+    public Boolean deleteArticle(Integer articleId, Integer userId) throws IOException {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        boolQueryBuilder.must(QueryBuilders.matchQuery("author", userId));
+        boolQueryBuilder.must(QueryBuilders.matchQuery("id", articleId));
+        UpdateByQueryRequest updateRequest = new UpdateByQueryRequest(ARTICLE_INDEX);
+        updateRequest.setQuery(boolQueryBuilder);
+        Map<String, Object> params = new HashMap<>();
+        params.put("updateTime", System.currentTimeMillis());
+        ScriptType type = ScriptType.INLINE;
+        String lang = "painless";
+        String code = "ctx._source.isDel=true;ctx._source.updateTime=params.updateTime";
+        Script script = new Script(type, lang, code, params);
+        updateRequest.setScript(script);
+
+        BulkByScrollResponse updateResponse = client.updateByQuery(updateRequest, RequestOptions.DEFAULT);
+        return updateResponse.getUpdated() > 0;
     }
 
     private JSONObject searchArticle(String search, Integer page, Integer size, Integer type) throws IOException {

@@ -12,11 +12,9 @@ import com.sagari.dto.input.ModifyPasswordDTO;
 import com.sagari.dto.input.ModifyUserDTO;
 import com.sagari.dto.input.UserSignUpInputDTO;
 import com.sagari.service.UserService;
-import com.sagari.service.entity.SignIn;
-import com.sagari.service.entity.User;
-import com.sagari.service.entity.UserVO;
-import com.sagari.service.entity.UsernameRecord;
+import com.sagari.service.entity.*;
 import com.sagari.service.feign.VCodeServiceFeign;
+import com.sagari.service.mapper.BanMapper;
 import com.sagari.service.mapper.SignInHistoryMapper;
 import com.sagari.service.mapper.UserMapper;
 import com.sagari.service.util.ClientInfo;
@@ -46,6 +44,8 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     private UserMapper userMapper;
     @Autowired
     private SignInHistoryMapper historyMapper;
+    @Autowired
+    private BanMapper banMapper;
     @Autowired
     private ClientInfo clientInfo;
     @Autowired
@@ -346,6 +346,20 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
     }
 
     @Override
+    public BaseResponse<JSONObject> unbindQQ() {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (userMapper.unbindQQ(userId) > 0) {
+            return setResultSuccess();
+        }
+        return setResultError("unbind qq failed");
+    }
+
+    @Override
     public BaseResponse<JSONObject> getHistory(Integer page, Integer size) {
         String sessionId = request.getHeader("xxl-sso-session-id");
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
@@ -381,5 +395,68 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
             return setResultError("modify avatar failed");
         }
         return setResultError("the avatar must be a URL");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getBanRecord(Integer page, Integer size) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (page < 1) {
+            page = 1;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        PageHelper.startPage(page, size);
+        List<Ban> records = banMapper.getBanRecord(userId);
+        PageInfo<Ban> pageInfo = new PageInfo<>(records);
+        return setResultSuccess((JSONObject) JSON.toJSON(pageInfo));
+    }
+
+    @Override
+    public BaseResponse<JSONObject> modifyEmail(String oldEmail, String newEmail) {
+        if (!RegexUtils.checkEmail(oldEmail)) {
+            return setResultError("the old email address format isn't incorrect");
+        }
+        if (!RegexUtils.checkEmail(newEmail)) {
+            return setResultError("the new email address format isn't incorrect");
+        }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (userMapper.modifyEmail(userId, oldEmail, newEmail) > 0) {
+            return setResultSuccess();
+        }
+        return setResultError("modify email failed,may be the old email is incorrect");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getOtherPlatform() {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        JSONObject result = new JSONObject();
+        User user = userMapper.getOtherPlatform(userId);
+	    System.out.println(user);
+        if (StringUtils.isNotBlank(user.getQqId())) {
+            result.put("qqId", user.getQqId());
+        }
+        if (StringUtils.isNotBlank(user.getBaiduId())) {
+            result.put("baiduId", user.getBaiduId());
+        }
+        if (StringUtils.isNotBlank(user.getGithubId())) {
+            result.put("githubId",user.getGithubId());
+        }
+        return setResultSuccess(result);
     }
 }

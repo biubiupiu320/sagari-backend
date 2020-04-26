@@ -4,9 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sagari.common.base.BaseApiService;
 import com.sagari.common.base.BaseResponse;
-import com.sagari.common.utils.RegexUtils;
+import com.sagari.service.entity.Ban;
 import com.sagari.service.entity.SignIn;
 import com.sagari.service.entity.UserVO;
+import com.sagari.service.mapper.BanMapper;
 import com.sagari.service.mapper.SignInHistoryMapper;
 import com.sagari.service.mapper.UserMapper;
 import com.sagari.service.util.ClientInfo;
@@ -27,6 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -47,6 +51,8 @@ public class QQController extends BaseApiService<JSONObject> {
     @Autowired
     private SignInHistoryMapper historyMapper;
     @Autowired
+    private BanMapper banMapper;
+    @Autowired
     private HttpServletRequest request;
     @Autowired
     private ClientInfo clientInfo;
@@ -54,13 +60,31 @@ public class QQController extends BaseApiService<JSONObject> {
 
     @GetMapping("/qq_signin")
     public BaseResponse<JSONObject> qqLogin(@RequestParam("code") String code) {
+        log.info("code=" + code);
         String accessToken = getAccessToken(code);
+        log.info("accessToken=" + accessToken);
         String openId = getOpenId(accessToken);
+        log.info("openId =" + openId);
         UserVO user = userMapper.getUserByQQ(openId);
         if (user == null) {
             JSONObject result = getUserInfo(accessToken, openId);
             result.put("open_id", openId);
             return setResultError("this qq account not bind any user", result);
+        } else {
+            Ban ban = banMapper.getBanInfo(user.getId());
+            if (ban != null && ban.getActive()) {
+                StringBuffer sb = new StringBuffer("尊敬的用户，您的账号由于");
+                sb.append(ban.getReason()).append("，从");
+                LocalDateTime time1 = LocalDateTime.ofEpochSecond(ban.getStartTime() / 1000,
+                        0, ZoneOffset.ofHours(8));
+                String start = time1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                sb.append(start).append("起封禁至");
+                LocalDateTime time2 = LocalDateTime.ofEpochSecond(ban.getEndTime() / 1000,
+                        0, ZoneOffset.ofHours(8));
+                String end = time2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                sb.append(end).append("，封禁期间您的账号无法登录");
+                return setResult(403, sb.toString(), new JSONObject());
+            }
         }
         XxlSsoUser xxlSsoUser = new XxlSsoUser();
         xxlSsoUser.setUserid(String.valueOf(user.getId()));
@@ -95,6 +119,7 @@ public class QQController extends BaseApiService<JSONObject> {
         try {
             Response response = client.newCall(request).execute();
             String string = Objects.requireNonNull(response.body()).string();
+            log.info("getAccessToken" + string);
             String[] split = string.split("&");
             for (String s : split) {
                 int index = s.indexOf("access_token");
@@ -119,6 +144,7 @@ public class QQController extends BaseApiService<JSONObject> {
         try {
             Response response = client.newCall(request).execute();
             String string = Objects.requireNonNull(response.body()).string();
+            log.info("getOpenId" + string);
             String[] split = string.split(",");
             for (String s : split) {
                 int index = s.indexOf("openid");

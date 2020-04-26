@@ -1,5 +1,8 @@
 package com.sagari.service.entity;
 
+/**
+ * @author biubiupiu~
+ */
 public class Person {
 
     private Integer toId;

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CollectServiceFeign {
 
     @GetMapping("/isCollect")
-    public Boolean isCollect(@RequestParam("articleId") Integer articleId,
-                             @RequestParam("userId") Integer userId);
+    public Boolean isCollect(@RequestParam(name = "articleId") Integer articleId,
+                             @RequestParam(name = "userId", required = false) Integer userId);
 }

@@ -12,10 +12,7 @@ import com.sagari.service.ArticleService;
 import com.sagari.service.entity.Article;
 import com.sagari.service.entity.ArticleVO;
 import com.sagari.service.entity.TitleVO;
-import com.sagari.service.feign.CollectServiceFeign;
-import com.sagari.service.feign.InteractiveServiceFeign;
-import com.sagari.service.feign.TagServiceFeign;
-import com.sagari.service.feign.UserServiceFeign;
+import com.sagari.service.feign.*;
 import com.sagari.service.mapper.ArticleMapper;
 import com.xxl.sso.core.login.SsoTokenLoginHelper;
 import com.xxl.sso.core.user.XxlSsoUser;
@@ -46,6 +43,8 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     @Autowired
     private TagServiceFeign tagServiceFeign;
     @Autowired
+    private SearchServiceFeign searchServiceFeign;
+    @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private HttpServletRequest request;
@@ -70,11 +69,15 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (set.size() > 5) {
             return setResultError("文章不同的标签最多只能有5个");
         }
-        if (!userServiceFeign.isExist(articleInputDTO.getAuthor())) {
-            return setResultError("用户不存在");
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
         }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         Article article = new Article();
         BeanUtils.copyProperties(articleInputDTO, article, "id");
+        article.setAuthor(userId);
         article.setCreateTime(System.currentTimeMillis());
         article.setUpdateTime(article.getCreateTime());
         article.setCommentCount(0);
@@ -111,11 +114,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (xxlUser != null) {
             userId = Integer.valueOf(xxlUser.getUserid());
         }
-        if (collectServiceFeign.isCollect(articleVO.getId(), userId)) {
-            result.put("collect", true);
-        } else {
-            result.put("collect", false);
-        }
+        result.put("collect", collectServiceFeign.isCollect(articleVO.getId(), userId));
         String tag = articleVO.getTags();
         List<Integer> tagList = Arrays.stream(tag.split(","))
                 .map(Integer::parseInt)
@@ -123,6 +122,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         JSONArray tags = tagServiceFeign.getTagBatch(tagList).getData().getJSONArray("tags");
         result.remove("tags");
         result.put("tags", tags);
+        articleMapper.incrementView(articleId);
         return setResultSuccess(result);
     }
 
@@ -168,8 +168,14 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (result == null) {
             return setResultError("文章不存在或已删除");
         }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         Article source = result.toJavaObject(Article.class);
-        if (!source.getAuthor().equals(articleInputDTO.getAuthor())) {
+        if (!source.getAuthor().equals(userId)) {
             return setResultError("您不能修改他人的文章");
         }
         String[] tags = articleInputDTO.getTags().split(",");
@@ -204,13 +210,18 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
     }
 
     @Override
-    public BaseResponse<JSONObject> checkPermissions(Integer articleId, Integer creator) {
-        if (articleId == null || articleId < 0 ||
-            creator == null || creator < 0) {
+    public BaseResponse<JSONObject> checkPermissions(Integer articleId) {
+        if (articleId == null || articleId < 0) {
             return setResultError("无效的请求");
         }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         JSONObject result = new JSONObject();
-        result.put("isPass", articleMapper.checkPermissions(articleId, creator) > 0);
+        result.put("isPass", articleMapper.checkPermissions(articleId, userId) > 0);
         return setResultSuccess(result);
     }
 
@@ -313,7 +324,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse<JSONObject> deleteArticleComp(Integer articleId) {
+    public BaseResponse<JSONObject> deleteArticleComp(Integer articleId) throws Exception {
         String sessionId = request.getHeader("xxl-sso-session-id");
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
         if (xxlUser == null) {
@@ -324,6 +335,9 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         if (articleMapper.delCompArticle(articleId, userId) > 0) {
             articleVO.setCreateTime(System.currentTimeMillis());
             articleMapper.createDelCompRecord(articleVO);
+            if (!searchServiceFeign.deleteArticle(articleId, userId)) {
+                throw new RuntimeException("delete complete failed");
+            }
             return setResultSuccess();
         }
         return setResultError("delete failed");

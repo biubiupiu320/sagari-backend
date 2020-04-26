@@ -41,8 +41,7 @@ public interface ArticleService {
 
     @ApiOperation(value = "检查文章是否是本人发布接口")
     @GetMapping(value = "/article/checkPermissions")
-    public BaseResponse<JSONObject> checkPermissions(@RequestParam("articleId") Integer articleId,
-                                                     @RequestParam("creator") Integer creator);
+    public BaseResponse<JSONObject> checkPermissions(@RequestParam("articleId") Integer articleId);
 
     @ApiOperation(value = "判断文章是否存在接口")
     @GetMapping(value = "/isExist")
@@ -104,5 +103,5 @@ public interface ArticleService {
 
     @ApiOperation(value = "彻底删除文章")
     @DeleteMapping(value = "/deleteArticleComp")
-    public BaseResponse<JSONObject> deleteArticleComp(@RequestParam("articleId") Integer articleId);
+    public BaseResponse<JSONObject> deleteArticleComp(@RequestParam("articleId") Integer articleId) throws Exception;
 }

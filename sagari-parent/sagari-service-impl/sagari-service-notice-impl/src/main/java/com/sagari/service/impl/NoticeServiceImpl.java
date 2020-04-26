@@ -570,4 +570,24 @@ public class NoticeServiceImpl extends BaseApiService<JSONObject> implements Not
         }
         return setResultError("failed");
     }
+
+    @Override
+    public BaseResponse<JSONObject> getUnreadCount() {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        JSONObject result = new JSONObject();
+        Integer commentCount = commentMapper.unreadNoticeCount(userId);
+        result.put("unreadCommentCount", commentCount);
+        Integer followCount = followMapper.unreadNoticeCount(userId);
+        result.put("unreadFollowCount", followCount);
+        Integer goodCount = goodMapper.unreadNoticeCount(userId);
+        result.put("unreadGoodCount", goodCount);
+        Integer systemCount = systemMapper.unreadNoticeCount(userId);
+        result.put("unreadSystemCount", systemCount);
+        return setResultSuccess(result);
+    }
 }

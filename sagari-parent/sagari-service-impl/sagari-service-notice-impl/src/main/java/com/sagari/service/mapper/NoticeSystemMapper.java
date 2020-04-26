@@ -24,4 +24,6 @@ public interface NoticeSystemMapper {
 
     List<Integer> getAllId(@Param("userId") Integer userId);
 
+    int unreadNoticeCount(@Param("userId") Integer userId);
+
 }

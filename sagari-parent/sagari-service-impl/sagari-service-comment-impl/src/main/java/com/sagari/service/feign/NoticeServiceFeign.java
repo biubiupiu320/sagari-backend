@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @author biubiupiu~
  */
-@FeignClient("sagari-article-service")
+@FeignClient("sagari-notice-service")
 public interface NoticeServiceFeign {
 
     @PutMapping("/noticeComment")

@@ -23,6 +23,7 @@
         <module>sagari-service-collect-impl</module>
         <module>sagari-service-tag-impl</module>
         <module>sagari-service-search-impl</module>
+        <module>sagari-service-notice-impl</module>
     </modules>
 
     <properties>

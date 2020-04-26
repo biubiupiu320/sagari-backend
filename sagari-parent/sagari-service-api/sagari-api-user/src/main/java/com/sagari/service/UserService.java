@@ -135,6 +135,10 @@ public interface UserService {
     public BaseResponse<JSONObject> bindQQ(@RequestParam(name = "account") String account,
                                            @RequestParam(name = "qqId") String qqId);
 
+    @ApiOperation(value = "解绑QQ账号")
+    @GetMapping("/unbindQQ")
+    public BaseResponse<JSONObject> unbindQQ();
+
     @ApiOperation(value = "获取登录记录")
     @GetMapping("/getSignInHistory")
     public BaseResponse<JSONObject> getHistory(@RequestParam(name = "page") Integer page,
@@ -143,4 +147,18 @@ public interface UserService {
     @ApiOperation(value = "修改用户头像")
     @GetMapping("/modifyAvatar")
     public BaseResponse<JSONObject> modifyAvatar(@RequestParam(name = "avatar") String avatar);
+
+    @ApiOperation(value = "获取用户的封禁记录")
+    @GetMapping("/getBanRecord")
+    public BaseResponse<JSONObject> getBanRecord(@RequestParam(name = "page") Integer page,
+                                                 @RequestParam(name = "size") Integer size);
+
+    @ApiOperation(value = "修改用户的邮箱")
+    @GetMapping("/modifyEmail")
+    public BaseResponse<JSONObject> modifyEmail(@RequestParam(name = "oldEmail") String oldEmail,
+                                                @RequestParam(name = "newEmail") String newEmail);
+
+    @ApiOperation(value = "获取其他平台的账号绑定情况")
+    @GetMapping("/getOtherPlatform")
+    public BaseResponse<JSONObject> getOtherPlatform();
 }

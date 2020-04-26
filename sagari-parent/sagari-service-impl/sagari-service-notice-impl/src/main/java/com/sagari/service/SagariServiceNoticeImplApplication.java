@@ -1,5 +1,6 @@
 package com.sagari.service;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableEurekaClient
+@EnableApolloConfig
 @EnableFeignClients
 @EnableSwagger2Doc
 @MapperScan(basePackages = "com.sagari.service.mapper")

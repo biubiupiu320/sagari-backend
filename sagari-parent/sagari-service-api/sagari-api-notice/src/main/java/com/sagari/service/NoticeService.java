@@ -109,4 +109,8 @@ public interface NoticeService {
     @PutMapping("/createNoticeSystem")
     public BaseResponse<JSONObject> createNoticeSystem(@RequestParam(name = "title") String title,
                                                        @RequestParam(name = "content") String content);
+
+    @ApiOperation(value = "获取未读的通知条数，包括评论、关注、点赞和系统通知")
+    @GetMapping("/unreadNoticeCount")
+    public BaseResponse<JSONObject> getUnreadCount();
 }

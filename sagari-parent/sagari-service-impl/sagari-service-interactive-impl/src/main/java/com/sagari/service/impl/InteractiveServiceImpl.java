@@ -67,7 +67,7 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse<JSONObject> toggleGood(Integer targetId, Integer author,
-                                               Integer articleId, Integer type) {
+                                               Integer articleId, Integer type, Integer toUserId) {
         String sessionId = request.getHeader("xxl-sso-session-id");
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
         if (xxlUser == null) {
@@ -127,15 +127,13 @@ public class InteractiveServiceImpl extends BaseApiService<JSONObject> implement
                 interactive.setType(flag);
                 if (interactCommentMapper.insert(interactive) > 0) {
                     commentServiceFeign.incrementGood(targetId, flag);
-                    if (!userId.equals(author)) {
-                        NoticeGoodDTO noticeGoodDTO = new NoticeGoodDTO();
-                        noticeGoodDTO.setType(type);
-                        noticeGoodDTO.setFromId(userId);
-                        noticeGoodDTO.setToId(author);
-                        noticeGoodDTO.setTargetId(targetId);
-                        noticeGoodDTO.setArticleId(articleId);
-                        noticeServiceFeign.noticeGood(noticeGoodDTO);
-                    }
+                    NoticeGoodDTO noticeGoodDTO = new NoticeGoodDTO();
+                    noticeGoodDTO.setType(type);
+                    noticeGoodDTO.setFromId(userId);
+                    noticeGoodDTO.setToId(toUserId);
+                    noticeGoodDTO.setTargetId(targetId);
+                    noticeGoodDTO.setArticleId(articleId);
+                    noticeServiceFeign.noticeGood(noticeGoodDTO);
                     return setResultSuccess("点赞成功");
                 }
                 return setResultError("点赞失败");
