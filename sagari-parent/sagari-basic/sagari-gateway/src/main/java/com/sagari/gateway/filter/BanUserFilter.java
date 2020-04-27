@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 
 /**
  * @author biubiupiu~
@@ -50,6 +51,8 @@ public class BanUserFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        ctx.getZuulRequestHeaders().put("TRUE_IP", request.getRemoteAddr());
+        ctx.getZuulRequestHeaders().put("TRUE_HOST", request.getRemoteHost());
         String account = request.getParameter("account");
         Integer userId = null;
         if (StringUtils.isNotBlank(account)) {

@@ -38,9 +38,9 @@ public class ClientInfo {
     }
 
     private void getIpAddr(HttpServletRequest request, SignIn signIn) {
-        String ip = request.getRemoteAddr();
+        String ip = request.getHeader("TRUE_IP");
         String unknown = "unknown";
-        if (!StringUtils.isBlank(ip) && !unknown.equalsIgnoreCase(ip)) {
+        if (StringUtils.isNotBlank(ip) && !unknown.equalsIgnoreCase(ip)) {
             signIn.setIp(ip);
             return;
         }
@@ -62,6 +62,9 @@ public class ClientInfo {
         }
         if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
         }
         int index = ip.indexOf(",");
         if (index != -1) {
@@ -99,7 +102,7 @@ public class ClientInfo {
     }
 
     private void getDeviceName(HttpServletRequest request, SignIn signIn) {
-        String device = request.getHeader("host");
+        String device = request.getHeader("TRUE_HOST");
         if (!StringUtils.isBlank(device)) {
             int index = device.indexOf(':');
             if (index > 0) {
