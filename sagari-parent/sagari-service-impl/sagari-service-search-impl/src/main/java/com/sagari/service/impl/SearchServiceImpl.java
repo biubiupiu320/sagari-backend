@@ -12,8 +12,11 @@ import com.sagari.service.feign.UserServiceFeign;
 import com.xxl.sso.core.login.SsoTokenLoginHelper;
 import com.xxl.sso.core.user.XxlSsoUser;
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
@@ -35,6 +38,8 @@ import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +54,7 @@ import java.util.stream.Collectors;
  * @author biubiupiu~
  */
 @RestController
+@EnableScheduling
 public class SearchServiceImpl extends BaseApiService<JSONObject> implements SearchService {
 
     @Autowired

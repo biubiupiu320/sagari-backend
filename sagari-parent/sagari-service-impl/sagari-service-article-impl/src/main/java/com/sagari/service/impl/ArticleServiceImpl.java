@@ -185,6 +185,8 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         }
         Article article = new Article();
         BeanUtils.copyProperties(articleInputDTO, article);
+        article.setId(articleId);
+        article.setAuthor(userId);
         article.setUpdateTime(System.currentTimeMillis());
         if (articleMapper.updateArticle(article) > 0) {
             return setResultSuccess("文章修改成功");
@@ -316,7 +318,7 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
         } else if (type.equals(3)) {
             article = articleMapper.getArticleInRecycle(userId);
         } else {
-            return setResultError("Invalid request");
+            return setResultError("无效的请求");
         }
         PageInfo<ArticleVO> pageInfo = new PageInfo<>(article);
         return setResultSuccess((JSONObject) JSON.toJSON(pageInfo));
@@ -341,5 +343,36 @@ public class ArticleServiceImpl extends BaseApiService<JSONObject> implements Ar
             return setResultSuccess();
         }
         return setResultError("delete failed");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> restoreArticle(Integer articleId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (articleMapper.restoreArticle(articleId, userId, System.currentTimeMillis()) > 0) {
+            return setResultSuccess("文章恢复成功");
+        }
+        return setResultError("文章恢复失败");
+    }
+
+    @Override
+    public BaseResponse<JSONObject> getArticleByAuthor(Integer author, Integer page, Integer size) {
+        if (author <= 0) {
+            return setResultError("无效的请求");
+        }
+        if (page < 1) {
+            page = 1;
+        }
+        if (size < 10) {
+            size = 10;
+        }
+        PageHelper.startPage(page, size);
+        List<ArticleVO> article = articleMapper.getArticleByAuthor(author);
+        PageInfo<ArticleVO> pageInfo = new PageInfo<>(article);
+        return setResultSuccess((JSONObject) JSON.toJSON(pageInfo));
     }
 }

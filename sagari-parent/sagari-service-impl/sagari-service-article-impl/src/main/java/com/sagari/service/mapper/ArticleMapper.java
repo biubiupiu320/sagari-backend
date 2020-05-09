@@ -62,4 +62,10 @@ public interface ArticleMapper {
                        @Param("author") Integer author);
 
     int createDelCompRecord(ArticleVO articleVO);
+
+    int restoreArticle(@Param("id") Integer id,
+                       @Param("author") Integer author,
+                       @Param("updateTime") Long updateTime);
+
+    List<ArticleVO> getArticleByAuthor(@Param("author") Integer author);
 }

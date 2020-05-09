@@ -26,7 +26,6 @@ public interface CommentService {
     @ApiOperation(value = "删除父评论接口")
     @DeleteMapping("/comment-parent/{commentId}")
     public BaseResponse<JSONObject> deleteParentComment(@PathVariable("commentId") Integer id,
-                                                        @RequestParam("userId") Integer userId,
                                                         @RequestParam("articleId") Integer articleId);
 
     @ApiOperation(value = "获取评论接口")
@@ -44,7 +43,6 @@ public interface CommentService {
     @ApiOperation(value = "删除子评论接口")
     @DeleteMapping("/comment-child/{commentId}")
     public BaseResponse<JSONObject> deleteChildComment(@PathVariable("commentId") Integer id,
-                                                       @RequestParam("userId") Integer userId,
                                                        @RequestParam("articleId") Integer articleId,
                                                        @RequestParam("parentId") Integer parentId);
 

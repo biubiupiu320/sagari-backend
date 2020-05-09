@@ -52,7 +52,7 @@ public class RegexUtils {
 	 * @return 验证成功返回true，验证失败返回false
 	 */
 	public static boolean checkMobile(String mobile) {
-		String regex = "0?(13|14|15|18|17)[0-9]{9}";
+		String regex = "0?(13|14|15|18|17|19)[0-9]{9}";
 		return Pattern.matches(regex, mobile);
 	}
 

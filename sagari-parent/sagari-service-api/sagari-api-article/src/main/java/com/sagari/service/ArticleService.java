@@ -104,4 +104,14 @@ public interface ArticleService {
     @ApiOperation(value = "彻底删除文章")
     @DeleteMapping(value = "/deleteArticleComp")
     public BaseResponse<JSONObject> deleteArticleComp(@RequestParam("articleId") Integer articleId) throws Exception;
+
+    @ApiOperation(value = "恢复已被删除的文章")
+    @GetMapping(value = "/restoreArticle")
+    public BaseResponse<JSONObject> restoreArticle(@RequestParam("articleId") Integer articleId);
+
+    @ApiOperation(value = "根据用户ID获取用户发布的文章")
+    @GetMapping(value = "/getArticleByAuthor")
+    public BaseResponse<JSONObject> getArticleByAuthor(@RequestParam("author") Integer author,
+                                                       @RequestParam("page") Integer page,
+                                                       @RequestParam("size") Integer size);
 }

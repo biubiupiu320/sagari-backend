@@ -34,7 +34,7 @@ public class UserSignUpInputDTO {
 
     @ApiModelProperty(value = "手机号")
     @NotBlank(message = "手机号不能为空")
-    @Pattern(regexp = "0?(13|14|15|18|17)[0-9]{9}", message = "无效的手机号码")
+    @Pattern(regexp = "0?(13|14|15|18|17|19)[0-9]{9}", message = "无效的手机号码")
     private String phone;
 
     @ApiModelProperty(value = "验证码")

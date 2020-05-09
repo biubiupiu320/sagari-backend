@@ -153,4 +153,33 @@ public class FileServiceImpl extends BaseApiService<JSONObject> implements FileS
                 "   }" +
                 "</script>";
     }
+
+    @Override
+    public BaseResponse<JSONObject> uploadArticle(MultipartFile[] files) {
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKey, accessSecret);
+        InputStream inputStream = null;
+        JSONObject result = new JSONObject();
+        try {
+            for (MultipartFile file : files) {
+                inputStream = file.getInputStream();
+                String filename = System.currentTimeMillis() + "";
+                Date expiresTime = new Date(Long.parseLong(filename) + expires);
+                ossClient.putObject(bucketName, article + filename, inputStream);
+                URL url = ossClient.generatePresignedUrl(bucketName, article + filename, expiresTime);
+                result.put(file.getOriginalFilename(), url.toString());
+            }
+            ossClient.shutdown();
+        } catch (IOException e) {
+            return setResultError("上传文件失败");
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        }
+        return setResultSuccess(result);
+    }
 }

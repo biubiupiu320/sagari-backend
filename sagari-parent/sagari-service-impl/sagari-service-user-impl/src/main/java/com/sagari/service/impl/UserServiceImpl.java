@@ -124,13 +124,14 @@ public class UserServiceImpl extends BaseApiService<JSONObject> implements UserS
 
     @Override
     public BaseResponse<JSONObject> getSimpleUser(Integer id) {
-        String sessionId = request.getHeader("xxl-sso-session-id");
-        if (sessionId != null) {
-            XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
-            if (xxlUser == null) {
-                return setResultError("用户未登录");
+        if (id.equals(0)) {
+            String sessionId = request.getHeader("xxl-sso-session-id");
+            if (sessionId != null) {
+                XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+                if (xxlUser != null) {
+                    id = Integer.valueOf(xxlUser.getUserid());
+                }
             }
-            id = Integer.valueOf(xxlUser.getUserid());
         }
         User user = userMapper.getSimpleUser(id);
         if (user != null) {

@@ -8,6 +8,6 @@ class SagariServiceTagImplApplicationTests {
 
     @Test
     void contextLoads() {
-    }
 
+    }
 }

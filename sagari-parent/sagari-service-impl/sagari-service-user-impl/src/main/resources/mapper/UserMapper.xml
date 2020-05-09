@@ -35,7 +35,7 @@
     </select>
 
     <select id="getSimpleUser" resultType="com.sagari.service.entity.User">
-        SELECT id,username,avatar,article_count,follow_count,fans_count
+        SELECT id,username,avatar,article_count,follow_count,fans_count,introduction
         FROM `user`
         WHERE id=#{id}
     </select>

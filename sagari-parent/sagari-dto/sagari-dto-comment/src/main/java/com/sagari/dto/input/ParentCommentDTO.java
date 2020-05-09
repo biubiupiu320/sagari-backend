@@ -14,11 +14,6 @@ import javax.validation.constraints.Size;
 @ApiModel(value = "生成父评论实体类")
 public class ParentCommentDTO {
 
-    @ApiModelProperty(value = "发布父评论的用户ID")
-    @NotNull(message = "用户ID不能为空")
-    @Min(value = 1, message = "用户ID无效")
-    private Integer userId;
-
     @ApiModelProperty(value = "将评论发布到文章的ID")
     @NotNull(message = "文章ID不能为空")
     @Min(value = 1, message = "文章ID无效")
@@ -28,14 +23,6 @@ public class ParentCommentDTO {
     @NotBlank(message = "评论内容不能为空")
     @Size(max = 255, message = "评论最多255个字")
     private String content;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getArticleId() {
         return articleId;
@@ -56,8 +43,7 @@ public class ParentCommentDTO {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ParentCommentDTO{");
-        sb.append("userId=").append(userId);
-        sb.append(", articleId=").append(articleId);
+        sb.append("articleId=").append(articleId);
         sb.append(", content='").append(content).append('\'');
         sb.append('}');
         return sb.toString();

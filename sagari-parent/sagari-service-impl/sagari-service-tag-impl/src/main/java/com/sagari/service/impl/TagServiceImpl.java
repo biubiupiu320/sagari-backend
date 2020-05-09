@@ -279,11 +279,12 @@ public class TagServiceImpl extends BaseApiService<JSONObject> implements TagSer
             Set<Integer> follow = new HashSet<>(tagFollowMapper.getFollow(userId));
             for (int i = 0; i < tagsArray.size(); i++) {
                 JSONObject tag = JSON.parseObject(tagsArray.getString(i));
-                if (follow.contains(tag.getInteger("id"))) {
-                    tag.put("follow", true);
-                } else {
-                    tag.put("follow", false);
-                }
+                tag.put("follow", follow.contains(tag.getInteger("id")));
+                tagObject.add(tag);
+            }
+        } else {
+            for (int i = 0; i < tagsArray.size(); i++) {
+                JSONObject tag = JSON.parseObject(tagsArray.getString(i));
                 tagObject.add(tag);
             }
         }

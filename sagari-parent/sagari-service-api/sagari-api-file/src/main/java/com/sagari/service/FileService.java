@@ -27,4 +27,7 @@ public interface FileService {
 
     @PostMapping("/insert-image")
     public String upload(HttpServletRequest request);
+
+    @PostMapping("/upload-article")
+    public BaseResponse<JSONObject> uploadArticle(@RequestParam(value = "file") MultipartFile[] files);
 }

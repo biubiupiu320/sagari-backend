@@ -18,12 +18,15 @@ import com.sagari.service.feign.NoticeServiceFeign;
 import com.sagari.service.feign.UserServiceFeign;
 import com.sagari.service.mapper.ChildCommentMapper;
 import com.sagari.service.mapper.ParentCommentMapper;
+import com.xxl.sso.core.login.SsoTokenLoginHelper;
+import com.xxl.sso.core.user.XxlSsoUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,6 +47,8 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     private ArticleServiceFeign articleServiceFeign;
     @Autowired
     private NoticeServiceFeign noticeServiceFeign;
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public BaseResponse<JSONObject> insertParentComment(@RequestBody @Valid ParentCommentDTO parentCommentDTO,
@@ -52,15 +57,19 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
             String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         Integer author = articleServiceFeign.getAuthor(parentCommentDTO.getArticleId());
         if (author == null) {
             return setResultError("文章不存在或已删除");
         }
-        if (!userServiceFeign.isExist(parentCommentDTO.getUserId())) {
-            return setResultError("用户不存在");
-        }
         ParentComment parentComment = new ParentComment();
         BeanUtils.copyProperties(parentCommentDTO, parentComment);
+        parentComment.setUserId(userId);
         parentComment.setAuthorId(author);
         parentComment.setCommentCount(0);
         parentComment.setGoodCount(0);
@@ -82,8 +91,14 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     }
 
     @Override
-    public BaseResponse<JSONObject> deleteParentComment(Integer id, Integer userId, Integer articleId) {
-        if (id == null || id <= 0 || userId == null || userId <= 0) {
+    public BaseResponse<JSONObject> deleteParentComment(Integer id, Integer articleId) {
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
+        if (id == null || id <= 0) {
             return setResultError("无效的请求");
         }
         if (parentCommentMapper.checkPermissions(id, userId) > 0) {
@@ -171,17 +186,18 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
             String errorMsg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
             return setResultError(errorMsg);
         }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         if (parentCommentMapper.isExist(childCommentDTO.getParentId()) <= 0) {
             return setResultError("评论不存在或已删除");
         }
-        if (!userServiceFeign.isExist(childCommentDTO.getFromId())) {
-            return setResultError("用户不存在");
-        }
-        if (!userServiceFeign.isExist(childCommentDTO.getToId())) {
-            return setResultError("用户不存在");
-        }
         ChildComment childComment = new ChildComment();
         BeanUtils.copyProperties(childCommentDTO, childComment);
+        childComment.setFromId(userId);
         childComment.setGoodCount(0);
         childComment.setCreateTime(System.currentTimeMillis());
         childComment.setDel(false);
@@ -207,10 +223,16 @@ public class CommentServiceImpl extends BaseApiService<JSONObject> implements Co
     }
 
     @Override
-    public BaseResponse<JSONObject> deleteChildComment(Integer id, Integer userId, Integer articleId, Integer parentId) {
-        if (id == null || id <= 0 || userId == null || userId <= 0) {
+    public BaseResponse<JSONObject> deleteChildComment(Integer id, Integer articleId, Integer parentId) {
+        if (id == null || id <= 0) {
             return setResultError("无效的请求");
         }
+        String sessionId = request.getHeader("xxl-sso-session-id");
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
+        if (xxlUser == null) {
+            return setResultError("用户未登录");
+        }
+        Integer userId = Integer.valueOf(xxlUser.getUserid());
         if (childCommentMapper.checkPermissions(id, userId) > 0) {
             if (childCommentMapper.deleteComment(id) > 0) {
                 parentCommentMapper.decreaseComment(parentId);
