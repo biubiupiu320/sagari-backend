@@ -142,8 +142,12 @@ public class CollectServiceImpl extends BaseApiService<JSONObject> implements Co
             return setResultError("您无权查看该内容");
         }
         Integer userId = Integer.valueOf(xxlUser.getUserid());
-        if (favoritesMapper.checkPermissions(favoritesId, userId) > 0) {
+        if (favoritesMapper.isPub(favoritesId) > 0) {
             return getCollectCommon(favoritesId, page, size);
+        } else {
+            if (favoritesMapper.checkPermissions(favoritesId, userId) > 0) {
+                return getCollectCommon(favoritesId, page, size);
+            }
         }
         return setResultError("您无权查看该内容");
     }
